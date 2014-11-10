@@ -4,7 +4,9 @@
 #   DJ-application displaying currently playing song and upcoming tanda
 # 
 #-------------------------------------------------------------------------------
-
+#
+#
+#
 import wx, wx.html
 import os, sys
 from bin import HandleData, ParseSettings
