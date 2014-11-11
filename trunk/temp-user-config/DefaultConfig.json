@@ -77,87 +77,108 @@
     }
   ], 
   "Module": "Audacious", 
-  "Bgimage": "backgrounds/Default.png", 
+  "Bgimage": "/home/mikael/SVN-workning folder/Beam/backgrounds/Default.png", 
   "DisplayWhenStopped": [
     {
       "Style": "Italic", 
+      "Center": "yes", 
       "Weight": "Normal", 
+      "Row": 1, 
       "Field": "Beam Me Up", 
-      "Size": 50, 
-      "Position": [30,0], 
-      "Center": yes,
       "FontColor": "(255,255,255,255)", 
+      "Position": [
+        30, 
+        0
+      ], 
       "Font": "Decorative", 
-      "Row": 1
+      "Size": 50
     }, 
     {
       "Style": "Italic", 
+      "Center": "yes", 
       "Weight": "Normal", 
+      "Row": 2, 
       "Field": "Scotty", 
-      "Size": 40, 
-      "Position": [50,0],
-      "Center": yes,      
       "FontColor": "(255,255,255,255)", 
+      "Position": [
+        50, 
+        0
+      ], 
       "Font": "Decorative", 
-      "Row": 2
+      "Size": 40
     }
   ], 
   "MaxTandaLength": 4, 
   "Display": [
     {
       "Style": "Italic", 
+      "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Artist[1]", 
       "FontColor": "(255,255,255,255)", 
-      "Position": [8,0] 
-      "Center": yes,
+      "Position": [
+        8, 
+        50
+      ], 
       "Font": "Decorative", 
       "Size": 50
     }, 
     {
       "Style": "Italic", 
+      "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Title[1]", 
       "FontColor": "(255,255,255,255)", 
-      "Position": [23,0]
-      "Center": yes,
+      "Position": [
+        23, 
+        10
+      ], 
       "Font": "Decorative", 
       "Size": 60
     }, 
     {
       "Style": "Italic", 
+      "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Singer[1]", 
       "FontColor": "(255,255,255,255)", 
-      "Position": [40, 0],
-      "Center": yes,
+      "Position": [
+        40, 
+        1
+      ], 
       "Font": "Decorative", 
       "Size": 50
     }, 
     {
-      "Style": "Normal", 
-      "Weight": "Bold", 
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "Next Tanda:", 
       "FontColor": "(255,255,255,255)", 
-      "Position": [64, 0]
-      "Center": yes,
-      "Font": "Roman", 
+      "Position": [
+        63, 
+        0
+      ], 
+      "Font": "Decorative", 
       "Size": 25
     }, 
     {
-      "Style": "Normal", 
-      "Weight": "Bold", 
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "NextTanda[3]+' - '+NextTanda[0]", 
       "FontColor": "(255,255,255,255)", 
-      "Position": [70, 0]
-      "Center": yes,
-      "Font": "Roman", 
-      "Size": 25
+      "Position": [
+        69, 
+        0
+      ], 
+      "Font": "Decorative", 
+      "Size": 30
     }
   ]
 }
