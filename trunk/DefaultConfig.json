@@ -77,7 +77,7 @@
     }
   ], 
   "Module": "Audacious", 
-  "Bgimage": "/home/mikael/SVN-workning folder/Beam/backgrounds/Default.png", 
+  "Bgimage": "backgrounds/Default.png", 
   "DisplayWhenStopped": [
     {
       "Style": "Italic", 
