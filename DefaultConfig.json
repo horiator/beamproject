@@ -30,38 +30,33 @@
       "Active": "yes", 
       "Field2": "Singer", 
       "Field1": "Comment", 
-      "Type": "Set", 
-      "Number": 1
+      "Type": "Set"
     }, 
     {
       "Field2": "is", 
       "Field3": "-- Cortina", 
       "Field1": "Artist", 
-      "Number": 2, 
-      "Active": "yes", 
-      "Type": "Cortina"
+      "Type": "Cortina", 
+      "Active": "yes"
     }, 
     {
       "Field2": "is", 
       "Field3": "Cortina", 
       "Field1": "Genre", 
-      "Number": 3, 
-      "Active": "yes", 
-      "Type": "Cortina"
+      "Type": "Cortina", 
+      "Active": "yes"
     }, 
     {
       "Field2": "isNot", 
       "Field3": "[Tango, Milonga, Vals]", 
       "Field1": "Genre", 
-      "Number": 4, 
-      "Active": "yes", 
-      "Type": "Cortina"
+      "Type": "Cortina", 
+      "Active": "yes"
     }, 
     {
       "Field2": "-", 
       "Field3": "Artist", 
       "Field1": "Title", 
-      "Number": 5, 
       "Field4": "Title", 
       "Active": "yes", 
       "Type": "Parse"
@@ -70,7 +65,6 @@
       "Field2": "-", 
       "Field3": "Artist", 
       "Field1": "Artist", 
-      "Number": 6, 
       "Field4": "Singer", 
       "Active": "yes", 
       "Type": "Parse"
@@ -83,29 +77,29 @@
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
+      "Row": 1, 
       "Field": "Beam Me Up", 
-      "Size": 50, 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
         30, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Row": 1
+      "Size": 50
     }, 
     {
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
+      "Row": 2, 
       "Field": "Scotty", 
-      "Size": 40, 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
         50, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Row": 2
+      "Size": 40
     }
   ], 
   "MaxTandaLength": 4, 
@@ -116,11 +110,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Artist[1]", 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
         8, 
         50
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
       "Size": 50
     }, 
@@ -130,11 +124,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Title[1]", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         23, 
         10
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
       "Size": 60
     }, 
@@ -144,11 +138,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Singer[1]", 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
         40, 
         1
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
       "Size": 50
     }, 
@@ -158,11 +152,11 @@
       "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "Next Tanda:", 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
         63, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
       "Size": 25
     }, 
@@ -172,11 +166,11 @@
       "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "NextTanda[3]+' - '+NextTanda[0]", 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
         69, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
       "Size": 30
     }
