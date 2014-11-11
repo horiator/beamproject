@@ -272,15 +272,13 @@ class Preferences(wx.Dialog):
 #
 
     def OnAddLayout(self, event):
-	mode = "Add layout item"
-	self.EditLayout = EditLayout(self, len(self.DisplayRows), mode)
+	self.EditLayout = EditLayout(self, len(self.DisplayRows), "Add layout item")
 	self.EditLayout.Show()
 
     def OnEditLayout(self, event):
 	RowSelected = self.LayoutList.GetSelection()
 	if RowSelected>-1:
-		mode = "Edit layout item"
-		self.EditLayout = EditLayout(self, RowSelected, mode)
+		self.EditLayout = EditLayout(self, RowSelected, "Add layout item")
 		self.EditLayout.Show()
 	    
     def OnDelLayout(self, event):
@@ -301,14 +299,15 @@ class Preferences(wx.Dialog):
 #
 			
     def OnAddRule(self, event):
-	print 'Add Rule'
+	self.EditRule = EditRule(self, len(self.RuleList), "Add rule")
+	self.EditRule.Show()
 
 		
     def OnEditRule(self, event):
-	self.RuleRowSelected = self.RuleList.GetSelection()
+	RowSelected = self.RuleList.GetSelection()
 	if RowSelected>-1:
-		print RowSelected
-		print 'Edit Rule'
+		self.EditRule = EditRule(self, RowSelected, "Edit rule")
+		self.EditRule.Show()
 	   
     def OnDelRule(self, event):
 	   print 'Del Rule'
@@ -427,12 +426,45 @@ class EditLayout(wx.Dialog):
 	
     def OnCancelLayoutItem(self, event):
 	    self.Destroy()
+
+
+#
+# Edit Rule class
+#
+#
+
+
+class EditRule(wx.Dialog):
+    def __init__(self, parent, RowSelected, mode):
+	self.EditRuleDialog 	= wx.Dialog.__init__(self, parent, title=mode, size=(570,210))
+	self.EditRulePanel	= wx.Panel(self)
+	self.parent 		= parent
+	self.RowSelected 	= RowSelected
+
+	self.ButtonSaveRule 	= wx.Button(self.EditRulePanel, label="Save")
+	self.ButtonCancelRule 	= wx.Button(self.EditRulePanel, label="Cancel")
+	self.ButtonSaveRule.Bind(wx.EVT_BUTTON, self.OnSaveRuleItem)
+	self.ButtonCancelRule.Bind(wx.EVT_BUTTON, self.OnCancelRuleItem)
+	InputFields 	= ["Artist","Album","Title","Genre","Comment","Composer","Year"]
+	OutputFields 	= ["Artist","Album","Title","Genre","Comment","Composer","Year", "Singer"]
+
+# Check if it is a new line
+	if self.RowSelected<len(self.parent.Rules):
+		# Get the properties of the selected item
+		self.Settings 	= self.parent.Rules[self.RowSelected]
+	else:
+		# Create a new default setting
+		self.Settings 	= ({"Type": "Set", "Field1": "Comment","Field2": "Singer", "Active": "yes"})
+
+	# Build the static elements
+	wx.StaticText(self.EditRulePanel, label="Label", pos=(20,20))
+	self.FontDropdown = wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Field1'], choices=InputFields, pos=(20,40))
+
+
+
+    def OnSaveRuleItem(self, event):
+	    print "Saving Rule"
 	    
 
-	
-	
-	
-	
-	
- 
-	
+    def OnCancelRuleItem(self, event):
+	    print "Cancel Rule"

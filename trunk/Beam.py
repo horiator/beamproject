@@ -109,12 +109,10 @@ class Frame(wx.Frame):
 	self.SetStatusText('Loading settings...')
 	self.filename = 'DefaultConfig.json' 
 	self.dirname = os.getcwd()
-	try:
-		self.confFile = open(os.path.join(self.dirname, self.filename), 'r')
-		ParseSettings.LoadConfig(self)
-		self.confFile.close()
-	except:
-		print('Could not load DefaultConfig.json')
+	self.confFile = open(os.path.join(self.dirname, self.filename), 'r')
+	ParseSettings.LoadConfig(self)
+	self.confFile.close()
+
 
 	# Start timer or Thread
 	HandleData.Init(self)
