@@ -226,18 +226,18 @@ class Preferences(wx.Dialog):
         # Get Settings
 	self.ModuleSelected = self.Dropdown.GetValue()	
 	# Write Settings
-	try:
-		self.updateTimer = int(self.TimerText.GetValue())
-		self.filename = 'DefaultConfig.json' 
-		self.dirname = os.getcwd()
-		try:
-			self.confFile = open(os.path.join(self.dirname, self.filename), 'w')
-			ParseSettings.SaveConfig(self)	
-			self.confFile.close()
-		except:
-			print 'Error: Could not write to DefaultConfig.json'
-	except:
-		print 'Error: Update timer contains letters.'
+	#try:
+	self.updateTimer = int(self.TimerText.GetValue())
+	self.filename = 'DefaultConfig.json' 
+	self.dirname = os.getcwd()
+		#try:
+	self.confFile = open(os.path.join(self.dirname, self.filename), 'w')
+	ParseSettings.SaveConfig(self)	
+	self.confFile.close()
+		#except:
+		#	print 'Error: Could not write to DefaultConfig.json'
+	#except:
+	#	print 'Error: Update timer contains letters.'
 	# Reload settings for main window
 	self.MainWindowParent.LoadSettings(self.MainWindowParent)
 
@@ -317,9 +317,10 @@ class Preferences(wx.Dialog):
 
 class EditLayout(wx.Dialog):
     def __init__(self, parent, RowSelected, mode):
-	self.EditLayoutDialog = wx.Dialog.__init__(self, parent, title=mode, size=(570,210))
+	self.EditLayoutDialog 	= wx.Dialog.__init__(self, parent, title=mode, size=(570,210))
 	self.EditLayoutPanel		= wx.Panel(self)
-	self.parent = parent
+	self.parent 			= parent
+	self.RowSelected 		= RowSelected
 
 	self.ButtonSaveLayout 	= wx.Button(self.EditLayoutPanel, label="Save")
 	self.ButtonCancelLayout 	= wx.Button(self.EditLayoutPanel, label="Cancel")
@@ -331,32 +332,32 @@ class EditLayout(wx.Dialog):
 	Styles 	= ["Italic","Normal","Slant"]
 	
 	# Check if it is a new line
-	if RowSelected<len(self.parent.MyDisplaySettings):
+	if self.RowSelected<len(self.parent.MyDisplaySettings):
 		# Get the properties of the selected item
-		Settings 	= self.parent.MyDisplaySettings[RowSelected]
+		self.Settings 	= self.parent.MyDisplaySettings[self.RowSelected]
 	else:
 		# Create a new default setting
-		Settings 	= ({"Field": "Artist[1]", "Font": "Default","Style": "Normal", "Weight": "Bold", "Size": 20, "FontColor": "(255,255,255,255)", "HideControl": "NextTanda[1]", "Position": [50,50], "Center": "yes"})
+		self.Settings 	= ({"Field": "Artist[1]", "Font": "Default","Style": "Normal", "Weight": "Bold", "Size": 20, "FontColor": "(255,255,255,255)", "HideControl": "NextTanda[1]", "Position": [50,50], "Center": "yes"})
 
 	
 	# Define fields
-	self.LabelText 			= wx.TextCtrl(self.EditLayoutPanel, size=(150,-1), value=Settings[u'Field'])
-	self.FontDropdown 		= wx.ComboBox(self.EditLayoutPanel,value=Settings[u'Font'], choices=Fonts)
-	self.StyleDropdown 		= wx.ComboBox(self.EditLayoutPanel,value=Settings[u'Style'], choices=Styles)
-	self.WeightDropdown 	= wx.ComboBox(self.EditLayoutPanel,value=Settings[u'Weight'], choices=Weights)
-	self.SizeText 			= wx.TextCtrl(self.EditLayoutPanel, value=str(Settings[u'Size']))
+	self.LabelText 			= wx.TextCtrl(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Field'])
+	self.FontDropdown 		= wx.ComboBox(self.EditLayoutPanel,value=self.Settings[u'Font'], choices=Fonts)
+	self.StyleDropdown 		= wx.ComboBox(self.EditLayoutPanel,value=self.Settings[u'Style'], choices=Styles)
+	self.WeightDropdown 	= wx.ComboBox(self.EditLayoutPanel,value=self.Settings[u'Weight'], choices=Weights)
+	self.SizeText 			= wx.TextCtrl(self.EditLayoutPanel, value=str(self.Settings[u'Size']))
 	self.ColorField			= wx.ColourPickerCtrl(self.EditLayoutPanel)
-	self.HideText 			= wx.TextCtrl(self.EditLayoutPanel, value=Settings[u'HideControl'])
-	self.VerticalPos 			= wx.TextCtrl(self.EditLayoutPanel, value=str(Settings[u'Position'][0]))
-	self.HorizontalPos 		= wx.TextCtrl(self.EditLayoutPanel, value=str(Settings[u'Position'][1]))
+	self.HideText 			= wx.TextCtrl(self.EditLayoutPanel, value=self.Settings[u'HideControl'])
+	self.VerticalPos 			= wx.TextCtrl(self.EditLayoutPanel, value=str(self.Settings[u'Position'][0]))
+	self.HorizontalPos 		= wx.TextCtrl(self.EditLayoutPanel, value=str(self.Settings[u'Position'][1]))
 	#Checkbox
 	self.CenterCheck 		= wx.CheckBox(self.EditLayoutPanel, label="Center")
 	self.CenterCheck.Bind(wx.EVT_CHECKBOX, self.DisableHorizontalBox)
-	if Settings[u'Center']=="yes": 
+	if self.Settings[u'Center']=="yes": 
 		self.CenterCheck.SetValue(True)
 		self.HorizontalPos.Enable(not self.CenterCheck.GetValue())
 	# Set color
-	self.ColorField.SetColour(eval(Settings[u'FontColor']))
+	self.ColorField.SetColour(eval(self.Settings[u'FontColor']))
 	
 	# Information area
 	InfoGrid	=	wx.FlexGridSizer(4, 5, 5, 5)
@@ -398,9 +399,23 @@ class EditLayout(wx.Dialog):
 	    self.HorizontalPos.Enable(not self.CenterCheck.GetValue())
 	    
     def OnSaveLayoutItem(self, event):
-	    print 'Saving Item'
-	    
-	    self.Destroy()
+	self.Settings[u'Field'] 		= self.LabelText.GetValue()
+	self.Settings[u'Font'] 		= self.FontDropdown.GetValue()	
+	self.Settings[u'Style'] 		= self.StyleDropdown.GetValue()
+	self.Settings[u'Weight'] 		= self.WeightDropdown.GetValue()
+	self.Settings[u'Size'] 		= int(self.SizeText.GetValue())
+	self.Settings[u'HideControl'] 	= self.HideText.GetValue()
+	self.Settings[u'FontColor'] 	= str(self.ColorField.GetColour())
+	self.Settings[u'Vertical'] 	= int(self.VerticalPos.GetValue())
+	self.Settings[u'Horizontal'] 	= int(self.HorizontalPos.GetValue())
+	if self.CenterCheck.GetValue():
+		self.Settings[u'Center'] 	= 'yes'
+	else:
+		self.Settings[u'Center']	= 'no' 
+	
+	# Save item into dictionary
+	self.parent.MyDisplaySettings[self.RowSelected] = self.Settings
+	self.Destroy()
 	
     def OnCancelLayoutItem(self, event):
 	    self.Destroy()
