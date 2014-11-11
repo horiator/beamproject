@@ -77,7 +77,7 @@
     }
   ], 
   "Module": "Audacious", 
-  "Bgimage": "/home/mikael/Dropbox/Public/WxPython/Beam V0.06/backgrounds/DecoratedSummer.png", 
+  "Bgimage": "backgrounds/DecoratedSummer.png", 
   "DisplayWhenStopped": [
     {
       "Style": "Italic", 
