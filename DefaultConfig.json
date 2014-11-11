@@ -130,13 +130,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Title[1]", 
-      "Vertical": 23, 
       "Position": [
         23, 
         10
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
-      "Horizontal": 10, 
+      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
       "Size": 60
     }, 

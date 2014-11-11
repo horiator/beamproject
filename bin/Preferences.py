@@ -142,10 +142,7 @@ class Preferences(wx.Dialog):
 	panel = wx.Panel(self)
 	self.DisplayRows = []
 
-	# Load data into table
-	for i in range(0, len(self.MyDisplaySettings)): 
-		Settings = self.MyDisplaySettings[i]
-		self.DisplayRows.append(Settings[u'Field'])
+
 	
 	self.AddLayout	= wx.Button(panel, label="Add")
 	self.DelLayout 	= wx.Button(panel, label="Delete")
@@ -154,9 +151,13 @@ class Preferences(wx.Dialog):
         sizerbuttons.Add(self.AddLayout, flag=wx.RIGHT | wx.TOP, border=10)
         sizerbuttons.Add(self.DelLayout, flag=wx.RIGHT | wx.TOP, border=10)	
 	sizerbuttons.Add(self.EditLayout, flag=wx.RIGHT | wx.TOP, border=10)
+	
 
-	self.LayoutList = wx.ListBox(panel,-1, size=wx.DefaultSize, choices=self.DisplayRows, style= wx.LB_NEEDED_SB)
+	self.LayoutList = wx.ListBox(panel,-1, size=wx.DefaultSize, choices=[], style= wx.LB_NEEDED_SB)
         self.LayoutList.SetBackgroundColour(wx.Colour(255, 255, 255))
+
+	# Load data into table
+	self.BuildLayoutList()
 	
 	self.AddLayout.Bind(wx.EVT_BUTTON, self.OnAddLayout)
 	self.EditLayout.Bind(wx.EVT_BUTTON, self.OnEditLayout)
@@ -170,7 +171,12 @@ class Preferences(wx.Dialog):
         return panel
 
 
-
+    def BuildLayoutList(self):
+	self.DisplayRows = []
+	for i in range(0, len(self.MyDisplaySettings)): 
+		Settings = self.MyDisplaySettings[i]
+		self.DisplayRows.append(Settings[u'Field'])
+	self.LayoutList.Set(self.DisplayRows)
 
 
 #
@@ -287,9 +293,8 @@ class Preferences(wx.Dialog):
 		result = dlg.ShowModal()
 		dlg.Destroy()
 		if result == wx.ID_OK:
-			print 'Deleted'
-			#Code to delete goes here
-			
+			self.MyDisplaySettings.pop(RowSelected)
+			self.BuildLayoutList()
 #
 # RULE BUTTONS
 #
@@ -406,15 +411,18 @@ class EditLayout(wx.Dialog):
 	self.Settings[u'Size'] 		= int(self.SizeText.GetValue())
 	self.Settings[u'HideControl'] 	= self.HideText.GetValue()
 	self.Settings[u'FontColor'] 	= str(self.ColorField.GetColour())
-	self.Settings[u'Vertical'] 	= int(self.VerticalPos.GetValue())
-	self.Settings[u'Horizontal'] 	= int(self.HorizontalPos.GetValue())
+	self.Settings[u'Position'] 	= [int(self.VerticalPos.GetValue()), int(self.HorizontalPos.GetValue())]
 	if self.CenterCheck.GetValue():
 		self.Settings[u'Center'] 	= 'yes'
 	else:
 		self.Settings[u'Center']	= 'no' 
 	
 	# Save item into dictionary
-	self.parent.MyDisplaySettings[self.RowSelected] = self.Settings
+	if self.RowSelected+1 > len(self.parent.MyDisplaySettings):
+		self.parent.MyDisplaySettings.append(self.Settings)
+	else:
+		self.parent.MyDisplaySettings[self.RowSelected] = self.Settings
+	self.parent.BuildLayoutList()
 	self.Destroy()
 	
     def OnCancelLayoutItem(self, event):
