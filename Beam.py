@@ -46,7 +46,7 @@ class Frame(wx.Frame):
         wx.Frame.__init__(self, None, title=title, pos=(150,150), size=(800,600))
 	
 	# Set Icon
-	self.icon = 'icon.png'
+	self.icon = 'icons/icon_square/icon_square_256px.png'
 	image = wx.Image(self.icon, wx.BITMAP_TYPE_PNG).ConvertToBitmap() 
 	icon = wx.EmptyIcon() 
 	icon.CopyFromBitmap(image) 

@@ -71,7 +71,7 @@
     }
   ], 
   "Module": "Audacious", 
-  "Bgimage": "backgrounds/Default.png", 
+  "Bgimage": "backgrounds/bg1920x1080px.jpg", 
   "DisplayWhenStopped": [
     {
       "Style": "Italic", 
