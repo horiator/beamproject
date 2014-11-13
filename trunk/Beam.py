@@ -215,7 +215,7 @@ class Frame(wx.Frame):
 			text			= Settings['Field']
 			
 		# Get size and position
-		Size 					= Settings['Size']*cliHeight/575
+		Size 					= Settings['Size']*cliHeight/100
 		HeightPosition 			= int(Settings['Position'][0]*cliHeight/100)	
 		
 		# Set font from settings
