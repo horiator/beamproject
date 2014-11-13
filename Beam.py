@@ -326,7 +326,7 @@ MA  02111-1307  USA"""
         info.SetWebSite('http://www.beam-project.com')
         info.SetLicence(licence)
         info.AddDeveloper('Mikael Holber and Horia Uifaleanu')
-
+	info.AddArtist('Artwork by Andreea Vlad - www.andreeavlad.com')
         wx.AboutBox(info)
 
 #
