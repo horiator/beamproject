@@ -457,14 +457,28 @@ class EditRule(wx.Dialog):
 		self.Settings 	= ({"Type": "Set", "Field1": "Comment","Field2": "Singer", "Active": "yes"})
 
 	# Build the static elements
-	wx.StaticText(self.EditRulePanel, label="Label", pos=(20,20))
-	self.FontDropdown = wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Field1'], choices=InputFields, pos=(20,40))
+	#self.FontDropdown = wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Field1'], choices=InputFields)
+	
+	InfoGrid	=	wx.FlexGridSizer(4, 4, 5, 5)
+	InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Input ID3 tag"), 0, wx.EXPAND),
+					(wx.StaticText(self.EditRulePanel, label="Rule type"), 0, wx.EXPAND)
+					])
+	self.vboxLayout = wx.BoxSizer(wx.VERTICAL)
+	self.hboxLayout = wx.BoxSizer(wx.HORIZONTAL)
+	
+	self.hboxLayout.Add((400, -1), 1, flag=wx.EXPAND | wx.ALIGN_RIGHT)
+	self.hboxLayout.Add(self.ButtonSaveRule, flag=wx.LEFT | wx.BOTTOM | wx.TOP, border=10)
+	self.hboxLayout.Add(self.ButtonCancelRule, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
+	
+	self.vboxLayout.Add(InfoGrid, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
+	self.vboxLayout.Add(self.hboxLayout)
 
-
+	self.EditRulePanel.SetSizer(self.vboxLayout)
 
     def OnSaveRuleItem(self, event):
 	    print "Saving Rule"
-	    
+	    self.Destroy()
 
     def OnCancelRuleItem(self, event):
 	    print "Cancel Rule"
+	    self.Destroy()
