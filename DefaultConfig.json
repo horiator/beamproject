@@ -85,7 +85,7 @@
         0
       ], 
       "Font": "Decorative", 
-      "Size": 50
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
@@ -99,7 +99,7 @@
         0
       ], 
       "Font": "Decorative", 
-      "Size": 40
+      "Size": 7
     }
   ], 
   "MaxTandaLength": 4, 
@@ -116,7 +116,7 @@
         50
       ], 
       "Font": "Decorative", 
-      "Size": 50
+      "Size": 9
     }, 
     {
       "Style": "Italic", 
@@ -130,7 +130,7 @@
         10
       ], 
       "Font": "Decorative", 
-      "Size": 60
+      "Size": 11
     }, 
     {
       "Style": "Italic", 
@@ -144,7 +144,7 @@
         1
       ], 
       "Font": "Decorative", 
-      "Size": 50
+      "Size": 9
     }, 
     {
       "Style": "Italic", 
@@ -154,11 +154,11 @@
       "Field": "Next Tanda:", 
       "FontColor": "(255,255,255,255)", 
       "Position": [
-        63, 
+        65, 
         0
       ], 
       "Font": "Decorative", 
-      "Size": 25
+      "Size": 5
     }, 
     {
       "Style": "Italic", 
@@ -168,11 +168,11 @@
       "Field": "NextTanda[3]+' - '+NextTanda[0]", 
       "FontColor": "(255,255,255,255)", 
       "Position": [
-        69, 
+        73, 
         0
       ], 
       "Font": "Decorative", 
-      "Size": 30
+      "Size": 5
     }
   ]
 }
