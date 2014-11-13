@@ -458,9 +458,14 @@ class EditRule(wx.Dialog):
 
 	# Build the static elements
 	self.InputID3Field		= wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Field1'], choices=InputFields)
-	self.RuleSelectDropdown 	= wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Type'], choices=InputFields)
+	self.RuleSelectDropdown 	= wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Type'], choices=['Set','Cortina','Parse'])
+	self.RuleSelectDropdown.Bind(wx.EVT_COMBOBOX, self.ChangeRuleType)
 	self.RuleOrder	 		= wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected))
-	
+	self.DynamicFieldLabel1	= wx.StaticText(self.EditRulePanel, label="")
+	self.DynamicFieldLabel2	= wx.StaticText(self.EditRulePanel, label="")
+
+
+
 	# Fill with dynamix sizers
 	self.sizer1	= wx.BoxSizer(wx.VERTICAL) # Label Field1
 	self.sizer2	= wx.BoxSizer(wx.VERTICAL) # Label Field2
@@ -472,8 +477,8 @@ class EditRule(wx.Dialog):
 	InfoGrid	=	wx.FlexGridSizer(4, 4, 5, 5)
 	InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Input ID3 tag"), 0, wx.EXPAND),
 					(wx.StaticText(self.EditRulePanel, label="Rule type"), 0, wx.EXPAND),
-					(self.sizer1, 0, wx.EXPAND),
-					(self.sizer2, 0, wx.EXPAND),
+					(self.DynamicFieldLabel1, 0, wx.EXPAND),
+					(self.DynamicFieldLabel1, 0, wx.EXPAND),
 					(self.InputID3Field, 0, wx.EXPAND),
 					(self.RuleSelectDropdown, 0, wx.EXPAND),
 					(self.sizer3, 0, wx.EXPAND),
@@ -496,6 +501,10 @@ class EditRule(wx.Dialog):
 	self.vbox.Add(self.hbox)
 
 	self.EditRulePanel.SetSizer(self.vbox)
+	
+	
+    def ChangeRuleType(self, event):
+	    RuleSelected = RuleSelectDropdown.GetValue()
 
     def OnSaveRuleItem(self, event):
 	    print "Saving Rule"
