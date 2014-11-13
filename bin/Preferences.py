@@ -258,7 +258,7 @@ class Preferences(wx.Dialog):
 
     def loadBackground(self, event):
         openFileDialog = wx.FileDialog(self, "Open", "", "", 
-                                       "Image files PNG (*.png)|*.png|Image files JPEG (*.jpg)|*.jpg", 
+                                       "Image files (*.png)|*.png", 
                                        wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
 	if openFileDialog.ShowModal() == wx.ID_OK:        
 		self.BackgroundPath = openFileDialog.GetPath()
@@ -299,7 +299,7 @@ class Preferences(wx.Dialog):
 #
 			
     def OnAddRule(self, event):
-	self.EditRule = EditRule(self, len(self.RuleList), "Add rule")
+	self.EditRule = EditRule(self, self.RuleList.GetCount(), "Add rule")
 	self.EditRule.Show()
 
 		
@@ -457,23 +457,45 @@ class EditRule(wx.Dialog):
 		self.Settings 	= ({"Type": "Set", "Field1": "Comment","Field2": "Singer", "Active": "yes"})
 
 	# Build the static elements
-	#self.FontDropdown = wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Field1'], choices=InputFields)
+	self.InputID3Field		= wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Field1'], choices=InputFields)
+	self.RuleSelectDropdown 	= wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Type'], choices=InputFields)
+	self.RuleOrder	 		= wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected))
+	
+	# Fill with dynamix sizers
+	self.sizer1	= wx.BoxSizer(wx.VERTICAL) # Label Field1
+	self.sizer2	= wx.BoxSizer(wx.VERTICAL) # Label Field2
+	self.sizer3	= wx.BoxSizer(wx.VERTICAL) # Ctrl Field 1
+	self.sizer4	= wx.BoxSizer(wx.VERTICAL) # Ctrl Field 2
+	self.sizer5	= wx.BoxSizer(wx.VERTICAL) # Label for Token
+	self.sizer6	= wx.BoxSizer(wx.VERTICAL) # Ctrl for Token
 	
 	InfoGrid	=	wx.FlexGridSizer(4, 4, 5, 5)
 	InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Input ID3 tag"), 0, wx.EXPAND),
-					(wx.StaticText(self.EditRulePanel, label="Rule type"), 0, wx.EXPAND)
+					(wx.StaticText(self.EditRulePanel, label="Rule type"), 0, wx.EXPAND),
+					(self.sizer1, 0, wx.EXPAND),
+					(self.sizer2, 0, wx.EXPAND),
+					(self.InputID3Field, 0, wx.EXPAND),
+					(self.RuleSelectDropdown, 0, wx.EXPAND),
+					(self.sizer3, 0, wx.EXPAND),
+					(self.sizer4, 0, wx.EXPAND),
+					(wx.StaticText(self.EditRulePanel, label="Rule order"), 0, wx.EXPAND),
+					(self.sizer5, 0, wx.EXPAND),
+					(wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
+					(wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
+					(self.RuleOrder, 0, wx.EXPAND),
+					(self.sizer6, 0, wx.EXPAND),
 					])
-	self.vboxLayout = wx.BoxSizer(wx.VERTICAL)
-	self.hboxLayout = wx.BoxSizer(wx.HORIZONTAL)
+	self.vbox = wx.BoxSizer(wx.VERTICAL)
+	self.hbox = wx.BoxSizer(wx.HORIZONTAL)
 	
-	self.hboxLayout.Add((400, -1), 1, flag=wx.EXPAND | wx.ALIGN_RIGHT)
-	self.hboxLayout.Add(self.ButtonSaveRule, flag=wx.LEFT | wx.BOTTOM | wx.TOP, border=10)
-	self.hboxLayout.Add(self.ButtonCancelRule, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
+	self.hbox.Add((400, -1), 1, flag=wx.EXPAND | wx.ALIGN_RIGHT)
+	self.hbox.Add(self.ButtonSaveRule, flag=wx.LEFT | wx.BOTTOM | wx.TOP, border=10)
+	self.hbox.Add(self.ButtonCancelRule, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
 	
-	self.vboxLayout.Add(InfoGrid, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
-	self.vboxLayout.Add(self.hboxLayout)
+	self.vbox.Add(InfoGrid, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
+	self.vbox.Add(self.hbox)
 
-	self.EditRulePanel.SetSizer(self.vboxLayout)
+	self.EditRulePanel.SetSizer(self.vbox)
 
     def OnSaveRuleItem(self, event):
 	    print "Saving Rule"
