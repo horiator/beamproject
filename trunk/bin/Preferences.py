@@ -463,32 +463,29 @@ class EditRule(wx.Dialog):
 	self.RuleOrder	 		= wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected))
 	self.DynamicFieldLabel1	= wx.StaticText(self.EditRulePanel, label="")
 	self.DynamicFieldLabel2	= wx.StaticText(self.EditRulePanel, label="")
-
+	self.TokenLabel			= wx.StaticText(self.EditRulePanel, label="Token")
+	self.TokenField	 		= wx.TextCtrl(self.EditRulePanel, value="")
 
 
 	# Fill with dynamix sizers
-	self.sizer1	= wx.BoxSizer(wx.VERTICAL) # Label Field1
-	self.sizer2	= wx.BoxSizer(wx.VERTICAL) # Label Field2
-	self.sizer3	= wx.BoxSizer(wx.VERTICAL) # Ctrl Field 1
-	self.sizer4	= wx.BoxSizer(wx.VERTICAL) # Ctrl Field 2
-	self.sizer5	= wx.BoxSizer(wx.VERTICAL) # Label for Token
-	self.sizer6	= wx.BoxSizer(wx.VERTICAL) # Ctrl for Token
+	self.sizer1	= wx.BoxSizer(wx.VERTICAL) # Ctrl Field 1
+	self.sizer2	= wx.BoxSizer(wx.VERTICAL) # Ctrl Field 2
 	
 	InfoGrid	=	wx.FlexGridSizer(4, 4, 5, 5)
 	InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Input ID3 tag"), 0, wx.EXPAND),
 					(wx.StaticText(self.EditRulePanel, label="Rule type"), 0, wx.EXPAND),
 					(self.DynamicFieldLabel1, 0, wx.EXPAND),
-					(self.DynamicFieldLabel1, 0, wx.EXPAND),
+					(self.DynamicFieldLabel2, 0, wx.EXPAND),
 					(self.InputID3Field, 0, wx.EXPAND),
 					(self.RuleSelectDropdown, 0, wx.EXPAND),
-					(self.sizer3, 0, wx.EXPAND),
-					(self.sizer4, 0, wx.EXPAND),
+					(self.sizer1, 0, wx.EXPAND),
+					(self.sizer2, 0, wx.EXPAND),
 					(wx.StaticText(self.EditRulePanel, label="Rule order"), 0, wx.EXPAND),
-					(self.sizer5, 0, wx.EXPAND),
+					(self.TokenLabel, 0, wx.EXPAND),
 					(wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
 					(wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
 					(self.RuleOrder, 0, wx.EXPAND),
-					(self.sizer6, 0, wx.EXPAND),
+					(self.TokenField, 0, wx.EXPAND)
 					])
 	self.vbox = wx.BoxSizer(wx.VERTICAL)
 	self.hbox = wx.BoxSizer(wx.HORIZONTAL)
@@ -502,14 +499,25 @@ class EditRule(wx.Dialog):
 
 	self.EditRulePanel.SetSizer(self.vbox)
 	
+	self.ChangeRuleType(self)
+	
 	
     def ChangeRuleType(self, event):
-	    RuleSelected = RuleSelectDropdown.GetValue()
+	RuleSelected = self.RuleSelectDropdown.GetValue()
 
+	if RuleSelected == 'Set':
+		self.DynamicFieldLabel1.SetLabel('Output field')
+		self.DynamicFieldLabel2.SetLabel('')
+		try:
+			self.TokenLabel.Hide()
+			self.TokenField.Hide()
+		except:
+			pass
+			
+			
     def OnSaveRuleItem(self, event):
-	    print "Saving Rule"
-	    self.Destroy()
+	print "Saving Rule"
+	self.Destroy()
 
     def OnCancelRuleItem(self, event):
-	    print "Cancel Rule"
-	    self.Destroy()
+	self.Destroy()
