@@ -105,26 +105,30 @@ class Preferences(wx.Dialog):
 	panel = wx.Panel(notebook)
 
 	# Module dropdown
-	Mediaplayer = wx.StaticText(panel, -1, "Mediaplayer", (10,10))
+	Mediaplayer = wx.StaticText(panel, -1, "Mediaplayer", (10,7))
 	font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD) 
         Mediaplayer.SetFont(font) 	
-	wx.StaticText(panel, -1, "Select mediaplayer to display information from", (20,40))
-	self.Dropdown = wx.ComboBox(panel,value=self.ModuleSelected, choices=self.AllModules, pos=(20,60))
+	wx.StaticText(panel, -1, "Select mediaplayer to display information from", (20,30))
+	self.Dropdown = wx.ComboBox(panel,value=self.ModuleSelected, choices=self.AllModules, pos=(20,50))
 
 	# Background image
-	Background = wx.StaticText(panel, -1, "Background Image", (10,100))
+	Background = wx.StaticText(panel, -1, "Background Image", (10,87))
 	font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD) 
         Background.SetFont(font)	
-	wx.StaticText(panel, -1, "Select background image (1920x1080 recommended)", (20,130))
-	self.browse = wx.Button(panel, label="Browse", pos=(20,149))
+	wx.StaticText(panel, -1, "Select background image (1920x1080 recommended)", (20,110))
+	self.browse = wx.Button(panel, label="Browse", pos=(20,129))
 	self.browse.Bind(wx.EVT_BUTTON, self.loadBackground)
 
 	# Wait timer
-	waittimer = wx.StaticText(panel, -1, "Background Image", (10,190))
+	waittimer = wx.StaticText(panel, -1, "Settings", (10,167))
 	font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD) 
         waittimer.SetFont(font)	
-	wx.StaticText(panel, -1, "Update timer in mSec (default 2000)", (20,220))
-	self.TimerText = wx.TextCtrl(panel, -1, str(self.updateTimer), (20,240), (140,-1))
+	wx.StaticText(panel, -1, "Update timer in mSec (default 2000)", (20,190))
+	self.TimerText = wx.TextCtrl(panel, -1, str(self.updateTimer), (20,210), (140,-1))
+
+	# Tanda Length
+	wx.StaticText(panel, -1, "Max tanda length", (20,243))
+	self.TandaLength = wx.TextCtrl(panel, -1, str(self.MaxTandaLength), (20,263), (140,-1))
 
         return panel
 
@@ -142,8 +146,6 @@ class Preferences(wx.Dialog):
 	panel = wx.Panel(self)
 	self.DisplayRows = []
 
-
-	
 	self.AddLayout	= wx.Button(panel, label="Add")
 	self.DelLayout 	= wx.Button(panel, label="Delete")
 	self.EditLayout	= wx.Button(panel, label="Edit")
@@ -237,12 +239,11 @@ class Preferences(wx.Dialog):
 #
     def onApply(self, e):
         # Get Settings
-	self.ModuleSelected = self.Dropdown.GetValue()	
-	# Write Settings
-	#try:
-	self.updateTimer = int(self.TimerText.GetValue())
-	self.filename = 'DefaultConfig.json' 
-	self.dirname = os.getcwd()
+	self.ModuleSelected 		= self.Dropdown.GetValue()	
+	self.updateTimer 		= int(self.TimerText.GetValue())
+	self.MaxTandaLength 	=  int(self.TandaLength.GetValue())
+	self.filename 			= 'DefaultConfig.json' 
+	self.dirname 			= os.getcwd()
 		#try:
 	self.confFile = open(os.path.join(self.dirname, self.filename), 'w')
 	ParseSettings.SaveConfig(self)	
@@ -251,6 +252,7 @@ class Preferences(wx.Dialog):
 		#	print 'Error: Could not write to DefaultConfig.json'
 	#except:
 	#	print 'Error: Update timer contains letters.'
+	
 	# Reload settings for main window
 	self.MainWindowParent.LoadSettings(self.MainWindowParent)
 
