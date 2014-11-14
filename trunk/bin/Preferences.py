@@ -189,19 +189,6 @@ class Preferences(wx.Dialog):
 	
 	self.RuleRows = []
 	
-	# Load data into table
-	for i in range(0, len(self.Rules)): 
-		rule = self.Rules[i]
-		if rule[u'Type'] == "Set":
-			self.RuleRows.append(str('Copy (Set) '+rule[u'Field1']+' to '+rule[u'Field2']))
-		if rule[u'Type'] == "Cortina":
-			if rule[u'Field2'] =="is":
-				self.RuleRows.append(str('Its a Cortina when: '+rule[u'Field1']+' is '+rule[u'Field3']))
-			if rule[u'Field2'] =="isNot":
-				self.RuleRows.append(str('Its a Cortina when: '+rule[u'Field1']+' is not '+rule[u'Field3']))
-		if rule[u'Type'] == "Parse":
-			self.RuleRows.append(str('Parse/split '+rule[u'Field1']+' containing '+rule[u'Field2']+' into '+rule[u'Field3']+' and '+rule[u'Field4']))
-	
 	# Add buttons
 	self.AddRule 	= wx.Button(panel, label="Add")
 	self.DelRule	= wx.Button(panel, label="Delete")
@@ -217,6 +204,9 @@ class Preferences(wx.Dialog):
 
 	self.RuleList = wx.ListBox(panel,-1, size=wx.DefaultSize, choices=self.RuleRows, style= wx.LB_NEEDED_SB)
         self.RuleList.SetBackgroundColour(wx.Colour(255, 255, 255))
+
+	# Load data into table
+	self.BuildRuleList()
 	
         sizer = wx.BoxSizer(wx.VERTICAL)
         sizer.Add(self.RuleList, proportion=1, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
@@ -224,6 +214,23 @@ class Preferences(wx.Dialog):
 	panel.SetSizer(sizer)
 	
         return panel
+
+
+    def BuildRuleList(self):
+	self.RuleRows = []
+	for i in range(0, len(self.Rules)): 
+		rule = self.Rules[i]
+		if rule[u'Type'] == "Set":
+			self.RuleRows.append(str('Copy (Set) '+rule[u'Field1']+' to '+rule[u'Field2']))
+		if rule[u'Type'] == "Cortina":
+			if rule[u'Field2'] =="is":
+				self.RuleRows.append(str('Its a Cortina when: '+rule[u'Field1']+' is '+rule[u'Field3']))
+			if rule[u'Field2'] =="is not":
+				self.RuleRows.append(str('Its a Cortina when: '+rule[u'Field1']+' is not '+rule[u'Field3']))
+		if rule[u'Type'] == "Parse":
+			self.RuleRows.append(str('Parse/split '+rule[u'Field1']+' containing '+rule[u'Field2']+' into '+rule[u'Field3']+' and '+rule[u'Field4']))
+	self.RuleList.Set(self.RuleRows)
+
 
 #
 # Apply preferences
@@ -310,7 +317,17 @@ class Preferences(wx.Dialog):
 		self.EditRule.Show()
 	   
     def OnDelRule(self, event):
-	   print 'Del Rule'
+	RowSelected = self.RuleList.GetSelection()
+	if RowSelected>-1:
+		LineToDelete = self.RuleList.GetString(RowSelected)
+		dlg = wx.MessageDialog(self,
+		"Do you really want to delete '"+LineToDelete+"' ?",
+		"Confirm deletion", wx.OK|wx.CANCEL|wx.ICON_QUESTION)
+		result = dlg.ShowModal()
+		dlg.Destroy()
+		if result == wx.ID_OK:
+			self.Rules.pop(RowSelected)
+			self.BuildRuleList()
 
 
 
@@ -428,6 +445,10 @@ class EditLayout(wx.Dialog):
 	    self.Destroy()
 
 
+
+
+
+
 #
 # Edit Rule class
 #
@@ -438,8 +459,9 @@ class EditRule(wx.Dialog):
     def __init__(self, parent, RowSelected, mode):
 	self.EditRuleDialog 	= wx.Dialog.__init__(self, parent, title=mode, size=(490,210))
 	self.EditRulePanel	= wx.Panel(self)
-	self.parent 		= parent
+	self.parent 			= parent
 	self.RowSelected 	= RowSelected
+	self.mode			= mode
 
 	self.ButtonSaveRule 	= wx.Button(self.EditRulePanel, label="Save")
 	self.ButtonCancelRule 	= wx.Button(self.EditRulePanel, label="Cancel")
@@ -460,7 +482,11 @@ class EditRule(wx.Dialog):
 	self.InputID3Field		= wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Field1'], choices=InputFields)
 	self.RuleSelectDropdown 	= wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Type'], choices=['Set','Cortina','Parse'])
 	self.RuleSelectDropdown.Bind(wx.EVT_COMBOBOX, self.ChangeRuleType)
-	self.RuleOrder	 		= wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected))
+	self.RuleOrder	 		= wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected+1))
+	self.ActivateRule 		= wx.CheckBox(self.EditRulePanel, label="Activate")
+	
+	if self.Settings[u'Active'] == "yes":
+		self.ActivateRule.SetValue(True)
 	
 	# Dynamic fields (Changes depending on RuleSelectDropdown)
 	self.DynamicFieldLabel1	= wx.StaticText(self.EditRulePanel, label="")
@@ -469,7 +495,7 @@ class EditRule(wx.Dialog):
 	self.TokenField	 		= wx.TextCtrl(self.EditRulePanel, value="")
 	self.OutputField1		= wx.ComboBox(self.EditRulePanel,value="Artist", choices=OutputFields, pos=(222,32))
 	self.OutputField2		= wx.ComboBox(self.EditRulePanel,value="Artist", choices=OutputFields, pos=(337,32))
-	self.IsIsNot			= wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "isNot"],pos=(222,32))
+	self.IsIsNot			= wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"],pos=(222,32))
 	self.OutputField3 		= wx.TextCtrl(self.EditRulePanel, value="", pos=(305,33), size=(165,-1))
 	
 	
@@ -492,7 +518,8 @@ class EditRule(wx.Dialog):
 	self.vbox = wx.BoxSizer(wx.VERTICAL)
 	self.hbox = wx.BoxSizer(wx.HORIZONTAL)
 	
-	self.hbox.Add((400, -1), 1, flag=wx.EXPAND | wx.ALIGN_RIGHT)
+	self.hbox.Add((200, -1), 1, flag=wx.EXPAND | wx.ALIGN_RIGHT)
+	self.hbox.Add(self.ActivateRule, flag=wx.LEFT | wx.TOP, border=13)
 	self.hbox.Add(self.ButtonSaveRule, flag=wx.LEFT | wx.BOTTOM | wx.TOP, border=10)
 	self.hbox.Add(self.ButtonCancelRule, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
 	
@@ -563,7 +590,41 @@ class EditRule(wx.Dialog):
 		self.OutputField3.Show() 	
 		
     def OnSaveRuleItem(self, event):
-	print "Saving Rule"
+	RuleOrderBox = int(self.RuleOrder.GetValue())-1
+	RuleSelected = self.RuleSelectDropdown.GetValue()
+	
+	# Build NewRule
+	NewRule = {}
+	NewRule[u'Type'] 		= RuleSelected
+	NewRule[u'Field1'] 		= self.InputID3Field.GetValue()
+	if self.ActivateRule.GetValue():
+		NewRule[u'Active']		= "yes"
+	else:
+		NewRule[u'Active']		= "no"
+		
+	if RuleSelected == 'Set':
+		NewRule[u'Field2'] 		= self.OutputField1.GetValue()
+	if RuleSelected == 'Parse':
+		NewRule[u'Field2'] 		= self.TokenField.GetValue()
+		NewRule[u'Field3'] 		= self.OutputField1.GetValue()
+		NewRule[u'Field4'] 		= self.OutputField2.GetValue()
+	if RuleSelected == 'Cortina':
+	        NewRule[u'Field2'] 		= self.IsIsNot.GetValue()
+		NewRule[u'Field3'] 		= self.OutputField3.GetValue()
+	
+	# Decide where NewRule goes into the vector self.Settings
+	if self.mode == "Add rule":
+		if RuleOrderBox < self.RowSelected:
+			self.parent.Rules.insert(RuleOrderBox, NewRule) #Insert in at position
+		else:
+			self.parent.Rules.append(NewRule) # Append in the end
+	else: #Edit rule
+		if RuleOrderBox == self.RowSelected:
+			self.parent.Rules[RuleOrderBox] = NewRule # Overwrite
+		else:
+			self.parent.Rules.pop(self.RowSelected) #Move up and down in list
+			self.parent.Rules.insert(RuleOrderBox, NewRule)
+	self.parent.BuildRuleList()
 	self.Destroy()
 
     def OnCancelRuleItem(self, event):
