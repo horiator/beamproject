@@ -40,9 +40,9 @@ def Init(self):
 			self.timer.Stop()
 			self.timer.Start(self.updateTimer)
 
-	if self.ModuleSelected in ('Traktor'):
+	if self.ModuleSelected in ('Itunes'):
 		pass
-
+	
 	return 
 
 
