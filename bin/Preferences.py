@@ -193,7 +193,7 @@ class Preferences(wx.Dialog):
 	for i in range(0, len(self.Rules)): 
 		rule = self.Rules[i]
 		if rule[u'Type'] == "Set":
-			self.RuleRows.append(str('Copy (Set) '+rule[u'Field1']+' to '+rule[u'Field1']))
+			self.RuleRows.append(str('Copy (Set) '+rule[u'Field1']+' to '+rule[u'Field2']))
 		if rule[u'Type'] == "Cortina":
 			if rule[u'Field2'] =="is":
 				self.RuleRows.append(str('Its a Cortina when: '+rule[u'Field1']+' is '+rule[u'Field3']))
@@ -436,7 +436,7 @@ class EditLayout(wx.Dialog):
 
 class EditRule(wx.Dialog):
     def __init__(self, parent, RowSelected, mode):
-	self.EditRuleDialog 	= wx.Dialog.__init__(self, parent, title=mode, size=(570,210))
+	self.EditRuleDialog 	= wx.Dialog.__init__(self, parent, title=mode, size=(490,210))
 	self.EditRulePanel	= wx.Panel(self)
 	self.parent 		= parent
 	self.RowSelected 	= RowSelected
@@ -461,25 +461,27 @@ class EditRule(wx.Dialog):
 	self.RuleSelectDropdown 	= wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Type'], choices=['Set','Cortina','Parse'])
 	self.RuleSelectDropdown.Bind(wx.EVT_COMBOBOX, self.ChangeRuleType)
 	self.RuleOrder	 		= wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected))
+	
+	# Dynamic fields (Changes depending on RuleSelectDropdown)
 	self.DynamicFieldLabel1	= wx.StaticText(self.EditRulePanel, label="")
-	self.DynamicFieldLabel2	= wx.StaticText(self.EditRulePanel, label="")
+	self.DynamicFieldLabel2	= wx.StaticText(self.EditRulePanel, label="", pos=(337,10))
 	self.TokenLabel			= wx.StaticText(self.EditRulePanel, label="Token")
 	self.TokenField	 		= wx.TextCtrl(self.EditRulePanel, value="")
-
-
-	# Fill with dynamix sizers
-	self.sizer1	= wx.BoxSizer(wx.VERTICAL) # Ctrl Field 1
-	self.sizer2	= wx.BoxSizer(wx.VERTICAL) # Ctrl Field 2
+	self.OutputField1		= wx.ComboBox(self.EditRulePanel,value="Artist", choices=OutputFields, pos=(222,32))
+	self.OutputField2		= wx.ComboBox(self.EditRulePanel,value="Artist", choices=OutputFields, pos=(337,32))
+	self.IsIsNot			= wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "isNot"],pos=(222,32))
+	self.OutputField3 		= wx.TextCtrl(self.EditRulePanel, value="", pos=(305,33), size=(165,-1))
+	
 	
 	InfoGrid	=	wx.FlexGridSizer(4, 4, 5, 5)
 	InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Input ID3 tag"), 0, wx.EXPAND),
 					(wx.StaticText(self.EditRulePanel, label="Rule type"), 0, wx.EXPAND),
 					(self.DynamicFieldLabel1, 0, wx.EXPAND),
-					(self.DynamicFieldLabel2, 0, wx.EXPAND),
+					(wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
 					(self.InputID3Field, 0, wx.EXPAND),
 					(self.RuleSelectDropdown, 0, wx.EXPAND),
-					(self.sizer1, 0, wx.EXPAND),
-					(self.sizer2, 0, wx.EXPAND),
+					(wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
+					(wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
 					(wx.StaticText(self.EditRulePanel, label="Rule order"), 0, wx.EXPAND),
 					(self.TokenLabel, 0, wx.EXPAND),
 					(wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
@@ -508,13 +510,58 @@ class EditRule(wx.Dialog):
 	if RuleSelected == 'Set':
 		self.DynamicFieldLabel1.SetLabel('Output field')
 		self.DynamicFieldLabel2.SetLabel('')
-		try:
-			self.TokenLabel.Hide()
-			self.TokenField.Hide()
-		except:
-			pass
-			
-			
+		if self.Settings[u'Type'] == 'Set':
+			self.OutputField1.SetStringSelection(self.Settings[u'Field2'])
+		else:
+			self.OutputField1.SetStringSelection("Artist")
+		# Hide Fields
+		self.TokenLabel.Hide() 
+		self.TokenField.Hide() 
+		self.IsIsNot.Hide() 
+		self.OutputField2.Hide() 
+		self.OutputField3.Hide() 
+		#Show Fields
+		self.OutputField1.Show() 
+	
+	if RuleSelected == 'Parse':
+		self.DynamicFieldLabel1.SetLabel('Output field 1')
+		self.DynamicFieldLabel2.SetLabel('Output field 2')
+		if self.Settings[u'Type'] == 'Parse':
+			self.OutputField1.SetStringSelection(self.Settings[u'Field3'])
+			self.OutputField2.SetStringSelection(self.Settings[u'Field4'])
+			self.TokenField.SetValue(self.Settings[u'Field2'])
+		else: 
+			self.OutputField1.SetStringSelection("Artist")
+			self.OutputField2.SetStringSelection("Title")
+			self.TokenField.SetValue("-")
+		# Show Fields
+		self.TokenLabel.Show() 
+		self.TokenField.Show() 
+		self.OutputField1.Show() 
+		self.OutputField2.Show() 
+		# Hide Fields
+		self.IsIsNot.Hide() 
+		self.OutputField3.Hide() 
+
+		
+	if RuleSelected == 'Cortina':
+		self.DynamicFieldLabel1.SetLabel('is / is not')
+		self.DynamicFieldLabel2.SetLabel('Value(s)')
+		if self.Settings[u'Type'] == 'Cortina':
+			self.IsIsNot.SetStringSelection(self.Settings[u'Field2'])
+			self.OutputField3.SetValue(self.Settings[u'Field3'])
+		else:
+			self.IsIsNot.SetStringSelection("is")
+			self.OutputField3.SetValue("")
+		# Hide Fields
+		self.TokenLabel.Hide() 
+		self.TokenField.Hide() 
+		self.OutputField1.Hide() 
+		self.OutputField2.Hide() 
+		# Show Fields
+		self.IsIsNot.Show() 
+		self.OutputField3.Show() 	
+		
     def OnSaveRuleItem(self, event):
 	print "Saving Rule"
 	self.Destroy()
