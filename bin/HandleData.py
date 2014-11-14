@@ -102,8 +102,8 @@ def FilterData(self, Artist, Album, Title, Genre, Comment, Composer, Year, playb
 				if Rule[u'Field2'] == 'is':
 					if str(eval(Rule[u'Field1'])[j]) in str(Rule[u'Field3']):
 						IsCortina[j] = 1
-				# Rule[u'Field2'] == isNot: IsCortina[j] shall be 1 if Rule[u'Field1'] not in Rule[u'Field3']
-				if Rule[u'Field2'] == 'isNot':
+				# Rule[u'Field2'] == is not: IsCortina[j] shall be 1 if Rule[u'Field1'] not in Rule[u'Field3']
+				if Rule[u'Field2'] == 'is not':
 					if str(eval(Rule[u'Field1'])[j]) not in str(Rule[u'Field3']):
 						IsCortina[j] = 1
 

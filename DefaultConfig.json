@@ -27,7 +27,7 @@
   "Author": "Mikael Holber - 2014", 
   "Rules": [
     {
-      "Active": "yes", 
+      "Active": "no", 
       "Field2": "Singer", 
       "Field1": "Comment", 
       "Type": "Set"
@@ -47,7 +47,7 @@
       "Active": "yes"
     }, 
     {
-      "Field2": "isNot", 
+      "Field2": "is not", 
       "Field3": "[Tango, Milonga, Vals]", 
       "Field1": "Genre", 
       "Type": "Cortina", 
@@ -77,29 +77,29 @@
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
-      "Row": 1, 
       "Field": "Beam Me Up", 
-      "FontColor": "(255,255,255,255)", 
+      "Size": 10, 
       "Position": [
         30, 
         0
       ], 
+      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Size": 10
+      "Row": 1
     }, 
     {
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
-      "Row": 2, 
       "Field": "Scotty", 
-      "FontColor": "(255,255,255,255)", 
+      "Size": 7, 
       "Position": [
         50, 
         0
       ], 
+      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Size": 7
+      "Row": 2
     }
   ], 
   "MaxTandaLength": 4, 
@@ -110,11 +110,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Artist[1]", 
-      "FontColor": "(255,255,255,255)", 
       "Position": [
         8, 
         50
       ], 
+      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
       "Size": 9
     }, 
@@ -124,11 +124,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Title[1]", 
-      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         23, 
         10
       ], 
+      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Decorative", 
       "Size": 11
     }, 
@@ -138,11 +138,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Singer[1]", 
-      "FontColor": "(255,255,255,255)", 
       "Position": [
         40, 
         1
       ], 
+      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
       "Size": 9.5
     }, 
@@ -152,11 +152,11 @@
       "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "Next Tanda:", 
-      "FontColor": "(255,255,255,255)", 
       "Position": [
         65, 
         0
       ], 
+      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
       "Size": 5
     }, 
@@ -166,11 +166,11 @@
       "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "NextTanda[3]+' - '+NextTanda[0]", 
-      "FontColor": "(255,255,255,255)", 
       "Position": [
         73, 
         0
       ], 
+      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
       "Size": 5
     }
