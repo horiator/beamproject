@@ -12,28 +12,7 @@ import os, sys
 from bin import HandleData, ParseSettings
 from bin.Preferences import Preferences
 
-
-
-##################################################
-# HELP DIALOG
-##################################################
-
-class Help(wx.Dialog):
-    def __init__(self, settings, *args, **kwargs):
-        wx.Dialog.__init__(self, None, title="Help", size=(600,600))
-        html 	= wxHTML(self)
-	filename 	= 'docs/Help.html'
-	dirname 	= os.getcwd()
-	f 		= open(os.path.join(filename), 'r')
-	page 	= f.read()
-	f.close
-        html.SetPage(page)
- 
-class wxHTML(wx.html.HtmlWindow):
-     def OnLinkClicked(self, link):
-         webbrowser.open(link.GetHref())
-
-
+from bin.dialogs.helpdialog import HelpDialog
 
 
 ##################################################
@@ -333,7 +312,7 @@ MA  02111-1307  USA"""
 # Open Help
 #
     def OnHelp(self, event):
-        help_dialog = Help(None, self)
+        help_dialog = HelpDialog(None, self)
         res = help_dialog.ShowModal()
         help_dialog.Destroy()
 
