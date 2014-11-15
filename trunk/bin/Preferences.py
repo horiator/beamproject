@@ -35,21 +35,7 @@ import os
 class Preferences(wx.Dialog):
     def __init__(self, parent):
 	self.MainWindowParent = parent
-	
-	# Where to position
-	# Check number of monitors
-	if wx.Display.GetCount()>1 and self.MainWindowParent.IsFullScreen():
-		if wx.Display.GetFromWindow(self.MainWindowParent) == 0:
-			display = wx.Display(1)
-		else:
-			display = wx.Display(0)
-		x, y, w, h = display.GetGeometry()
-		#PreferencesDialog.SetPosition((x, y))
-	else:
-		x = 200
-		y = 200
-
-        wx.Dialog.__init__(self, None, title="Preferences", size=(400,400), pos=(x,y))
+        wx.Dialog.__init__(self, parent, title="Preferences", size=(400,400))
 	
 	# Load the global variables with the file-reader
 	self.filename = 'DefaultConfig.json' 
@@ -461,7 +447,7 @@ class EditLayout(wx.Dialog):
 
 class EditRule(wx.Dialog):
     def __init__(self, parent, RowSelected, mode):
-	self.EditRuleDialog 	= wx.Dialog.__init__(self, parent, title=mode, size=(490,210))
+	self.EditRuleDialog 	= wx.Dialog.__init__(self, parent, title=mode, size=(470,210))
 	self.EditRulePanel	= wx.Panel(self)
 	self.parent 			= parent
 	self.RowSelected 	= RowSelected
@@ -497,11 +483,7 @@ class EditRule(wx.Dialog):
 	self.DynamicFieldLabel2	= wx.StaticText(self.EditRulePanel, label="")
 	self.TokenLabel			= wx.StaticText(self.EditRulePanel, label="Token")
 	self.TokenField	 		= wx.TextCtrl(self.EditRulePanel, value="")
-	#self.OutputField1		= wx.ComboBox(self.EditRulePanel,value="Artist", choices=OutputFields, pos=(222,32))
-	#self.OutputField2		= wx.ComboBox(self.EditRulePanel,value="Artist", choices=OutputFields, pos=(337,32))
-	#self.IsIsNot			= wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"],pos=(222,32))
-	#self.OutputField3 		= wx.TextCtrl(self.EditRulePanel, value="", pos=(305,33), size=(165,-1))
-
+	
 	self.sizer1 = wx.BoxSizer(wx.HORIZONTAL)
 	self.sizer2 = wx.BoxSizer(wx.HORIZONTAL)
 	
