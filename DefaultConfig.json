@@ -27,7 +27,7 @@
   "Author": "Mikael Holber - 2014", 
   "Rules": [
     {
-      "Active": "yes", 
+      "Active": "no", 
       "Field2": "Singer", 
       "Field1": "Comment", 
       "Type": "Set"
