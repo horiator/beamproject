@@ -127,7 +127,7 @@ class Preferences(wx.Dialog):
 	self.TimerText = wx.TextCtrl(panel, -1, str(self.updateTimer), (20,210), (140,-1))
 
 	# Tanda Length
-	wx.StaticText(panel, -1, "Max tanda length", (20,243))
+	wx.StaticText(panel, -1, "Next tanda preview (number of songs, default 4)", (20,243))
 	self.TandaLength = wx.TextCtrl(panel, -1, str(self.MaxTandaLength), (20,263), (140,-1))
 
         return panel
@@ -471,8 +471,8 @@ class EditRule(wx.Dialog):
 	self.ButtonCancelRule 	= wx.Button(self.EditRulePanel, label="Cancel")
 	self.ButtonSaveRule.Bind(wx.EVT_BUTTON, self.OnSaveRuleItem)
 	self.ButtonCancelRule.Bind(wx.EVT_BUTTON, self.OnCancelRuleItem)
-	InputFields 	= ["Artist","Album","Title","Genre","Comment","Composer","Year"]
-	OutputFields 	= ["Artist","Album","Title","Genre","Comment","Composer","Year", "Singer"]
+	self.InputFields 	= ["Artist","Album","Title","Genre","Comment","Composer","Year"]
+	self.OutputFields 	= ["Artist","Album","Title","Genre","Comment","Composer","Year", "Singer"]
 
 # Check if it is a new line
 	if self.RowSelected<len(self.parent.Rules):
@@ -483,7 +483,7 @@ class EditRule(wx.Dialog):
 		self.Settings 	= ({"Type": "Set", "Field1": "Comment","Field2": "Singer", "Active": "yes"})
 
 	# Build the static elements
-	self.InputID3Field		= wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Field1'], choices=InputFields)
+	self.InputID3Field		= wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Field1'], choices=self.InputFields)
 	self.RuleSelectDropdown 	= wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Type'], choices=['Set','Cortina','Parse'])
 	self.RuleSelectDropdown.Bind(wx.EVT_COMBOBOX, self.ChangeRuleType)
 	self.RuleOrder	 		= wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected+1))
@@ -494,24 +494,26 @@ class EditRule(wx.Dialog):
 	
 	# Dynamic fields (Changes depending on RuleSelectDropdown)
 	self.DynamicFieldLabel1	= wx.StaticText(self.EditRulePanel, label="")
-	self.DynamicFieldLabel2	= wx.StaticText(self.EditRulePanel, label="", pos=(337,10))
+	self.DynamicFieldLabel2	= wx.StaticText(self.EditRulePanel, label="")
 	self.TokenLabel			= wx.StaticText(self.EditRulePanel, label="Token")
 	self.TokenField	 		= wx.TextCtrl(self.EditRulePanel, value="")
-	self.OutputField1		= wx.ComboBox(self.EditRulePanel,value="Artist", choices=OutputFields, pos=(222,32))
-	self.OutputField2		= wx.ComboBox(self.EditRulePanel,value="Artist", choices=OutputFields, pos=(337,32))
-	self.IsIsNot			= wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"],pos=(222,32))
-	self.OutputField3 		= wx.TextCtrl(self.EditRulePanel, value="", pos=(305,33), size=(165,-1))
-	
+	#self.OutputField1		= wx.ComboBox(self.EditRulePanel,value="Artist", choices=OutputFields, pos=(222,32))
+	#self.OutputField2		= wx.ComboBox(self.EditRulePanel,value="Artist", choices=OutputFields, pos=(337,32))
+	#self.IsIsNot			= wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"],pos=(222,32))
+	#self.OutputField3 		= wx.TextCtrl(self.EditRulePanel, value="", pos=(305,33), size=(165,-1))
+
+	self.sizer1 = wx.BoxSizer(wx.HORIZONTAL)
+	self.sizer2 = wx.BoxSizer(wx.HORIZONTAL)
 	
 	InfoGrid	=	wx.FlexGridSizer(4, 4, 5, 5)
 	InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Input ID3 tag"), 0, wx.EXPAND),
 					(wx.StaticText(self.EditRulePanel, label="Rule type"), 0, wx.EXPAND),
 					(self.DynamicFieldLabel1, 0, wx.EXPAND),
-					(wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
+					(self.DynamicFieldLabel2, 0, wx.EXPAND),
 					(self.InputID3Field, 0, wx.EXPAND),
 					(self.RuleSelectDropdown, 0, wx.EXPAND),
-					(wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
-					(wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
+					(self.sizer1, 0, wx.EXPAND),
+					(self.sizer2, 0, wx.EXPAND),
 					(wx.StaticText(self.EditRulePanel, label="Rule order"), 0, wx.EXPAND),
 					(self.TokenLabel, 0, wx.EXPAND),
 					(wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
@@ -519,8 +521,11 @@ class EditRule(wx.Dialog):
 					(self.RuleOrder, 0, wx.EXPAND),
 					(self.TokenField, 0, wx.EXPAND)
 					])
+					
 	self.vbox = wx.BoxSizer(wx.VERTICAL)
 	self.hbox = wx.BoxSizer(wx.HORIZONTAL)
+	
+	self.EditRulePanel.SetSizer(self.vbox)
 	
 	self.hbox.Add((200, -1), 1, flag=wx.EXPAND | wx.ALIGN_RIGHT)
 	self.hbox.Add(self.ActivateRule, flag=wx.LEFT | wx.TOP, border=13)
@@ -529,34 +534,44 @@ class EditRule(wx.Dialog):
 	
 	self.vbox.Add(InfoGrid, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
 	self.vbox.Add(self.hbox)
-
-	self.EditRulePanel.SetSizer(self.vbox)
 	
 	self.ChangeRuleType(self)
 	
 	
     def ChangeRuleType(self, event):
 	RuleSelected = self.RuleSelectDropdown.GetValue()
-
+###########################################
 	if RuleSelected == 'Set':
 		self.DynamicFieldLabel1.SetLabel('Output field')
 		self.DynamicFieldLabel2.SetLabel('')
+		# Remove fields that are not to be shown
+		self.RemoveDynamicElements()		
+
+		self.TokenLabel.Hide() 
+		self.TokenField.Hide() 
+		
+		#Add correct fields
+		self.OutputField1		= wx.ComboBox(self.EditRulePanel,value="Artist", choices=self.OutputFields)
+		self.sizer1.Add(self.OutputField1)
+		
 		if self.Settings[u'Type'] == 'Set':
 			self.OutputField1.SetStringSelection(self.Settings[u'Field2'])
 		else:
 			self.OutputField1.SetStringSelection("Artist")
-		# Hide Fields
-		self.TokenLabel.Hide() 
-		self.TokenField.Hide() 
-		self.IsIsNot.Hide() 
-		self.OutputField2.Hide() 
-		self.OutputField3.Hide() 
-		#Show Fields
-		self.OutputField1.Show() 
-	
+			
+	########################################
 	if RuleSelected == 'Parse':
 		self.DynamicFieldLabel1.SetLabel('Output field 1')
 		self.DynamicFieldLabel2.SetLabel('Output field 2')
+		# Remove fields that are not to be shown
+		self.RemoveDynamicElements()
+		
+		#Add correct fields
+		self.OutputField1		= wx.ComboBox(self.EditRulePanel,value="Artist", choices=self.OutputFields)
+		self.sizer1.Add(self.OutputField1)
+		self.OutputField2		= wx.ComboBox(self.EditRulePanel,value="Artist", choices=self.OutputFields)
+		self.sizer2.Add(self.OutputField2)
+
 		if self.Settings[u'Type'] == 'Parse':
 			self.OutputField1.SetStringSelection(self.Settings[u'Field3'])
 			self.OutputField2.SetStringSelection(self.Settings[u'Field4'])
@@ -568,31 +583,54 @@ class EditRule(wx.Dialog):
 		# Show Fields
 		self.TokenLabel.Show() 
 		self.TokenField.Show() 
-		self.OutputField1.Show() 
-		self.OutputField2.Show() 
-		# Hide Fields
-		self.IsIsNot.Hide() 
-		self.OutputField3.Hide() 
 
-		
+##############################################		
 	if RuleSelected == 'Cortina':
 		self.DynamicFieldLabel1.SetLabel('is / is not')
 		self.DynamicFieldLabel2.SetLabel('Value(s)')
+		
+		# Remove fields that are not to be shown
+		self.RemoveDynamicElements()
+		
+		self.TokenLabel.Hide() 
+		self.TokenField.Hide() 
+		
+		#Add correct fields
+		self.IsIsNot	= wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"])
+		self.sizer1.Add(self.IsIsNot)
+		self.OutputField3 = wx.TextCtrl(self.EditRulePanel, value="", size=(165,-1))
+		self.sizer2.Add(self.OutputField3)
+		
 		if self.Settings[u'Type'] == 'Cortina':
 			self.IsIsNot.SetStringSelection(self.Settings[u'Field2'])
 			self.OutputField3.SetValue(self.Settings[u'Field3'])
 		else:
 			self.IsIsNot.SetStringSelection("is")
 			self.OutputField3.SetValue("")
-		# Hide Fields
-		self.TokenLabel.Hide() 
-		self.TokenField.Hide() 
-		self.OutputField1.Hide() 
-		self.OutputField2.Hide() 
-		# Show Fields
-		self.IsIsNot.Show() 
-		self.OutputField3.Show() 	
-		
+	
+	self.EditRulePanel.Layout()
+	
+    def RemoveDynamicElements(self):
+		try:
+			self.sizer1.Remove(self.OutputField1)
+			self.OutputField1.Hide()
+		except: pass
+		try:
+			self.sizer2.Remove(self.OutputField2)	
+			self.OutputField2.Hide()
+		except: pass
+		try:
+			self.sizer1.Remove(self.IsIsNot)
+			self.IsIsNot.Hide()
+		except: 
+			pass
+		try:
+			self.sizer2.Remove(self.OutputField3)	
+			self.OutputField3.Hide()
+		except: 
+			pass
+			
+			
     def OnSaveRuleItem(self, event):
 	RuleOrderBox = int(self.RuleOrder.GetValue())-1
 	RuleSelected = self.RuleSelectDropdown.GetValue()
