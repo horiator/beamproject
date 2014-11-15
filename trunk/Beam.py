@@ -257,27 +257,11 @@ class Frame(wx.Frame):
 #
     def OnClose(self, event):
         closedialog.ShowCloseDialog(self)
-        
-    def OnClose1(self, event):
-        dlg = wx.MessageDialog(self,
-            "Do you really want to close this application?",
-            "Confirm Exit", wx.OK|wx.CANCEL|wx.ICON_QUESTION)
-        result = dlg.ShowModal()
-        dlg.Destroy()
-        if result == wx.ID_OK:
-	    try:
-	    	self.timer.Stop()
-            	del self.timer
-	    except:
-		pass
-	    self.Destroy()
-
 #
 # Show 'About Dialog'
 #
     def OnAbout(self, event):
         aboutdialog.ShowAboutDialog(self)
-        
 #
 # Show 'Help'
 #
