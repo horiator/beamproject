@@ -157,6 +157,7 @@ class Preferences(wx.Dialog):
 
 	self.LayoutList = wx.ListBox(panel,-1, size=wx.DefaultSize, choices=[], style= wx.LB_NEEDED_SB)
         self.LayoutList.SetBackgroundColour(wx.Colour(255, 255, 255))
+	self.LayoutList.Bind(wx.EVT_LISTBOX_DCLICK, self.OnEditLayout)
 
 	# Load data into table
 	self.BuildLayoutList()
@@ -206,6 +207,7 @@ class Preferences(wx.Dialog):
 
 	self.RuleList = wx.ListBox(panel,-1, size=wx.DefaultSize, choices=self.RuleRows, style= wx.LB_NEEDED_SB)
         self.RuleList.SetBackgroundColour(wx.Colour(255, 255, 255))
+	self.RuleList.Bind(wx.EVT_LISTBOX_DCLICK, self.OnEditRule)
 
 	# Load data into table
 	self.BuildRuleList()
