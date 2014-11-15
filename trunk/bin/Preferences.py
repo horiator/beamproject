@@ -255,7 +255,7 @@ class Preferences(wx.Dialog):
 
     def loadBackground(self, event):
         openFileDialog = wx.FileDialog(self, "Open", "", "", 
-                                       "Image files (*.png)|*.png", 
+                                       "Image files PNG (*.png)|*.png|Image files JPEG (*.jpg)|*.jpg", 
                                        wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
 	if openFileDialog.ShowModal() == wx.ID_OK:        
 		self.BackgroundPath = openFileDialog.GetPath()
