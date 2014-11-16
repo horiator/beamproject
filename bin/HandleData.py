@@ -22,13 +22,13 @@
 #    	- Initial release
 #
 import subprocess, sys, wx
-from Modules import audaciousModule, rhythmboxModule
+from Modules import audaciousModule, rhythmboxModule, itunesWindowsModule
 
 def Init(self):
 
 	# Initialize based on module selected
 
-	if self.ModuleSelected in ('Audacious', 'Rhythmbox'):
+	if self.ModuleSelected in ('Audacious', 'Rhythmbox','Itunes'):
 		# If the configuration have a timer on how often to update the data
 		try:
 			# There is not timer, so create and start it
@@ -40,7 +40,7 @@ def Init(self):
 			self.timer.Stop()
 			self.timer.Start(self.updateTimer)
 
-	if self.ModuleSelected in ('Itunes'):
+	if self.ModuleSelected in ('Traktor'):
 		pass
 	
 	return 
@@ -64,7 +64,8 @@ def GetData(self):
 		Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = audaciousModule.run(self.MaxTandaLength)
 	if self.ModuleSelected == 'Rhythmbox':
 		Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = rhythmboxModule.run(self.MaxTandaLength)
-
+	if self.ModuleSelected == 'Itunes':
+		Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = itunesWindowsModule.run(self.MaxTandaLength)
 	# Parse data using FilterData
 	FilterData(self, Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus)
 	
