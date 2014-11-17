@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 #    Copyright (C) 2014 Mikael Holber http://mywebsite.com
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -32,7 +33,6 @@ try:
 	import win32com.client
 except ImportError:
 	pass
-
 	
 def run(MaxTandaLength):
 
@@ -71,16 +71,18 @@ def run(MaxTandaLength):
 		while searchsong < currentsong+MaxTandaLength+2:
 			try:
 				Track = itunes.CurrentTrack.Playlist.Tracks.Item(searchsong)
-				Artist.append(Track.Artist)
-				Album.append(Track.Album)
-				Title.append(Track.Name)
-				Genre.append(Track.Genre)
-				Comment.append(Track.Comment)
-				Composer.append(Track.Composer)
+				Artist.append((Track.Artist).encode('cp1250'))
+				Album.append((Track.Album).encode('cp1250'))
+				Title.append((Track.Name).encode('cp1250'))
+				Genre.append((Track.Genre).encode('cp1250'))
+				Comment.append((Track.Comment).encode('cp1250'))
+				Composer.append((Track.Composer).encode('cp1250'))
 				Year.append(Track.Year)
-				searchsong = searchsong+1
+				
 			except:
 				break
+			searchsong = searchsong+1
+
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 	
 	else:
