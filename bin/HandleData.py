@@ -123,7 +123,6 @@ def FilterData(self, Artist, Album, Title, Genre, Comment, Composer, Year, playb
 			NextTanda = [Artist[j+1], Album[j+1], Title[j+1], Genre[j+1], Comment [j+1], Composer[j+1], Year[j+1]]
 		if IsCortina[j] and IsCortina[j+1]:
 			break
-	
 	#
 	# Display
 	#
@@ -143,6 +142,8 @@ def FilterData(self, Artist, Album, Title, Genre, Comment, Composer, Year, playb
 							self.DisplayRow[j] = eval(MyDisplay['Field'])
 						except:
 							self.DisplayRow[j] = MyDisplay['Field']
+					else:
+						self.DisplayRow[j] = ""
 				except:
 					self.DisplayRow[j] = ''
 				
