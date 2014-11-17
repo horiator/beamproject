@@ -12,8 +12,8 @@
     }, 
     {
       "Modules": [
-        "FooBar2000", 
-        "Itunes"
+        "Itunes", 
+        "Winamp"
       ], 
       "System": "Windows"
     }, 
@@ -70,7 +70,7 @@
       "Type": "Parse"
     }
   ], 
-  "Module": "Audacious", 
+  "Module": "Winamp", 
   "Bgimage": "backgrounds/bg1920x1080px.jpg", 
   "DisplayWhenStopped": [
     {
@@ -114,8 +114,8 @@
         8, 
         50
       ], 
-      "FontColor": "(255,255,255,255)", 
-      "Font": "Decorative", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Font": "Roman", 
       "Size": 9
     }, 
     {
@@ -129,7 +129,7 @@
         10
       ], 
       "FontColor": "(255, 255, 255, 255)", 
-      "Font": "Decorative", 
+      "Font": "Roman", 
       "Size": 11
     }, 
     {
@@ -143,7 +143,7 @@
         1
       ], 
       "FontColor": "(255,255,255,255)", 
-      "Font": "Decorative", 
+      "Font": "Roman", 
       "Size": 9.5
     }, 
     {
@@ -156,8 +156,8 @@
         65, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
-      "Font": "Decorative", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Font": "Roman", 
       "Size": 5
     }, 
     {
@@ -170,8 +170,8 @@
         73, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
-      "Font": "Decorative", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Font": "Roman", 
       "Size": 5
     }
   ]
