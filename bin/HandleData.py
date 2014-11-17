@@ -22,13 +22,13 @@
 #    	- Initial release
 #
 import subprocess, sys, wx
-from Modules import audaciousModule, rhythmboxModule, itunesWindowsModule
+from Modules import audaciousModule, rhythmboxModule, itunesWindowsModule, winampWindowsModule
 
 def Init(self):
 
 	# Initialize based on module selected
 
-	if self.ModuleSelected in ('Audacious', 'Rhythmbox','Itunes'):
+	if self.ModuleSelected in ('Audacious', 'Rhythmbox','Itunes','Winamp'):
 		# If the configuration have a timer on how often to update the data
 		try:
 			# There is not timer, so create and start it
@@ -66,6 +66,9 @@ def GetData(self):
 		Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = rhythmboxModule.run(self.MaxTandaLength)
 	if self.ModuleSelected == 'Itunes':
 		Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = itunesWindowsModule.run(self.MaxTandaLength)
+	if self.ModuleSelected == 'Winamp':
+		Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = winampWindowsModule.run(self.MaxTandaLength)
+
 	# Parse data using FilterData
 	FilterData(self, Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus)
 	
