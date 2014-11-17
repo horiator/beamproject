@@ -21,8 +21,11 @@
 #    XX/XX/2014 Version 1.0
 #    	- Initial release
 #
-import subprocess, sys, wx
-from Modules import audaciousModule, rhythmboxModule, itunesWindowsModule#, winampWindowsModule
+import subprocess, sys, wx, platform
+if platform.system() == 'Linux':
+	from Modules import audaciousModule, rhythmboxModule
+if platform.system() == 'Windows':
+	itunesWindowsModule, winampWindowsModule
 
 def Init(self):
 
@@ -67,9 +70,12 @@ def GetData(self):
 		Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = rhythmboxModule.run(self.MaxTandaLength)
 	if self.ModuleSelected == 'Itunes':
 		Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = itunesWindowsModule.run(self.MaxTandaLength)
-#	if self.ModuleSelected == 'Winamp':
-#		Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = winampWindowsModule.run(self.MaxTandaLength)
-
+	try: #required due to loaded modules
+		if self.ModuleSelected == 'Winamp':
+			Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = winampWindowsModule.run(self.MaxTandaLength)
+	except:
+		pass
+		
 	# Parse data using FilterData
 	FilterData(self, Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus)
 	
