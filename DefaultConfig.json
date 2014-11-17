@@ -70,7 +70,7 @@
       "Type": "Parse"
     }
   ], 
-  "Module": "Winamp", 
+  "Module": "Audacious", 
   "Bgimage": "backgrounds/bg1920x1080px.jpg", 
   "DisplayWhenStopped": [
     {
