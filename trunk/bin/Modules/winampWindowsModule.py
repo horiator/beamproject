@@ -56,6 +56,7 @@ def run(MaxTandaLength):
 
 		#Declare our position
 		currentsong	= winamp.getListPosition()
+		listlength		= winamp.getListLength()
 
 		# Extract previous song
 		if currentsong == 0:
@@ -63,22 +64,20 @@ def run(MaxTandaLength):
 		else:
 			searchsong = currentsong-1 # Start on previous song
 		
-		while searchsong < currentsong+MaxTandaLength+2:
-			#try:
+		while searchsong < currentsong+MaxTandaLength+2 and searchsong < listlength:
+			try:
 				TrackURL = winamp.getPlaylistFile(searchsong)
 				id3info = ID3(TrackURL)
 				Artist.append(id3info.artist)
-				print id3info.artist
 				Album.append(id3info.album)
 				Title.append(id3info.title)
 				Genre.append(str(id3info.genre)) # Comes as a number, need table to transfer
 				Comment.append(id3info.comment)
 				Year.append(id3info.year)
 				
-			#except:
-			#	break
-				searchsong = searchsong+1
-
+			except:
+				break
+			searchsong = searchsong+1
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 	
 	else:
