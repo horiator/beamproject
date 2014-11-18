@@ -13,7 +13,8 @@
     {
       "Modules": [
         "Itunes", 
-        "Winamp"
+        "Winamp",
+	"MediaMonkey"
       ], 
       "System": "Windows"
     }, 
