@@ -25,7 +25,7 @@ import subprocess, sys, wx, platform
 if platform.system() == 'Linux':
 	from Modules import audaciousModule, rhythmboxModule
 if platform.system() == 'Windows':
-	itunesWindowsModule, winampWindowsModule
+	itunesWindowsModule, winampWindowsModule, MediaMonkeyModule
 
 def Init(self):
 
@@ -75,6 +75,8 @@ def GetData(self):
 			Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = winampWindowsModule.run(self.MaxTandaLength)
 	except:
 		pass
+	if self.ModuleSelected == 'MediaMonkey':
+		Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = MediaMonkeyModule.run(self.MaxTandaLength)
 		
 	# Parse data using FilterData
 	FilterData(self, Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus)
