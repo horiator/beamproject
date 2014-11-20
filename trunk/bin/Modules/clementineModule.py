@@ -57,8 +57,6 @@ def run(MaxTandaLength):
 	#Declare our position
 	currentsong	= tracklist.GetCurrentTrack()
 	listlength		= tracklist.GetLength()
-	print currentsong
-	print listlength
 
 	# Extract previous song
 	if currentsong == 0:
