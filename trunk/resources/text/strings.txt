@@ -1,0 +1,5 @@
+#YAML format
+
+defaultConfigFileName: "DefaultConfig.json"
+
+mainFrameTitle: "Beam"
