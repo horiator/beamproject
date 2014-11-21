@@ -45,6 +45,7 @@ class BeamSettings:
                   "Slant":wx.FONTSTYLE_SLANT
                     }
 
+    defaultConfigFileName = "DefaultConfig.json"
     mainFrameTitle = "Beam"
     
     def __init__(self):

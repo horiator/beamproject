@@ -211,15 +211,11 @@ class Preferences(wx.Dialog):
         beamSettings._updateTimer        = int(self.TimerText.GetValue())
         beamSettings._maxTandaLength     =  int(self.TandaLength.GetValue())
             #try:
-        confFile = open(os.path.join(os.getcwd(), 'DefaultConfig.json'), 'w')
+        confFile = open(os.path.join(os.getcwd(), beamSettings.defaultConfigFileName), 'w')
         beamSettings.SaveConfig(confFile)    
         confFile.close()
-            #except:
-            #   print 'Error: Could not write to DefaultConfig.json'
-        #except:
-        #   print 'Error: Update timer contains letters.'
         
-        # Reload settings for main window
+        # Apply current settings for the main frame
         self.MainWindowParent.applyCurrentSettings()
 
 #
