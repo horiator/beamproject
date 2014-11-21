@@ -272,9 +272,7 @@ class Frame(wx.Frame):
 #app = wx.App(redirect=True)    # Error messages go to popup window
 app = wx.App(False)             # Error messages go to terminal, for debugging purposes
 
-filename = 'DefaultConfig.json' 
-dirname = os.getcwd()
-confFile = open(os.path.join(dirname, filename), 'r')
+confFile = open(os.path.join(os.getcwd(), beamSettings.defaultConfigFileName), 'r')
 beamSettings.LoadConfig(confFile)
 confFile.close()
 print beamSettings.mainFrameTitle
