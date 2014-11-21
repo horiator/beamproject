@@ -22,7 +22,7 @@
 #       - Initial release
 #
 
-import json, wx, platform
+import json, wx, platform, os
 
 
 class BeamSettings:
@@ -45,8 +45,11 @@ class BeamSettings:
                   "Slant":wx.FONTSTYLE_SLANT
                     }
 
-    defaultConfigFileName = "DefaultConfig.json"
-    mainFrameTitle = "Beam"
+    # strings resources JSON format
+    stringResources = json.load(open(os.getcwd() + "/resources/text/strings.txt", "r"))
+
+    defaultConfigFileName = stringResources["defaultConfigFileName"]
+    mainFrameTitle = stringResources["mainFrameTitle"]
     
     def __init__(self):
         self._moduleSelected    = ''

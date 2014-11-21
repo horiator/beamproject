@@ -1,5 +1,5 @@
-#YAML format
-
-defaultConfigFileName: "DefaultConfig.json"
-
-mainFrameTitle: "Beam"
+{
+  "Comment": "This JSON files contains the strings resources to be used by Beam",
+  "defaultConfigFileName": "DefaultConfig.json",
+  "mainFrameTitle": "Beam"
+}
