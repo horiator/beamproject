@@ -50,6 +50,8 @@ class BeamSettings:
 
     defaultConfigFileName = stringResources["defaultConfigFileName"]
     mainFrameTitle = stringResources["mainFrameTitle"]
+    aboutDialogDescription = stringResources["aboutDialogDescription"]
+    aboutDialogLicense = stringResources["aboutDialogLicense"]
     
     def __init__(self):
         self._moduleSelected    = ''
