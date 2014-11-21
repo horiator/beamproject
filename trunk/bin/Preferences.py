@@ -220,7 +220,7 @@ class Preferences(wx.Dialog):
         #   print 'Error: Update timer contains letters.'
         
         # Reload settings for main window
-        self.MainWindowParent.LoadSettings(self.MainWindowParent)
+        self.MainWindowParent.applyCurrentSettings()
 
 #
 # Cancel preferences
@@ -236,7 +236,7 @@ class Preferences(wx.Dialog):
                                        "Image files PNG (*.png)|*.png|Image files JPEG (*.jpg)|*.jpg", 
                                        wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
         if openFileDialog.ShowModal() == wx.ID_OK:        
-            self.BackgroundPath = openFileDialog.GetPath()
+            beamSettings._backgroundPath = openFileDialog.GetPath()
             openFileDialog.Destroy()
 
 

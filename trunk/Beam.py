@@ -85,12 +85,22 @@ class Frame(wx.Frame):
 
         self.SetStatusText('Ready')
 
-########################## END INIT FRAME #########################
-
-
 # Start timer or Thread
         HandleData.Init(self)
+    # Create an empty display line
+        self.DisplayRow = []
+        for i in range(0, len(beamSettings._myDisplaySettings)): self.DisplayRow.append('')
     
+    # Set background image
+        self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
+        self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
+    
+    # Update
+        self.updateData(self)
+
+########################## END FRAME INITIALIZATION #########################
+
+    def applyCurrentSettings(self):
     # Create an empty display line
         self.DisplayRow = []
         for i in range(0, len(beamSettings._myDisplaySettings)): self.DisplayRow.append('')
