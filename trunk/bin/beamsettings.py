@@ -52,6 +52,10 @@ class BeamSettings:
     mainFrameTitle = stringResources["mainFrameTitle"]
     aboutDialogDescription = stringResources["aboutDialogDescription"]
     aboutDialogLicense = stringResources["aboutDialogLicense"]
+    aboutCopyright = stringResources["aboutCopyright"]
+    aboutWebsite = stringResources["aboutWebsite"]
+    aboutDeveloper = stringResources["aboutDeveloper"]
+    aboutArtist = stringResources["aboutArtist"]
     
     def __init__(self):
         self._moduleSelected    = ''

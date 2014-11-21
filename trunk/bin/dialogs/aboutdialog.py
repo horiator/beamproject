@@ -34,18 +34,16 @@ from bin.beamsettings import *
 
 def ShowAboutDialog(self):
     
-    description = beamSettings.aboutDialogDescription
-    licence = textwrap.fill(beamSettings.aboutDialogLicense, 100)
-    
+       
     info = wx.AboutDialogInfo()
     info.SetIcon(wx.Icon(self.icon, wx.BITMAP_TYPE_PNG))
-    info.SetName('Beam')
+    info.SetName(beamSettings.mainFrameTitle)
     info.SetVersion('0.1')
-    info.SetDescription(description)
-    info.SetCopyright('(C) 2014 - 2015 Mikael Holber')
-    info.SetWebSite('http://www.beam-project.com')
-    
-    info.SetLicence(licence)
-    info.AddDeveloper('Mikael Holber and Horia Uifaleanu')
-    info.AddArtist('Artwork by Andreea Vlad - www.andreeavlad.com')
+    info.SetDescription(beamSettings.aboutDialogDescription)
+    info.SetLicence(textwrap.fill(beamSettings.aboutDialogLicense, 100))    
+    info.SetCopyright(beamSettings.aboutCopyright)
+    info.SetWebSite(beamSettings.aboutWebsite)
+    info.AddDeveloper(beamSettings.aboutDeveloper)
+    info.AddArtist(beamSettings.aboutArtist)
+
     wx.AboutBox(info)
