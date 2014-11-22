@@ -74,8 +74,6 @@ class beamMainFrame(wx.Frame):
 
         self.SetStatusText('Ready')
 
-# Start timer or Thread
-        HandleData.Init(self)
     # Create an empty display line
         self.DisplayRow = []
         for i in range(0, len(beamSettings._myDisplaySettings)): self.DisplayRow.append('')
