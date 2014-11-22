@@ -69,7 +69,7 @@ class Preferences(wx.Dialog):
 #
     def BasicSettings(self, notebook):
     
-        panel = wx.Panel(notebook)
+        panel = wx.Panel(self)
 
         # Module dropdown
         Mediaplayer = wx.StaticText(panel, -1, "Mediaplayer", (10,7))
@@ -110,7 +110,7 @@ class Preferences(wx.Dialog):
 
     def LayoutSettings(self, notebook):
         
-        panel = wx.Panel(notebook)
+        panel = wx.Panel(self)
         self.DisplayRows = []
 
         self.AddLayout  = wx.Button(panel, label="Add")
@@ -154,7 +154,7 @@ class Preferences(wx.Dialog):
 
     def RulesSettings(self, notebook):
     
-        panel = wx.Panel(notebook)
+        panel = wx.Panel(self)
         
         self.RuleRows = []
         
