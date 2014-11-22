@@ -26,32 +26,9 @@ import subprocess, sys, wx, platform
 from bin.beamsettings import *
 
 if platform.system() == 'Linux':
-	from Modules import audaciousModule, rhythmboxModule, clementineModule
+    from Modules import audaciousModule, rhythmboxModule, clementineModule
 if platform.system() == 'Windows':
-	itunesWindowsModule, winampWindowsModule, MediaMonkeyModule
-
-def Init(self):
-
-    # Initialize based on module selected
-    global beamSettings
-    if beamSettings._moduleSelected in ('Audacious', 'Rhythmbox','Itunes','Winamp','Clementine'):
-        # If the configuration have a timer on how often to update the data
-        try:
-            # There is not timer, so create and start it
-            self.timer = wx.Timer(self)
-            self.Bind(wx.EVT_TIMER, self.updateData, self.timer)
-            self.timer.Start(beamSettings._updateTimer)
-        except:
-            # There is already a timer restart with new update timing
-            self.timer.Stop()
-            self.timer.Start(beamSettings._updateTimer)
-	    
-    if beamSettings._moduleSelected in ('Traktor'):
-        # Other method, like read playlist from disk.
-        pass
-    
-    return 
-
+    itunesWindowsModule, winampWindowsModule, MediaMonkeyModule
 
 ########################################################################
 
