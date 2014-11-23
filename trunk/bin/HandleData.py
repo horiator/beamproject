@@ -26,7 +26,7 @@ import subprocess, sys, wx, platform
 from bin.beamsettings import *
 
 if platform.system() == 'Linux':
-    from Modules import audaciousModule, rhythmboxModule, clementineModule
+    from Modules import audaciousModule, rhythmboxModule, clementineModule, bansheeModule
 if platform.system() == 'Windows':
     itunesWindowsModule, winampWindowsModule, MediaMonkeyModule
 
@@ -52,6 +52,8 @@ def GetData(self):
         Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = itunesWindowsModule.run(beamSettings._maxTandaLength)
     if beamSettings._moduleSelected == 'Clementine':
         Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = clementineModule.run(beamSettings._maxTandaLength)
+    if beamSettings._moduleSelected == 'Banshee':
+        Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = bansheeModule.run(beamSettings._maxTandaLength)
     try: #required due to loaded modules
         if beamSettings._moduleSelected == 'Winamp':
             Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = winampWindowsModule.run(beamSettings._maxTandaLength)
