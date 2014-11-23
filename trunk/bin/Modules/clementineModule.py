@@ -44,46 +44,73 @@ def run(MaxTandaLength):
 	Album 		= []
 	Title	 		= []
 	Genre	 	= []
-	Comment	= []
-	Composer	= []
+	Comment		= []
+	Composer		= []
 	Year			= []
 	playbackStatus  = ''
-
-	bus = dbus.SessionBus()
-	player = bus.get_object('org.mpris.clementine', '/Player')
-	tracklist = bus.get_object('org.mpris.clementine', '/TrackList')
 	
+	try:
+	    bus = dbus.SessionBus()
+	    player = bus.get_object('org.mpris.clementine', '/Player')
+	    tracklist = bus.get_object('org.mpris.clementine', '/TrackList')
+	except:
+	    playbackStatus  = 'Media player not running'
+	    return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 	
-	#Declare our position
-	currentsong	= tracklist.GetCurrentTrack()
-	listlength		= tracklist.GetLength()
-
-	# Extract previous song
-	if currentsong == 0:
-		searchsong = currentsong # Start on the current song
-	else:
-		searchsong = currentsong-1 # Start on previous song
+	# Playstatus: 0 = Playing, 1 = Paused, 2 = Stopped
+	Status = player.GetStatus()[0] 
+	
+	if Status == 0:
+		playbackStatus = 'Playing'
 		
-	while searchsong < currentsong+MaxTandaLength+2 and listlength-1:
-		#try:
-			Track = tracklist.GetMetadata(searchsong)
-			try:
-				Artist.append((Track[u'artist'].encode('utf-8')).encode('cp1250'))
-			except:
-				Artist.append("")
-			Album.append(Track[u'album'].encode('cp1250'))
-			Title.append(Track[u'title'].encode('cp1250'))
-			Genre.append(Track[u'genre'].encode('cp1250'))
-			Comment.append(Track[u'comment'].encode('cp1250'))
-			Composer.append("")
-			Year.append(Track[u'year'])
-			searchsong = searchsong+1
-		#except:
-		#		break
-				
-	
-	
-	
-	return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+		#Declare our position
+		currentsong	= tracklist.GetCurrentTrack()
+		listlength		= tracklist.GetLength()
 
+		# Extract previous song
+		if currentsong == '0':
+			searchsong = currentsong # Start on the current song
+		else:
+			searchsong = currentsong-1 # Start on previous song
+			
+		while searchsong < currentsong+MaxTandaLength+2 and listlength-1:
+				Track = tracklist.GetMetadata(searchsong)
+				try:
+				    Artist.append((Track[u'artist']).encode('utf-8'))
+				except:
+				    Artist.append("")
+				try:
+				    Album.append((Track[u'album']).encode('utf-8'))
+				except:
+				     Album.append("")
+				try:
+				    Title.append((Track[u'title']).encode('utf-8'))
+				except:
+				     Title.append("")
+				try:
+				     Genre.append((Track[u'genre']).encode('utf-8'))
+				except:
+				    Genre.append("")
+				try:
+				    Comment.append((Track[u'comment']).encode('utf-8'))
+				except:
+				     Comment.append("")
+				try:
+				     Composer.append((Track[u'composer']).encode('utf-8'))
+				except:
+				     Composer.append("")
+				try:			
+				     Year.append(Track[u'year'])
+				except:
+				     Year.append("")
+				searchsong = searchsong+1
+					
+		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 	
+	if Status == 1:
+		playbackStatus = 'Paused'
+		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+		
+	if Status == 2:
+		playbackStatus = 'Stopped'
+		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus

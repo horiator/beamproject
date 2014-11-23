@@ -6,15 +6,16 @@
     {
       "Modules": [
         "Audacious", 
-        "Rhythmbox"
+        "Rhythmbox", 
+        "Clementine"
       ], 
       "System": "Linux"
     }, 
     {
       "Modules": [
         "Itunes", 
-        "Winamp",
-	"MediaMonkey"
+        "Winamp", 
+        "MediaMonkey"
       ], 
       "System": "Windows"
     }, 
@@ -71,36 +72,36 @@
       "Type": "Parse"
     }
   ], 
-  "Module": "Audacious", 
+  "Module": "Clementine", 
   "Bgimage": "backgrounds/bg1920x1080px.jpg", 
   "DisplayWhenStopped": [
     {
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
+      "Row": 1, 
       "Field": "Beam Me Up", 
-      "Size": 10, 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
         30, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Row": 1
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
+      "Row": 2, 
       "Field": "Scotty", 
-      "Size": 7, 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
         50, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Row": 2
+      "Size": 7
     }
   ], 
   "MaxTandaLength": 4, 
@@ -111,11 +112,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Artist[1]", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         8, 
         50
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 9
     }, 
@@ -125,11 +126,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Title[1]", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         23, 
         10
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 11
     }, 
@@ -139,13 +140,13 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Singer[1]", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         40, 
         1
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Roman", 
-      "Size": 9.5
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
@@ -153,11 +154,11 @@
       "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "Next Tanda:", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         65, 
         0
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 5
     }, 
@@ -167,11 +168,11 @@
       "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "NextTanda[3]+' - '+NextTanda[0]", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         73, 
         0
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 5
     }
