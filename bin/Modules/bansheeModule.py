@@ -36,11 +36,7 @@ try:
 except ImportError:
     found = False
     
-from ID3 import *
-
 def run(MaxTandaLength):
-	bus = dbus.SessionBus()
-	proxy = False
 
 	Artist 		= []
 	Album 		= []
@@ -50,10 +46,23 @@ def run(MaxTandaLength):
 	Composer		= []
 	Year			= []
 	playbackStatus  = ''
-
-	if banshee = bus.get_object("org.bansheeproject.Banshee", "/org/bansheeproject/Banshee/PlayerEngine")
-
 	
+	#try:
+	bus = dbus.SessionBus()
+	banshee = bus.get_object("org.bansheeproject.Banshee", "/org/bansheeproject/Banshee/PlayerEngine")
+	BansheeState = banshee.GetCurrentState()
+	if BansheeState == 'playing':
+		playbackStatus = 'Playing'
+	elif BansheeState == 'paused':
+		playbackStatus = 'Paused'
+		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+	else:
+		playbackStatus = 'Stopped'
+		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+	#except:
+	   # playbackStatus  = 'Media player not running'
+	    #return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+	    
 	# If I cannot find previous, then set them to nothing
 	Artist.append('')
 	Album.append('')
@@ -62,22 +71,36 @@ def run(MaxTandaLength):
 	Comment.append('')
 	Composer.append('')
 	Year.append('')
-
 	# Retrieve current song
-	if proxy != False:
-		properties_manager = dbus.Interface(proxy, 'org.freedesktop.DBus.Properties')
-		metadata = properties_manager.Get('org.mpris.MediaPlayer2.Player', 'Metadata')
-		playbackStatus = properties_manager.Get('org.mpris.MediaPlayer2.Player', 'PlaybackStatus')
-		if playbackStatus == 'Playing':
-			for each in metadata:
-				if each == "xesam:url":
-					CurrentUrl = metadata = metadata[each]
-					id3info = ID3(CurrentUrl.replace("file://", "").replace("%20"," "))
-					Artist.append(id3info.artist)
-					Album.append(id3info.album)
-					Title.append(id3info.title)
-					Genre.append(str(id3info.genre)) # Comes as a number, need table to transfer
-					Comment.append(id3info.comment)
-					Year.append(id3info.year)
-
+	if playbackStatus == 'Playing':
+		currentTrack = banshee.GetCurrentTrack()
+		try:
+			Artist.append(currentTrack[u'artist'].encode('utf-8'))
+		except:
+			Artist.append('')
+		try:
+			Title.append(currentTrack[u'name'].encode('utf-8'))
+		except:
+			Title.append('')
+		try:
+			Album.append(currentTrack[u'album'].encode('utf-8'))
+		except:
+			Album.append('')
+		try:
+			Genre.append(currentTrack[u'genre'].encode('utf-8'))
+		except:
+			Genre.append('')
+		try:
+			Comment.append(currentTrack[u'comment'].encode('utf-8'))
+		except:
+			Commen.append('')
+		try:
+			Composer.append(currentTrack[u'composer'].encode('utf-8'))
+		except:
+			Composer.append('')
+		try:
+			Year.append(currentTrack[u'year'])
+		except:
+			year.append('')
+				
 	return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus

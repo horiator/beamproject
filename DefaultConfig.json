@@ -6,16 +6,17 @@
     {
       "Modules": [
         "Audacious", 
-        "Rhythmbox", 
-        "Clementine"
+        "Banshee", 
+        "Clementine", 
+        "Rhythmbox"
       ], 
       "System": "Linux"
     }, 
     {
       "Modules": [
         "Itunes", 
-        "Winamp", 
-        "MediaMonkey"
+        "MediaMonkey", 
+        "Winamp"
       ], 
       "System": "Windows"
     }, 
@@ -72,7 +73,7 @@
       "Type": "Parse"
     }
   ], 
-  "Module": "Rhythmbox", 
+  "Module": "Banshee", 
   "Bgimage": "backgrounds/bg1920x1080px.jpg", 
   "DisplayWhenStopped": [
     {
