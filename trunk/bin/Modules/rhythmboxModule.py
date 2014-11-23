@@ -38,8 +38,6 @@ except ImportError:
     
 
 def run(MaxTandaLength):
-	bus = dbus.SessionBus()
-	proxy = False
 
 	Artist 		= []
 	Album 		= []
@@ -50,9 +48,17 @@ def run(MaxTandaLength):
 	Year		= []
 	playbackStatus  = ''
 
-	if bus.name_has_owner('org.gnome.Rhythmbox3'):
+	try:
+		bus = dbus.SessionBus()
+		bus.name_has_owner('org.gnome.Rhythmbox3')
 		proxy = bus.get_object('org.gnome.Rhythmbox3','/org/mpris/MediaPlayer2')
-	
+		properties_manager = dbus.Interface(proxy, 'org.freedesktop.DBus.Properties')
+		metadata = properties_manager.Get('org.mpris.MediaPlayer2.Player', 'Metadata')
+		playbackStatus = properties_manager.Get('org.mpris.MediaPlayer2.Player', 'PlaybackStatus')
+	except:
+	    playbackStatus  = 'Media player not running'
+	    return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+	    
 	# If I cannot find previous, then set them to nothing
 	Artist.append('')
 	Album.append('')
@@ -63,35 +69,30 @@ def run(MaxTandaLength):
 	Year.append('')
 
 	# Retrieve current song
-	if proxy != False:
-		properties_manager = dbus.Interface(proxy, 'org.freedesktop.DBus.Properties')
-		metadata = properties_manager.Get('org.mpris.MediaPlayer2.Player', 'Metadata')
-		playbackStatus = properties_manager.Get('org.mpris.MediaPlayer2.Player', 'PlaybackStatus')
-		if playbackStatus == 'Playing':
-			try:
-				Artist.append((metadata[u'xesam:artist'])[0].encode('utf-8'))
-			except:
-				Artist.append('')
-			try:
-				Album.append(metadata['xesam:album'].encode('utf-8'))
-			except:
-				Album.append('')
-			try:
-				Title.append(metadata['xesam:title'].encode('utf-8'))
-			except:
-				Title.append('')
-			try:
-				Genre.append((metadata['xesam:genre'])[0].encode('utf-8'))
-			except:
-				Genre.append('')
-			try:
-				Comment.append((metadata['xesam:comment'])[0].encode('utf-8'))
-			except:
-				Comment.append('')
-			try:
-				Year.append((metadata['xesam:contentCreated'])[:4].encode('utf-8'))
-			except:
-				Year.append('')
-			print Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+	if playbackStatus == 'Playing':
+		try:
+			Artist.append((metadata[u'xesam:artist'])[0].encode('utf-8'))
+		except:
+			Artist.append('')
+		try:
+			Album.append(metadata['xesam:album'].encode('utf-8'))
+		except:
+			Album.append('')
+		try:
+			Title.append(metadata['xesam:title'].encode('utf-8'))
+		except:
+			Title.append('')
+		try:
+			Genre.append((metadata['xesam:genre'])[0].encode('utf-8'))
+		except:
+			Genre.append('')
+		try:
+			Comment.append((metadata['xesam:comment'])[0].encode('utf-8'))
+		except:
+			Comment.append('')
+		try:
+			Year.append((metadata['xesam:contentCreated'])[:4].encode('utf-8'))
+		except:
+			Year.append('')
 
 	return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
