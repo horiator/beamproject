@@ -36,7 +36,6 @@ try:
 except ImportError:
     found = False
     
-from ID3 import *
 
 def run(MaxTandaLength):
 	bus = dbus.SessionBus()
@@ -69,15 +68,30 @@ def run(MaxTandaLength):
 		metadata = properties_manager.Get('org.mpris.MediaPlayer2.Player', 'Metadata')
 		playbackStatus = properties_manager.Get('org.mpris.MediaPlayer2.Player', 'PlaybackStatus')
 		if playbackStatus == 'Playing':
-			for each in metadata:
-				if each == "xesam:url":
-					CurrentUrl = metadata = metadata[each]
-					id3info = ID3(CurrentUrl.replace("file://", "").replace("%20"," "))
-					Artist.append(id3info.artist)
-					Album.append(id3info.album)
-					Title.append(id3info.title)
-					Genre.append(str(id3info.genre)) # Comes as a number, need table to transfer
-					Comment.append(id3info.comment)
-					Year.append(id3info.year)
+			try:
+				Artist.append((metadata[u'xesam:artist'])[0].encode('utf-8'))
+			except:
+				Artist.append('')
+			try:
+				Album.append(metadata['xesam:album'].encode('utf-8'))
+			except:
+				Album.append('')
+			try:
+				Title.append(metadata['xesam:title'].encode('utf-8'))
+			except:
+				Title.append('')
+			try:
+				Genre.append((metadata['xesam:genre'])[0].encode('utf-8'))
+			except:
+				Genre.append('')
+			try:
+				Comment.append((metadata['xesam:comment'])[0].encode('utf-8'))
+			except:
+				Comment.append('')
+			try:
+				Year.append((metadata['xesam:contentCreated'])[:4].encode('utf-8'))
+			except:
+				Year.append('')
+			print Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 
 	return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
