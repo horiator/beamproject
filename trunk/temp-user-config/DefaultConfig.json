@@ -6,14 +6,16 @@
     {
       "Modules": [
         "Audacious", 
-        "Rhythmbox"
+        "Rhythmbox", 
+        "Clementine"
       ], 
       "System": "Linux"
     }, 
     {
       "Modules": [
-        "FooBar2000", 
-        "Itunes"
+        "Itunes", 
+        "Winamp", 
+        "MediaMonkey"
       ], 
       "System": "Windows"
     }, 
@@ -27,7 +29,7 @@
   "Author": "Mikael Holber - 2014", 
   "Rules": [
     {
-      "Active": "no", 
+      "Active": "yes", 
       "Field2": "Singer", 
       "Field1": "Comment", 
       "Type": "Set"
@@ -70,7 +72,7 @@
       "Type": "Parse"
     }
   ], 
-  "Module": "Audacious", 
+  "Module": "Clementine", 
   "Bgimage": "backgrounds/bg1920x1080px.jpg", 
   "DisplayWhenStopped": [
     {
@@ -110,12 +112,12 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Artist[1]", 
-      "FontColor": "(255,255,255,255)", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         8, 
         50
       ], 
-      "Font": "Decorative", 
+      "Font": "Roman", 
       "Size": 9
     }, 
     {
@@ -129,7 +131,7 @@
         23, 
         10
       ], 
-      "Font": "Decorative", 
+      "Font": "Roman", 
       "Size": 11
     }, 
     {
@@ -138,13 +140,13 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Singer[1]", 
-      "FontColor": "(255,255,255,255)", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         40, 
         1
       ], 
-      "Font": "Decorative", 
-      "Size": 9.5
+      "Font": "Roman", 
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
@@ -152,12 +154,12 @@
       "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "Next Tanda:", 
-      "FontColor": "(255,255,255,255)", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         65, 
         0
       ], 
-      "Font": "Decorative", 
+      "Font": "Roman", 
       "Size": 5
     }, 
     {
@@ -166,12 +168,12 @@
       "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "NextTanda[3]+' - '+NextTanda[0]", 
-      "FontColor": "(255,255,255,255)", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         73, 
         0
       ], 
-      "Font": "Decorative", 
+      "Font": "Roman", 
       "Size": 5
     }
   ]
