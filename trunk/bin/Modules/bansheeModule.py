@@ -93,7 +93,7 @@ def run(MaxTandaLength):
 		try:
 			Comment.append(currentTrack[u'comment'].encode('utf-8'))
 		except:
-			Commen.append('')
+			Comment.append('')
 		try:
 			Composer.append(currentTrack[u'composer'].encode('utf-8'))
 		except:
