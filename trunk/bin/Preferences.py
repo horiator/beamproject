@@ -84,7 +84,7 @@ class Preferences(wx.Dialog):
         Background.SetFont(font)    
         wx.StaticText(panel, -1, "Select background image (1920x1080 recommended)", (20,110))
         self.browse = wx.Button(panel, label="Browse", pos=(20,129))
-        self.browse.Bind(wx.EVT_BUTTON, self.loadBackground)
+        self.browse.Bind(wx.EVT_BUTTON, self.browseBackgroundImage)
 
         # Wait timer
         waittimer = wx.StaticText(panel, -1, "Settings", (10,167))
@@ -98,10 +98,6 @@ class Preferences(wx.Dialog):
         self.TandaLength = wx.TextCtrl(panel, -1, str(beamSettings._maxTandaLength), (20,263), (140,-1))
 
         return panel
-
-
-
-
 
 
 #
@@ -215,7 +211,7 @@ class Preferences(wx.Dialog):
         beamSettings.SaveConfig(confFile)    
         confFile.close()
         
-        # Apply current settings for the main frame
+        # Apply current settings
         self.MainWindowParent.applyCurrentSettings()
 
 #
@@ -224,10 +220,7 @@ class Preferences(wx.Dialog):
     def onClose(self, e):
         self.Destroy()
 
-    def GetSettings(self):
-        return self.settings
-
-    def loadBackground(self, event):
+    def browseBackgroundImage(self, event):
         openFileDialog = wx.FileDialog(self, "Open", "", "", 
                                        "Image files PNG (*.png)|*.png|Image files JPEG (*.jpg)|*.jpg", 
                                        wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
@@ -241,7 +234,6 @@ class Preferences(wx.Dialog):
 # LAYOUT BUTTONS
 #
 #
-
     def OnAddLayout(self, event):
         self.EditLayout = EditLayoutDialog(self, len(self.DisplayRows), "Add layout item")
         self.EditLayout.Show()
@@ -267,7 +259,6 @@ class Preferences(wx.Dialog):
 #
 # RULE BUTTONS
 #
-            
     def OnAddRule(self, event):
         self.EditRule = EditRuleDialog(self, self.RuleList.GetCount(), "Add rule")
         self.EditRule.Show()
