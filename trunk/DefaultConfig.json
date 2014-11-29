@@ -36,32 +36,32 @@
       "Type": "Set"
     }, 
     {
+      "Active": "no", 
       "Field2": "is", 
-      "Field3": "-- Cortina", 
       "Field1": "Artist", 
       "Type": "Cortina", 
-      "Active": "yes"
+      "Field3": "-- Cortina"
     }, 
     {
+      "Active": "yes", 
       "Field2": "is", 
-      "Field3": "Cortina", 
       "Field1": "Genre", 
       "Type": "Cortina", 
-      "Active": "yes"
+      "Field3": "cortina"
     }, 
     {
+      "Active": "no", 
       "Field2": "is not", 
-      "Field3": "[Tango, Milonga, Vals]", 
       "Field1": "Genre", 
       "Type": "Cortina", 
-      "Active": "yes"
+      "Field3": "[Tango, Milonga, Vals]"
     }, 
     {
       "Field2": "-", 
       "Field3": "Artist", 
       "Field1": "Title", 
-      "Field4": "Title", 
-      "Active": "yes", 
+      "Field4": "Singer", 
+      "Active": "no", 
       "Type": "Parse"
     }, 
     {
@@ -73,7 +73,7 @@
       "Type": "Parse"
     }
   ], 
-  "Module": "Banshee", 
+  "Module": "Audacious", 
   "Bgimage": "backgrounds/bg1920x1080px.jpg", 
   "DisplayWhenStopped": [
     {
@@ -108,18 +108,18 @@
   "MaxTandaLength": 4, 
   "Display": [
     {
-      "Style": "Italic", 
+      "Style": "Normal", 
       "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Artist[1]", 
       "Position": [
         8, 
-        50
+        0
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
+      "FontColor": "(175, 230, 170, 255)", 
       "Font": "Roman", 
-      "Size": 9
+      "Size": 8
     }, 
     {
       "Style": "Italic", 
@@ -133,7 +133,7 @@
       ], 
       "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
-      "Size": 11
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
@@ -159,7 +159,7 @@
         65, 
         0
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
+      "FontColor": "(188, 239, 160, 255)", 
       "Font": "Roman", 
       "Size": 5
     }, 

@@ -33,7 +33,7 @@ if platform.system() == 'Windows':
 ########################################################################
 
 def GetData(self):
-    
+
     # Create local variables
     Artist  = []
     Album   = []
@@ -61,10 +61,10 @@ def GetData(self):
         pass
     if beamSettings._moduleSelected == 'MediaMonkey':
         Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus = MediaMonkeyModule.run(beamSettings._maxTandaLength)
-        
+
     # Parse data using FilterData
     FilterData(self, Artist, Album, Title, Genre, Comment, Composer, Year, self.playbackStatus)
-    
+
     return
 
 
@@ -74,8 +74,8 @@ def GetData(self):
 #   Filters the data from config file and displays it in DisplayRow
 #   Rules are
 #       RuleType:   Parse, NextTanda, Set
-#       
-#        
+#
+#
 
 def FilterData(self, Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus):
 
@@ -84,19 +84,19 @@ def FilterData(self, Artist, Album, Title, Genre, Comment, Composer, Year, playb
 
     #
     # Apply rules, for every song in list
-    #   
+    #
     for j in range(0, len(Artist)):
         for i in range(0, len(beamSettings._rules)):
             Rule = beamSettings._rules[i]
             if Rule[u'Type'] == 'Parse' and Rule[u'Active'] == 'yes':
-                # Find Rule[u'Field2'] in Rule[u'Field1'], 
+                # Find Rule[u'Field2'] in Rule[u'Field1'],
                 # split Rule[u'Field1'] and save into Rule[u'Field3 and 4]
                 if str(Rule[u'Field2']) in str(eval(Rule[u'Field1'])[j]):
                     splitStrings = eval(str(Rule[u'Field1']))[j].split(str(Rule[u'Field2']))
                     [eval(Rule[u'Field3'])[j], eval(Rule[u'Field4'])[j]] = [splitStrings[0], splitStrings[1]]
 
             if Rule[u'Type'] == 'Cortina' and Rule[u'Active'] == 'yes':
-                # Rule[u'Field2'] == is: IsCortina[j] shall be 1 if Rule[u'Field1'] is Rule[u'Field3'] 
+                # Rule[u'Field2'] == is: IsCortina[j] shall be 1 if Rule[u'Field1'] is Rule[u'Field3']
                 if Rule[u'Field2'] == 'is':
                     if str(eval(Rule[u'Field1'])[j]) in str(Rule[u'Field3']):
                         IsCortina[j] = 1
@@ -142,9 +142,9 @@ def FilterData(self, Artist, Album, Title, Genre, Comment, Composer, Year, playb
                     else:
                         self.DisplayRow[j] = ""
                 except:
-                    self.DisplayRow[j] = ''
-                
+                    self.DisplayRow[j] = ""
 
-    return 
 
-    
+    return
+
+
