@@ -19,15 +19,15 @@ class beamMainFrame(wx.Frame):
         wx.Frame.__init__(self, None, title=beamSettings.mainFrameTitle, pos=(150,150), size=(800,600))
     # Set Icon
 
-         #self.bmpIcon = CopyFromBitmap(wx.Image('icons/icon_square/icon_square_256px.png', wx.BITMAP_TYPE_PNG).ConvertToBitmap() 
+         #self.bmpIcon = CopyFromBitmap(wx.Image('icons/icon_square/icon_square_256px.png', wx.BITMAP_TYPE_PNG).ConvertToBitmap()
          #wx.Frame.SetIcon( bmpIcon)
     # Set Icon
         self.icon = 'icons/icon_square/icon_square_256px.png'
-        image = wx.Image(self.icon, wx.BITMAP_TYPE_PNG).ConvertToBitmap() 
-        icon = wx.EmptyIcon() 
-        icon.CopyFromBitmap(image) 
+        image = wx.Image(self.icon, wx.BITMAP_TYPE_PNG).ConvertToBitmap()
+        icon = wx.EmptyIcon()
+        icon.CopyFromBitmap(image)
         self.SetIcon(icon)
-        
+
     # Statusbar
         self.statusbar = self.CreateStatusBar(style=0)
         self.SetStatusText('Initializing...')
@@ -63,40 +63,35 @@ class beamMainFrame(wx.Frame):
         self.AccelTable = wx.AcceleratorTable([(wx.ACCEL_CTRL, ord('F'), CtrlF)])
         self.AccelTable = wx.AcceleratorTable([(wx.ACCEL_CTRL, ord('P'), CtrlP)])
         self.SetAcceleratorTable(self.AccelTable)
-
-    # Load default settings
-        #self.LoadSettings(self) 
-
-    # Background    
+    # Background
         self.Bind(wx.EVT_SIZE, self.OnSize)
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
 
         self.SetStatusText('Ready')
 
-    # Create an empty display line
-        self.DisplayRow = []
-        for i in range(0, len(beamSettings._myDisplaySettings)): self.DisplayRow.append('')
-    
-    # Set background image
-        self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
-        self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
-    
-    # Update
-        self.updateData(self)
+        self.applyCurrentSettings()
+
+
+
+
 ########################## END FRAME INITIALIZATION #########################
 
     def applyCurrentSettings(self):
     # Create an empty display line
         self.DisplayRow = []
         for i in range(0, len(beamSettings._myDisplaySettings)): self.DisplayRow.append('')
-    
+
     # Set background image
         self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
         self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
-    
+        self.triggerBackgroundresize = True
+
     # Update
         self.updateData(self)
+
+        self.Layout()
+        self.Refresh()
 
 #
 # UPDATE THE DATA
@@ -114,11 +109,44 @@ class beamMainFrame(wx.Frame):
     def OnSize(self, size):
         self.Layout()
         self.Refresh()
+        self.triggerBackgroundresize = True
     def OnEraseBackground(self, evt):
         pass
     def OnPaint(self, event):
         dc = wx.BufferedPaintDC(self)
         self.Draw(dc)
+
+    def drawBackgroundBitmap(self, dc):
+
+        cliWidth, cliHeight = self.GetClientSize()
+        if not cliWidth or not cliHeight:
+            return
+        if self.triggerBackgroundresize:
+            # Figure out how to scale the background image and position it
+            aspectRatioWindow = float(cliHeight) / float(cliWidth)
+            aspectRatioBackground = float(self.BackgroundImageHeight) / float(self.BackgroundImageWidth)
+
+            if aspectRatioWindow >= aspectRatioBackground:
+                # Window is too tall, scale to height
+                Image = wx.ImageFromBitmap(self.backgroundImage)
+                Image = Image.Scale(cliHeight*self.BackgroundImageWidth / self.BackgroundImageHeight, cliHeight, wx.IMAGE_QUALITY_NORMAL)
+                self.resizedBitmap = wx.BitmapFromImage(Image)
+
+            if aspectRatioWindow < aspectRatioBackground:
+                # Window is too wide, scale to width
+                Image = wx.ImageFromBitmap(self.backgroundImage)
+                Image = Image.Scale(cliWidth, cliWidth*self.BackgroundImageHeight / self.BackgroundImageWidth, wx.IMAGE_QUALITY_NORMAL)
+                self.resizedBitmap = wx.BitmapFromImage(Image)
+
+            # Position the image and draw it
+            resizedWidth, resizedHeight = self.resizedBitmap.GetSize()
+            self.xPosResized = (cliWidth - resizedWidth)/2
+            self.yPosResized = (cliHeight - resizedHeight)/2
+            dc.DrawBitmap(self.resizedBitmap, self.xPosResized, self.yPosResized)
+            self.triggerBackgroundresize = False
+        else:
+            dc.DrawBitmap(self.resizedBitmap, self.xPosResized, self.yPosResized)
+
 #
 # This is where the scaling of the image takes place
 #
@@ -128,35 +156,8 @@ class beamMainFrame(wx.Frame):
         if not cliWidth or not cliHeight:
             return
         dc.Clear()
-    
-        # If the window is exactly the right size, draw and exit.
-        if cliWidth == self.BackgroundImageWidth and cliHeight == self.BackgroundImageWidth:
-            dc.DrawBitmap(self.BackgroundImage, 0, 0)
-            return
 
-        # Figure out how to scale the background image and position it
-        aspectRatioWindow = float(cliHeight) / float(cliWidth)
-        aspectRatioBackground = float(self.BackgroundImageHeight) / float(self.BackgroundImageWidth)
-        result = self.backgroundImage
-    
-        if aspectRatioWindow >= aspectRatioBackground:
-            # Window is too tall, scale to height
-            Image = wx.ImageFromBitmap(self.backgroundImage)
-            Image = Image.Scale(cliHeight*self.BackgroundImageWidth / self.BackgroundImageHeight, cliHeight, wx.IMAGE_QUALITY_NORMAL)
-            result = wx.BitmapFromImage(Image)
-    
-        if aspectRatioWindow < aspectRatioBackground:
-            # Window is too wide, scale to width
-            Image = wx.ImageFromBitmap(self.backgroundImage)
-            Image = Image.Scale(cliWidth, cliWidth*self.BackgroundImageHeight / self.BackgroundImageWidth, wx.IMAGE_QUALITY_NORMAL)
-            result = wx.BitmapFromImage(Image)
-
-        # Position the image and draw it
-        resultWidth, resultHeight = result.GetSize()
-        xPos = (cliWidth - resultWidth)/2
-        yPos = (cliHeight - resultHeight)/2
-        dc.DrawBitmap(result, xPos, yPos)
-        #
+        self.drawBackgroundBitmap(dc)
         # DRAW TEXT
         #
 
@@ -177,17 +178,17 @@ class beamMainFrame(wx.Frame):
                 text            = Settings['Field']
             # Get size and position
             Size = Settings['Size']*cliHeight/100
-            HeightPosition = int(Settings['Position'][0]*cliHeight/100)    
+            HeightPosition = int(Settings['Position'][0]*cliHeight/100)
             # Set font from settings
             dc.SetFont(wx.Font(Size, beamSettings.FontTypeDictionary[Settings['Font']], beamSettings.FontStyleDictionary[Settings['Style']], beamSettings.FontWeightDictionary[Settings['Weight']]))
-        
+
             # Set font color, in the future, drawing a shadow ofsetted with the same text first might make a shadow!
             dc.SetTextForeground(eval(Settings['FontColor']))
-        
+
             # Check if the text fits, cut it and add ...
-            TextWidth, TextHeight   = dc.GetTextExtent(text)            
+            TextWidth, TextHeight   = dc.GetTextExtent(text)
             # Find length and position of text
-        
+
             # Centered
             if Settings['Center'] == 'yes':
                 while TextWidth > cliWidth:
@@ -199,9 +200,9 @@ class beamMainFrame(wx.Frame):
                 TextWidth, TextHeight = dc.GetTextExtent(text)
             # Position
                 WidthPosition = (cliWidth-TextWidth)/2
-            
+
             # Not Centered
-            else: 
+            else:
                 # Position
                 WidthPosition = int(Settings['Position'][1]*cliWidth/100)
                 while TextWidth > cliWidth-WidthPosition:
@@ -212,7 +213,7 @@ class beamMainFrame(wx.Frame):
                         text = text + '...'
                 TextWidth, TextHeight = dc.GetTextExtent(text)
 
-            
+
             # Draw the text
             dc.DrawText(text, WidthPosition,  HeightPosition)
 
@@ -227,7 +228,7 @@ class beamMainFrame(wx.Frame):
 
 #
 # FULLSCREEN
-# 
+#
     def fullScreen(self, event):
         self.ShowFullScreen(not self.IsFullScreen())
 #
