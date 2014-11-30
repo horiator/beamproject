@@ -146,6 +146,7 @@ class beamMainFrame(wx.Frame):
                 # Window is too wide, scale to width
                 Image = wx.ImageFromBitmap(self.backgroundImage)
                 Image = Image.Scale(cliWidth, cliWidth*self.BackgroundImageHeight / self.BackgroundImageWidth, wx.IMAGE_QUALITY_NORMAL)
+                Image = Image.AdjustChannels(self.red, self.green, self.blue, 1.0)
                 self.resizedBitmap = wx.BitmapFromImage(Image)
 
             # Position the image and draw it
