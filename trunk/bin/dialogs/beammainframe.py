@@ -93,10 +93,8 @@ class beamMainFrame(wx.Frame):
         for i in range(0, len(beamSettings._myDisplaySettings)): self.DisplayRow.append('')
 
     # Set background image
-        self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
-        self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
         self.triggerBackgroundresize = True
-        #self.fadeBackground(50)
+        self.fadeBackground(50)
 
     # Update
         self.updateData(self)
@@ -139,6 +137,9 @@ class beamMainFrame(wx.Frame):
                 # Window is too tall, scale to height
                 Image = wx.ImageFromBitmap(self.backgroundImage)
                 Image = Image.Scale(cliHeight*self.BackgroundImageWidth / self.BackgroundImageHeight, cliHeight, wx.IMAGE_QUALITY_NORMAL)
+                Image = Image.AdjustChannels(self.red, self.green, self.blue, 1.0)
+
+                print self.red
                 self.resizedBitmap = wx.BitmapFromImage(Image)
 
             if aspectRatioWindow < aspectRatioBackground:
@@ -270,7 +271,6 @@ class beamMainFrame(wx.Frame):
         self.delta = float(0.1)
         self.fadeSpeed = fadeSpeed
 
-        self.oldImage = wx.ImageFromBitmap(self.backgroundImage)
 
         # start the timer for the fadeout
         self.timer1.Start(self.fadeSpeed)
@@ -282,24 +282,17 @@ class beamMainFrame(wx.Frame):
         self.blue -= self.delta
         if self.red >= 0 and self.red <= 1:
             # refire the OnPaint event using self.Refresh
-            self.backgroundImage = self.oldImage.AdjustChannels(self.red,self.green, self.blue, 1.0)
             self.Refresh()
-
-            print self.red
+            self.triggerBackgroundresize = True
         else:
             self.timer1.Stop()
-
-            self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
-            print beamSettings._backgroundPath
-            self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
-            self.triggerBackgroundresize = True
-
-            self.newImage = wx.ImageFromBitmap(self.backgroundImage)
             self.red = float(0.0)
             self.green = float(0.0)
             self.blue = float(0.0)
             self.timer2.Start(self.fadeSpeed)
             print "FadeinNewImage"
+            self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
+            self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
 
     # -----------------------------------------------------------------------------------
     def FadeinNewImage(self, event):
@@ -307,9 +300,7 @@ class beamMainFrame(wx.Frame):
         self.green += self.delta
         self.blue += self.delta
         if self.red >= 0 and self.red <= 1:
-            self.backgroundImage = self.newImage.AdjustChannels(self.red,self.green, self.blue, 1.0)
             self.Refresh()
-
-            print self.red
+            self.triggerBackgroundresize = True
         else:
             self.timer2.Stop()
