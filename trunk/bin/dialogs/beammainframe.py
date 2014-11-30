@@ -10,6 +10,8 @@ from bin.dialogs.helpdialog import HelpDialog
 from bin.dialogs import aboutdialog
 from bin.dialogs import closedialog
 
+STYLE = 0|wx.TRANSPARENT_WINDOW
+
 ##################################################
 # MAIN WINDOW - FRAME
 ##################################################
@@ -28,6 +30,13 @@ class beamMainFrame(wx.Frame):
         icon.CopyFromBitmap(image)
         self.SetIcon(icon)
 
+    # faders
+        self.timer1 = wx.Timer(self)
+        self.Bind(wx.EVT_TIMER, self.FadeoutOldImage, self.timer1)
+
+        self.timer2 = wx.Timer(self)
+        self.Bind(wx.EVT_TIMER, self.FadeinNewImage, self.timer2)
+
     # Statusbar
         self.statusbar = self.CreateStatusBar(style=0)
         self.SetStatusText('Initializing...')
@@ -41,7 +50,7 @@ class beamMainFrame(wx.Frame):
         self.menuAbout   = self.Aboutmenu.Append(wx.ID_ABOUT, "&About"," Information about this program")
         self.menuHelp    = self.Aboutmenu.Append(wx.ID_ANY, "&Help"," Getting started")
 
-        # Creating the menubar.
+    # Creating the menubar.
         self.menuBar = wx.MenuBar()
         self.menuBar.Append(self.filemenu,"&File")    # Adding the "file menu" to the MenuBar
         self.menuBar.Append(self.Aboutmenu,"&About")  # Adding the "About menu" to the MenuBar
@@ -70,8 +79,9 @@ class beamMainFrame(wx.Frame):
 
         self.SetStatusText('Ready')
 
+        self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
+        self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
         self.applyCurrentSettings()
-
 
 
 
@@ -86,10 +96,10 @@ class beamMainFrame(wx.Frame):
         self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
         self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
         self.triggerBackgroundresize = True
+        #self.fadeBackground(50)
 
     # Update
         self.updateData(self)
-
         self.Layout()
         self.Refresh()
 
@@ -117,7 +127,6 @@ class beamMainFrame(wx.Frame):
         self.Draw(dc)
 
     def drawBackgroundBitmap(self, dc):
-
         cliWidth, cliHeight = self.GetClientSize()
         if not cliWidth or not cliHeight:
             return
@@ -249,3 +258,58 @@ class beamMainFrame(wx.Frame):
         res = help_dialog.ShowModal()
         help_dialog.Destroy()
 
+    # -----------------------------------------------------------------------------------
+
+
+
+
+    def fadeBackground(self, fadeSpeed = 50):
+        self.red = float(1.0)
+        self.green = float(1.0)
+        self.blue = float(1.0)
+        self.delta = float(0.1)
+        self.fadeSpeed = fadeSpeed
+
+        self.oldImage = wx.ImageFromBitmap(self.backgroundImage)
+
+        # start the timer for the fadeout
+        self.timer1.Start(self.fadeSpeed)
+        print "FadeoutOldImage"
+
+    def FadeoutOldImage(self, event):
+        self.red -= self.delta
+        self.green -= self.delta
+        self.blue -= self.delta
+        if self.red >= 0 and self.red <= 1:
+            # refire the OnPaint event using self.Refresh
+            self.backgroundImage = self.oldImage.AdjustChannels(self.red,self.green, self.blue, 1.0)
+            self.Refresh()
+
+            print self.red
+        else:
+            self.timer1.Stop()
+
+            self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
+            print beamSettings._backgroundPath
+            self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
+            self.triggerBackgroundresize = True
+
+            self.newImage = wx.ImageFromBitmap(self.backgroundImage)
+            self.red = float(0.0)
+            self.green = float(0.0)
+            self.blue = float(0.0)
+            self.timer2.Start(self.fadeSpeed)
+            print "FadeinNewImage"
+
+    # -----------------------------------------------------------------------------------
+    def FadeinNewImage(self, event):
+        self.red += self.delta
+        self.green += self.delta
+        self.blue += self.delta
+        if self.red >= 0 and self.red <= 1:
+            self.backgroundImage = self.newImage.AdjustChannels(self.red,self.green, self.blue, 1.0)
+            self.Refresh()
+
+            print self.red
+        else:
+            self.timer2.Stop()
