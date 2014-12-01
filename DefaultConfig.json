@@ -73,36 +73,36 @@
       "Type": "Parse"
     }
   ], 
-  "Module": "Banshee", 
+  "Module": "Audacious", 
   "Bgimage": "/home/mikael/SVN-workning folder/Beam/backgrounds/Default.png", 
   "DisplayWhenStopped": [
     {
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
-      "Row": 1, 
       "Field": "Beam Me Up", 
-      "FontColor": "(255,255,255,255)", 
+      "Size": 10, 
       "Position": [
         30, 
         0
       ], 
+      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Size": 10
+      "Row": 1
     }, 
     {
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
-      "Row": 2, 
       "Field": "Scotty", 
-      "FontColor": "(255,255,255,255)", 
+      "Size": 7, 
       "Position": [
         50, 
         0
       ], 
+      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Size": 7
+      "Row": 2
     }
   ], 
   "MaxTandaLength": 4, 
@@ -113,11 +113,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Artist[1]", 
-      "FontColor": "(175, 230, 170, 255)", 
       "Position": [
         8, 
         0
       ], 
+      "FontColor": "(175, 230, 170, 255)", 
       "Font": "Swiss", 
       "Size": 7
     }, 
@@ -127,11 +127,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Title[1]", 
-      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         23, 
         10
       ], 
+      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 10
     }, 
@@ -141,11 +141,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Singer[1]", 
-      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         40, 
         1
       ], 
+      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 10
     }, 
@@ -155,11 +155,11 @@
       "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "Next Tanda:", 
-      "FontColor": "(188, 239, 160, 255)", 
       "Position": [
         65, 
         0
       ], 
+      "FontColor": "(188, 239, 160, 255)", 
       "Font": "Roman", 
       "Size": 5
     }, 
@@ -169,11 +169,11 @@
       "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "NextTanda[3]+' - '+NextTanda[0]", 
-      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         73, 
         0
       ], 
+      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 5
     }

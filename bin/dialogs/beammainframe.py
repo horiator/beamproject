@@ -203,8 +203,13 @@ class beamMainFrame(wx.Frame):
             # Centered
             if Settings['Center'] == 'yes':
                 while TextWidth > cliWidth:
-                    text = text[:-1]
-                    TextWidth, TextHeight = dc.GetTextExtent(text)
+		    # Due to spanish letters, we must remove two to get "rid" of the whole character.
+		    try:
+			text = text[:-1]
+			TextWidth, TextHeight = dc.GetTextExtent(text)
+		    except:
+			text = text[:-2]
+			TextWidth, TextHeight = dc.GetTextExtent(text)
                     if TextWidth < cliWidth:
                         text = text[:-2]
                         text = text + '...'
