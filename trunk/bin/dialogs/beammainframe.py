@@ -265,11 +265,11 @@ class beamMainFrame(wx.Frame):
 
 
 
-    def fadeBackground(self, fadeSpeed = 50):
+    def fadeBackground(self, fadeSpeed = 10):
         self.red = float(1.0)
         self.green = float(1.0)
         self.blue = float(1.0)
-        self.delta = float(0.1)
+        self.delta = float(0.25)
         self.fadeSpeed = fadeSpeed
 
 

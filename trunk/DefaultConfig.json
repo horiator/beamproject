@@ -36,7 +36,7 @@
       "Type": "Set"
     }, 
     {
-      "Active": "no", 
+      "Active": "yes", 
       "Field2": "is", 
       "Field1": "Artist", 
       "Type": "Cortina", 
@@ -73,8 +73,8 @@
       "Type": "Parse"
     }
   ], 
-  "Module": "Audacious", 
-  "Bgimage": "/home/horia/work/beamproject/backgrounds/bg1920x1080px.jpg", 
+  "Module": "Banshee", 
+  "Bgimage": "/home/mikael/SVN-workning folder/Beam/backgrounds/Default.png", 
   "DisplayWhenStopped": [
     {
       "Style": "Italic", 
