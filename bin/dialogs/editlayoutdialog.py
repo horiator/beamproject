@@ -9,7 +9,7 @@ from bin.beamsettings import *
 #
 class EditLayoutDialog(wx.Dialog):
     def __init__(self, parent, RowSelected, mode):
-        self.EditLayoutDialog   = wx.Dialog.__init__(self, parent, title=mode, size=(840,210))
+        self.EditLayoutDialog   = wx.Dialog.__init__(self, parent, title=mode, size=(570,210))
         self.EditLayoutPanel    = wx.Panel(self)
         self.parent             = parent
         self.RowSelected        = RowSelected
