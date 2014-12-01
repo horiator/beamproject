@@ -210,8 +210,14 @@ class beamMainFrame(wx.Frame):
 		    except:
 			text = text[:-2]
 			TextWidth, TextHeight = dc.GetTextExtent(text)
+			
                     if TextWidth < cliWidth:
-                        text = text[:-2]
+			try:
+			    text = text[:-2]
+			    TextWidth, TextHeight = dc.GetTextExtent(text)
+			except:
+			    text = text[:-3]
+			    TextWidth, TextHeight = dc.GetTextExtent(text)
                         text = text + '...'
                 TextWidth, TextHeight = dc.GetTextExtent(text)
             # Position
