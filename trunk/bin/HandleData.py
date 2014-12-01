@@ -28,7 +28,7 @@ from bin.beamsettings import *
 if platform.system() == 'Linux':
     from Modules import audaciousModule, rhythmboxModule, clementineModule, bansheeModule
 if platform.system() == 'Windows':
-    itunesWindowsModule, winampWindowsModule, MediaMonkeyModule
+    from Modules import itunesWindowsModule, winampWindowsModule, MediaMonkeyModule
 
 ########################################################################
 
