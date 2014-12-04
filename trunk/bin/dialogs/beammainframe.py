@@ -203,21 +203,10 @@ class beamMainFrame(wx.Frame):
             # Centered
             if Settings['Center'] == 'yes':
                 while TextWidth > cliWidth:
-		    # Due to spanish letters, we must remove two to get "rid" of the whole character.
-		    try:
-			text = text[:-1]
-			TextWidth, TextHeight = dc.GetTextExtent(text)
-		    except:
-			text = text[:-2]
-			TextWidth, TextHeight = dc.GetTextExtent(text)
-			
+                    text = text.decode('utf-8')[:-1]
+                    TextWidth, TextHeight = dc.GetTextExtent(text)
                     if TextWidth < cliWidth:
-			try:
-			    text = text[:-2]
-			    TextWidth, TextHeight = dc.GetTextExtent(text)
-			except:
-			    text = text[:-3]
-			    TextWidth, TextHeight = dc.GetTextExtent(text)
+                        text = text.decode('utf-8')[:-1]
                         text = text + '...'
                 TextWidth, TextHeight = dc.GetTextExtent(text)
             # Position
@@ -228,10 +217,10 @@ class beamMainFrame(wx.Frame):
                 # Position
                 WidthPosition = int(Settings['Position'][1]*cliWidth/100)
                 while TextWidth > cliWidth-WidthPosition:
-                    text = text[:-1]
+                    text = text.decode('utf-8')[:-1]
                     TextWidth, TextHeight = dc.GetTextExtent(text)
-                    if TextWidth < cliWidth:
-                        text = text[:-2]
+                    if TextWidth < cliWidth-WidthPosition:
+                        text = text.decode('utf-8')[:-1]
                         text = text + '...'
                 TextWidth, TextHeight = dc.GetTextExtent(text)
 
