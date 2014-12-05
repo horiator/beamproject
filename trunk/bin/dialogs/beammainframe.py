@@ -1,8 +1,9 @@
 import wx, wx.html
 import os, sys
+import wx.lib.delayedresult
+
 
 from bin.beamsettings import *
-
 from bin import HandleData
 from bin.Preferences import Preferences
 
@@ -11,7 +12,6 @@ from bin.dialogs import aboutdialog
 from bin.dialogs import closedialog
 
 STYLE = 0|wx.TRANSPARENT_WINDOW
-
 ##################################################
 # MAIN WINDOW - FRAME
 ##################################################
@@ -76,12 +76,21 @@ class beamMainFrame(wx.Frame):
         self.Bind(wx.EVT_SIZE, self.OnSize)
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
-
+        self.playbackStatus = ''
         self.SetStatusText('Ready')
-
+        
+        self.triggerChannelsAdjusted = True
+        self.triggerBackgroundresize = True
+        self.currentlyUpdating = False
+        
         self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
+        self.modifiedBitmap = self.backgroundImage
         self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
+
+
         self.applyCurrentSettings()
+        self.updateData()
+        
 
 
 
@@ -94,18 +103,22 @@ class beamMainFrame(wx.Frame):
 
     # Set background image
         self.triggerBackgroundresize = True
-        self.fadeBackground(50)
+        self.triggerChannelsAdjusted = True
+        self.fadeBackground()
 
-    # Update
-        self.updateData(self)
-        self.Layout()
         self.Refresh()
 
 #
 # UPDATE THE DATA
 #
-    def updateData(self, event):
-        HandleData.GetData(self)
+    def updateData(self, event = wx.EVT_TIMER):
+        if not self.currentlyUpdating:
+            self.currentlyUpdating = True
+            wx.lib.delayedresult.startWorker(self.getDataFinished, HandleData.GetData(self) )
+        
+    def getDataFinished(self, result):
+        self.currentlyUpdating = False
+        print "getData - workerfinished"
         if self.playbackStatus:
             self.SetStatusText(self.playbackStatus)
         self.Layout()
@@ -115,9 +128,9 @@ class beamMainFrame(wx.Frame):
 # BACKGROUND resize and repaint
 #
     def OnSize(self, size):
-        self.Layout()
-        self.Refresh()
         self.triggerBackgroundresize = True
+#        self.Layout()
+        self.Refresh()
     def OnEraseBackground(self, evt):
         pass
     def OnPaint(self, event):
@@ -128,35 +141,32 @@ class beamMainFrame(wx.Frame):
         cliWidth, cliHeight = self.GetClientSize()
         if not cliWidth or not cliHeight:
             return
-        if self.triggerBackgroundresize:
-            # Figure out how to scale the background image and position it
-            aspectRatioWindow = float(cliHeight) / float(cliWidth)
-            aspectRatioBackground = float(self.BackgroundImageHeight) / float(self.BackgroundImageWidth)
 
-            if aspectRatioWindow >= aspectRatioBackground:
-                # Window is too tall, scale to height
-                Image = wx.ImageFromBitmap(self.backgroundImage)
-                Image = Image.Scale(cliHeight*self.BackgroundImageWidth / self.BackgroundImageHeight, cliHeight, wx.IMAGE_QUALITY_NORMAL)
+        if self.triggerBackgroundresize or self.triggerChannelsAdjusted:
+            Image = wx.ImageFromBitmap(self.backgroundImage)           
+            if self.triggerChannelsAdjusted:
                 Image = Image.AdjustChannels(self.red, self.green, self.blue, 1.0)
-
                 print self.red
-                self.resizedBitmap = wx.BitmapFromImage(Image)
-
-            if aspectRatioWindow < aspectRatioBackground:
-                # Window is too wide, scale to width
-                Image = wx.ImageFromBitmap(self.backgroundImage)
-                Image = Image.Scale(cliWidth, cliWidth*self.BackgroundImageHeight / self.BackgroundImageWidth, wx.IMAGE_QUALITY_NORMAL)
-                Image = Image.AdjustChannels(self.red, self.green, self.blue, 1.0)
-                self.resizedBitmap = wx.BitmapFromImage(Image)
-
-            # Position the image and draw it
-            resizedWidth, resizedHeight = self.resizedBitmap.GetSize()
-            self.xPosResized = (cliWidth - resizedWidth)/2
-            self.yPosResized = (cliHeight - resizedHeight)/2
-            dc.DrawBitmap(self.resizedBitmap, self.xPosResized, self.yPosResized)
+            if self.triggerBackgroundresize:
+                # Figure out how to scale the background image and position it
+                aspectRatioWindow = float(cliHeight) / float(cliWidth)
+                aspectRatioBackground = float(self.BackgroundImageHeight) / float(self.BackgroundImageWidth)
+                if aspectRatioWindow >= aspectRatioBackground:
+                    # Window is too tall, scale to height
+                    Image = Image.Scale(cliHeight*self.BackgroundImageWidth / self.BackgroundImageHeight, cliHeight, wx.IMAGE_QUALITY_NORMAL)
+                else:
+                    # Window is too wide, scale to width
+                    Image = Image.Scale(cliWidth, cliWidth*self.BackgroundImageHeight / self.BackgroundImageWidth, wx.IMAGE_QUALITY_NORMAL)
+                    Image = Image.AdjustChannels(self.red, self.green, self.blue, 1.0)
             self.triggerBackgroundresize = False
-        else:
-            dc.DrawBitmap(self.resizedBitmap, self.xPosResized, self.yPosResized)
+            self.triggerChannelsAdjusted = False
+            self.modifiedBitmap = wx.BitmapFromImage(Image)
+        
+        # Position the image and draw it
+        resizedWidth, resizedHeight = self.modifiedBitmap.GetSize()
+        self.xPosResized = (cliWidth - resizedWidth)/2
+        self.yPosResized = (cliHeight - resizedHeight)/2
+        dc.DrawBitmap(self.modifiedBitmap, self.xPosResized, self.yPosResized)
 
 #
 # This is where the scaling of the image takes place
@@ -265,11 +275,11 @@ class beamMainFrame(wx.Frame):
 
 
 
-    def fadeBackground(self, fadeSpeed = 10):
+    def fadeBackground(self, fadeSpeed = 2):
         self.red = float(1.0)
         self.green = float(1.0)
         self.blue = float(1.0)
-        self.delta = float(0.25)
+        self.delta = float(0.20)
         self.fadeSpeed = fadeSpeed
 
 
@@ -278,13 +288,14 @@ class beamMainFrame(wx.Frame):
         print "FadeoutOldImage"
 
     def FadeoutOldImage(self, event):
-        self.red -= self.delta
-        self.green -= self.delta
-        self.blue -= self.delta
+        
+        self.red -= 2 * self.delta
+        self.green -= 2 * self.delta
+        self.blue -= 2 * self.delta
         if self.red >= 0 and self.red <= 1:
             # refire the OnPaint event using self.Refresh
             self.Refresh()
-            self.triggerBackgroundresize = True
+            self.triggerChannelsAdjusted = True
         else:
             self.timer1.Stop()
             self.red = float(0.0)
@@ -292,16 +303,20 @@ class beamMainFrame(wx.Frame):
             self.blue = float(0.0)
             self.timer2.Start(self.fadeSpeed)
             print "FadeinNewImage"
+            triggerChannelsAdjusted = True
+            triggerBackgroundresize = True
             self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
             self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
 
+
     # -----------------------------------------------------------------------------------
     def FadeinNewImage(self, event):
+        
         self.red += self.delta
         self.green += self.delta
         self.blue += self.delta
         if self.red >= 0 and self.red <= 1:
             self.Refresh()
-            self.triggerBackgroundresize = True
+            self.triggerChannelsAdjusted = True
         else:
             self.timer2.Stop()
