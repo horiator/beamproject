@@ -30,7 +30,7 @@
   "Author": "Mikael Holber - 2014", 
   "Rules": [
     {
-      "Active": "yes", 
+      "Active": "no", 
       "Field2": "Singer", 
       "Field1": "Comment", 
       "Type": "Set"
@@ -58,10 +58,10 @@
     }, 
     {
       "Field2": "-", 
-      "Field3": "Artist", 
+      "Field3": "Title", 
       "Field1": "Title", 
       "Field4": "Singer", 
-      "Active": "no", 
+      "Active": "yes", 
       "Type": "Parse"
     }, 
     {
@@ -69,12 +69,12 @@
       "Field3": "Artist", 
       "Field1": "Artist", 
       "Field4": "Singer", 
-      "Active": "yes", 
+      "Active": "no", 
       "Type": "Parse"
     }
   ], 
   "Module": "Audacious", 
-  "Bgimage": "/home/mikael/SVN-workning folder/Beam/backgrounds/bg1920x1080px_darkBlue.jpg", 
+  "Bgimage": "/home/likewise-open/RO/horia.uifaleanu/_work/beam/backgrounds/bg1920x1080px_darkBlue.jpg", 
   "DisplayWhenStopped": [
     {
       "Style": "Italic", 
@@ -123,7 +123,7 @@
     }, 
     {
       "Style": "Italic", 
-      "Center": "yes", 
+      "Center": "no", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Title[1]", 
@@ -147,7 +147,7 @@
         1
       ], 
       "Font": "Roman", 
-      "Size": 10
+      "Size": 8
     }, 
     {
       "Style": "Italic", 

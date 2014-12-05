@@ -294,20 +294,19 @@ class beamMainFrame(wx.Frame):
         if self.red >= 0 and self.red <= 1:
             # refire the OnPaint event using self.Refresh
             self.Refresh()
-            self.triggerChannelsAdjusted = True
         else:
             self.timer1.Stop()
             self.red = float(0.0)
             self.green = float(0.0)
             self.blue = float(0.0)
+            self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
+            self.modifiedBitmap = self.backgroundImage
+            self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
             self.timer2.Start(self.fadeSpeed)
             print "FadeinNewImage"
-            triggerChannelsAdjusted = True
-            triggerBackgroundresize = True
-            self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
-            self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
 
-
+        self.triggerChannelsAdjusted = True
+        self.triggerBackgroundresize = True
     # -----------------------------------------------------------------------------------
     def FadeinNewImage(self, event):
         
@@ -319,3 +318,6 @@ class beamMainFrame(wx.Frame):
             self.triggerChannelsAdjusted = True
         else:
             self.timer2.Stop()
+            
+        self.triggerChannelsAdjusted = True
+        self.triggerBackgroundresize = True
