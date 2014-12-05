@@ -35,11 +35,11 @@ if platform.system() == 'Windows':
 def GetData(self):
 
     # Create local variables
-    Artist  = []
-    Album   = []
+    Artist      = []
+    Album       = []
     Title       = []
-    Genre   = []
-    Comment = []
+    Genre       = []
+    Comment     = []
     Composer    = []
     Year        = []
 
