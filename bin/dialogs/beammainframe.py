@@ -19,10 +19,9 @@ class beamMainFrame(wx.Frame):
     def __init__(self, settings = None):
     # Size and position of the main window
         wx.Frame.__init__(self, None, title=beamSettings.mainFrameTitle, pos=(150,150), size=(800,600))
-    # Set Icon
 
-         #self.bmpIcon = CopyFromBitmap(wx.Image('icons/icon_square/icon_square_256px.png', wx.BITMAP_TYPE_PNG).ConvertToBitmap()
-         #wx.Frame.SetIcon( bmpIcon)
+        self.SetDoubleBuffered(True)
+        
     # Set Icon
         self.icon = 'icons/icon_square/icon_square_256px.png'
         image = wx.Image(self.icon, wx.BITMAP_TYPE_PNG).ConvertToBitmap()
