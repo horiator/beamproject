@@ -82,7 +82,7 @@ class beamMainFrame(wx.Frame):
         self.triggerBackgroundresize = True
         self.currentlyUpdating = False
 
-        self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
+        self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._defaultBackgroundPath)))
         self.modifiedBitmap = self.backgroundImage
         self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
 
@@ -300,7 +300,7 @@ class beamMainFrame(wx.Frame):
             self.red = float(0.0)
             self.green = float(0.0)
             self.blue = float(0.0)
-            self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
+            self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._defaultBackgroundPath)))
             self.modifiedBitmap = self.backgroundImage
             self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
             self.timer2.Start(self.fadeSpeed)
