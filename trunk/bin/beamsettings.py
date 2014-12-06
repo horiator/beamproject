@@ -26,15 +26,15 @@ import json, wx, platform, os
 
 
 class BeamSettings:
-    # Define Dictionaries 
+    # Define Dictionaries
     # these are static class vriables
     FontTypeDictionary = {"Decorative":wx.DECORATIVE, # A decorative font
                     "Default":wx.FONTFAMILY_DEFAULT,
-                    "Modern":wx.FONTFAMILY_MODERN,     
-                    "Roman":wx.FONTFAMILY_ROMAN,      
-                    "Script":wx.FONTFAMILY_SCRIPT,    
-                    "Swiss":wx.FONTFAMILY_SWISS,      
-                    "Teletype":wx.FONTFAMILY_TELETYPE     
+                    "Modern":wx.FONTFAMILY_MODERN,
+                    "Roman":wx.FONTFAMILY_ROMAN,
+                    "Script":wx.FONTFAMILY_SCRIPT,
+                    "Swiss":wx.FONTFAMILY_SWISS,
+                    "Teletype":wx.FONTFAMILY_TELETYPE
                     }
     FontWeightDictionary = {"Bold":wx.BOLD,
                    "Light":wx.FONTWEIGHT_LIGHT,
@@ -56,34 +56,36 @@ class BeamSettings:
     aboutWebsite = stringResources["aboutWebsite"]
     aboutDeveloper = stringResources["aboutDeveloper"]
     aboutArtist = stringResources["aboutArtist"]
-    
+
     def __init__(self):
         self._moduleSelected    = ''
         self._maxTandaLength    = ''
         self._updateTimer       = ''
-        self._BackgroundPath    = ''        
+        self._BackgroundPath    = ''
 
         self._allModulesSettings    = ''
         self._myDisplaySettings     = ''
         self._displayWhenStopped    = ''
         self._rules                 = ''
-                            
+
     def LoadConfig(self, inputConfigFile):
-                    
+
         # Load Settings
         ConfigData = json.load(inputConfigFile)             # Loading settings from the specfied file
 
         self._moduleSelected        = ConfigData[u'Module']         # Player to read from
         self._maxTandaLength        = ConfigData[u'MaxTandaLength'] # Longest tandas, optimize for performance
         self._updateTimer           = ConfigData[u'Updtime']        # mSec between reading
-        self._backgroundPath        = ConfigData[u'Bgimage']        # Relative path to background, use 1920x1080 for best performance
-        
+        self._defaultBackgroundPath        = ConfigData[u'DefaultBackgroundImage']     # Relative path to DefaultBackground, use 1920x1080 for best performance
+        self._stoppedStateBackgroundPath   = ConfigData[u'StoppedStateBackgroundImage'] # Relative path to StoppedStateBackground, use 1920x1080 for best performance
+        self._playingStateBackgroundPath   = ConfigData[u'PlayingStateBackgroundImage']# Relative path to PlahyingStateBackground, use 1920x1080 for best performance
+
         # Dictionaries
         self._allModulesSettings    = ConfigData[u'AllModules']
         self._myDisplaySettings     = ConfigData[u'Display']
         self._displayWhenStopped    = ConfigData[u'DisplayWhenStopped']
         self._rules                 = ConfigData[u'Rules']
-        
+
         # Set modules for operating system
         if platform.system() == 'Linux':
             tmp = self._allModulesSettings[0]
@@ -93,7 +95,7 @@ class BeamSettings:
             tmp = self._allModulesSettings[2]
 
         self._currentModules = [s.encode('utf-8') for s in tmp[u'Modules']]
-            
+
 
         if self._moduleSelected == '':
             self._moduleSelected = [s.encode('utf-8') for s in tmp[u'Modules']][0]
@@ -103,21 +105,23 @@ class BeamSettings:
     def SaveConfig(self, outputConfigFile):
         # Create empty entity
         output = {}
-        
+
         output[u'Configname']       = "Default Configuration"
         output[u'Comment']          = "This configuration works with version 0.1 of DJ Display"
         output[u'Author']           = "Mikael Holber - 2014"
         output[u'Module']           = self._moduleSelected
         output[u'MaxTandaLength']   = self._maxTandaLength
         output[u'Updtime']          = self._updateTimer
-        output[u'Bgimage']          = self._backgroundPath
-        
+        output[u'DefaultBackgroundImage']         = self._defaultBackgroundPath
+        output[u'StoppedStateBackgroundImage']    = self._stoppedStateBackgroundPath
+        output[u'PlayingStateBackgroundImage']    = self._playingStateBackgroundPath
+
         # Dictionaries
         output[u'AllModules']           = self._allModulesSettings
         output[u'Display']              = self._myDisplaySettings
         output[u'DisplayWhenStopped']   = self._displayWhenStopped
         output[u'Rules']                = self._rules
-        
+
         # Write config file
         json.dump(output, outputConfigFile, indent=2)
         return

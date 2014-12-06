@@ -1,6 +1,6 @@
 {
   "Comment": "This configuration works with version 0.1 of DJ Display", 
-  "Updtime": 4000, 
+  "Updtime": 2000, 
   "Configname": "Default Configuration", 
   "AllModules": [
     {
@@ -28,6 +28,10 @@
     }
   ], 
   "Author": "Mikael Holber - 2014", 
+  "DefaultBackgroundImage": "/home/horia/work/beamproject/backgrounds/bg1920x1080px.jpg", 
+  "StoppedStateBackgroundImage": "/home/horia/work/beamproject/backgrounds/bg1920x1080px.jpg", 
+  "PlayingStateBackgroundImage": "/home/horia/work/beamproject/backgrounds/bg1920x1080px.jpg", 
+  "Module": "Audacious", 
   "Rules": [
     {
       "Active": "no", 
@@ -61,48 +65,46 @@
       "Field3": "Title", 
       "Field1": "Title", 
       "Field4": "Singer", 
-      "Active": "yes", 
+      "Active": "no", 
       "Type": "Parse"
     }, 
     {
-      "Field2": "-", 
+      "Field2": " - ", 
       "Field3": "Artist", 
       "Field1": "Artist", 
       "Field4": "Singer", 
-      "Active": "no", 
+      "Active": "yes", 
       "Type": "Parse"
     }
   ], 
-  "Module": "Audacious", 
-  "Bgimage": "/home/likewise-open/RO/horia.uifaleanu/_work/beam/backgrounds/bg1920x1080px_darkBlue.jpg", 
   "DisplayWhenStopped": [
     {
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
-      "Row": 1, 
-      "Field": "Beam Me Up", 
-      "FontColor": "(255,255,255,255)", 
+      "Field": "Beam me up", 
+      "Size": 10, 
       "Position": [
         30, 
         0
       ], 
+      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Size": 10
+      "Row": 1
     }, 
     {
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
-      "Row": 2, 
       "Field": "Scotty", 
-      "FontColor": "(255,255,255,255)", 
+      "Size": 7, 
       "Position": [
-        50, 
+        60, 
         0
       ], 
+      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Size": 7
+      "Row": 2
     }
   ], 
   "MaxTandaLength": 4, 
@@ -113,69 +115,83 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Artist[1]", 
-      "FontColor": "(175, 230, 170, 255)", 
       "Position": [
         8, 
         0
       ], 
+      "FontColor": "(153, 203, 204, 255)", 
       "Font": "Swiss", 
       "Size": 7
+    }, 
+    {
+      "Style": "Normal", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "", 
+      "Field": "Title[1]", 
+      "Position": [
+        23, 
+        10
+      ], 
+      "FontColor": "(153, 203, 204, 255)", 
+      "Font": "Swiss", 
+      "Size": 9
+    }, 
+    {
+      "Style": "Normal", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "", 
+      "Field": "'--- '+ Singer[1] + ' ---'", 
+      "Position": [
+        40, 
+        1
+      ], 
+      "FontColor": "(153, 203, 204, 255)", 
+      "Font": "Roman", 
+      "Size": 6
     }, 
     {
       "Style": "Italic", 
       "Center": "no", 
       "Weight": "Normal", 
-      "HideControl": "", 
-      "Field": "Title[1]", 
-      "FontColor": "(255, 255, 255, 255)", 
-      "Position": [
-        23, 
-        10
-      ], 
-      "Font": "Roman", 
-      "Size": 10
-    }, 
-    {
-      "Style": "Italic", 
-      "Center": "yes", 
-      "Weight": "Normal", 
-      "HideControl": "", 
-      "Field": "Singer[1]", 
-      "FontColor": "(255, 255, 255, 255)", 
-      "Position": [
-        40, 
-        1
-      ], 
-      "Font": "Roman", 
-      "Size": 8
-    }, 
-    {
-      "Style": "Italic", 
-      "Center": "yes", 
-      "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "Next Tanda:", 
-      "FontColor": "(188, 239, 160, 255)", 
       "Position": [
-        65, 
+        68, 
         0
       ], 
+      "FontColor": "(153, 203, 204, 255)", 
       "Font": "Roman", 
       "Size": 5
     }, 
     {
       "Style": "Italic", 
-      "Center": "yes", 
+      "Center": "no", 
       "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "NextTanda[3]+' - '+NextTanda[0]", 
-      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
-        73, 
+        76, 
         0
       ], 
-      "Font": "Roman", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Font": "Decorative", 
       "Size": 5
+    }, 
+    {
+      "Style": "Normal", 
+      "Center": "yes", 
+      "Weight": "Light", 
+      "HideControl": "", 
+      "Field": "'Milonga Napoca 15'", 
+      "Position": [
+        92, 
+        65
+      ], 
+      "FontColor": "(237, 7, 10, 255)", 
+      "Font": "Teletype", 
+      "Size": 2
     }
   ]
 }
