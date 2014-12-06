@@ -21,7 +21,7 @@ class beamMainFrame(wx.Frame):
         wx.Frame.__init__(self, None, title=beamSettings.mainFrameTitle, pos=(150,150), size=(800,600))
 
         self.SetDoubleBuffered(True)
-        
+
     # Set Icon
         self.icon = 'icons/icon_square/icon_square_256px.png'
         image = wx.Image(self.icon, wx.BITMAP_TYPE_PNG).ConvertToBitmap()
@@ -77,11 +77,11 @@ class beamMainFrame(wx.Frame):
         self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
         self.playbackStatus = ''
         self.SetStatusText('Ready')
-        
+
         self.triggerChannelsAdjusted = True
         self.triggerBackgroundresize = True
         self.currentlyUpdating = False
-        
+
         self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._backgroundPath)))
         self.modifiedBitmap = self.backgroundImage
         self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
@@ -89,8 +89,10 @@ class beamMainFrame(wx.Frame):
 
         self.applyCurrentSettings()
         self.updateData()
-        
 
+        self.red = float(1.0)
+        self.green = float(1.0)
+        self.blue = float(1.0)
 
 
 ########################## END FRAME INITIALIZATION #########################
@@ -103,7 +105,6 @@ class beamMainFrame(wx.Frame):
     # Set background image
         self.triggerBackgroundresize = True
         self.triggerChannelsAdjusted = True
-        self.fadeBackground()
 
         self.Refresh()
 
@@ -114,7 +115,7 @@ class beamMainFrame(wx.Frame):
         if not self.currentlyUpdating:
             self.currentlyUpdating = True
             wx.lib.delayedresult.startWorker(self.getDataFinished, HandleData.GetData(self) )
-        
+
     def getDataFinished(self, result):
         self.currentlyUpdating = False
         print "getData - workerfinished"
@@ -142,7 +143,7 @@ class beamMainFrame(wx.Frame):
             return
 
         if self.triggerBackgroundresize or self.triggerChannelsAdjusted:
-            Image = wx.ImageFromBitmap(self.backgroundImage)           
+            Image = wx.ImageFromBitmap(self.backgroundImage)
             if self.triggerChannelsAdjusted:
                 Image = Image.AdjustChannels(self.red, self.green, self.blue, 1.0)
                 print self.red
@@ -160,7 +161,7 @@ class beamMainFrame(wx.Frame):
             self.triggerBackgroundresize = False
             self.triggerChannelsAdjusted = False
             self.modifiedBitmap = wx.BitmapFromImage(Image)
-        
+
         # Position the image and draw it
         resizedWidth, resizedHeight = self.modifiedBitmap.GetSize()
         self.xPosResized = (cliWidth - resizedWidth)/2
@@ -287,7 +288,7 @@ class beamMainFrame(wx.Frame):
         print "FadeoutOldImage"
 
     def FadeoutOldImage(self, event):
-        
+
         self.red -= 2 * self.delta
         self.green -= 2 * self.delta
         self.blue -= 2 * self.delta
@@ -309,7 +310,7 @@ class beamMainFrame(wx.Frame):
         self.triggerBackgroundresize = True
     # -----------------------------------------------------------------------------------
     def FadeinNewImage(self, event):
-        
+
         self.red += self.delta
         self.green += self.delta
         self.blue += self.delta
@@ -318,6 +319,6 @@ class beamMainFrame(wx.Frame):
             self.triggerChannelsAdjusted = True
         else:
             self.timer2.Stop()
-            
+
         self.triggerChannelsAdjusted = True
         self.triggerBackgroundresize = True

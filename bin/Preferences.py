@@ -46,8 +46,8 @@ class Preferences(wx.Dialog):
         notebook  = fnb.FlatNotebook(self.panel, wx.ID_ANY,agwStyle=fnb.FNB_NODRAG|fnb.FNB_VC8|fnb.FNB_NO_NAV_BUTTONS|fnb.FNB_NO_X_BUTTON|fnb.FNB_NO_TAB_FOCUS)
 
         notebook.AddPage(self.BasicSettings(notebook), "Basic Settings")
-        notebook.AddPage(self.LayoutSettings(notebook), "Layout")   
-        notebook.AddPage(self.RulesSettings(notebook), "Cortinas and Rules")    
+        notebook.AddPage(self.LayoutSettings(notebook), "Layout")
+        notebook.AddPage(self.RulesSettings(notebook), "Cortinas and Rules")
 
         self.button_ok = wx.Button(self.panel, label="Apply")
         self.button_cancel = wx.Button(self.panel, label="Close")
@@ -68,28 +68,28 @@ class Preferences(wx.Dialog):
 # First tab - Basic Settings
 #
     def BasicSettings(self, notebook):
-    
+
         panel = wx.Panel(self)
 
         # Module dropdown
         Mediaplayer = wx.StaticText(panel, -1, "Mediaplayer", (10,7))
-        font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD) 
-        Mediaplayer.SetFont(font)   
+        font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD)
+        Mediaplayer.SetFont(font)
         wx.StaticText(panel, -1, "Select mediaplayer to display information from", (20,30))
         self.Dropdown = wx.ComboBox(panel,value=beamSettings._moduleSelected, choices=beamSettings._currentModules, pos=(20,50))
 
         # Background image
         Background = wx.StaticText(panel, -1, "Background Image", (10,87))
-        font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD) 
-        Background.SetFont(font)    
+        font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD)
+        Background.SetFont(font)
         wx.StaticText(panel, -1, "Select background image (1920x1080 recommended)", (20,110))
         self.browse = wx.Button(panel, label="Browse", pos=(20,129))
         self.browse.Bind(wx.EVT_BUTTON, self.browseBackgroundImage)
 
         # Wait timer
         waittimer = wx.StaticText(panel, -1, "Settings", (10,167))
-        font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD) 
-        waittimer.SetFont(font) 
+        font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD)
+        waittimer.SetFont(font)
         wx.StaticText(panel, -1, "Update timer in mSec (default 2000)", (20,190))
         self.TimerText = wx.TextCtrl(panel, -1, str(beamSettings._updateTimer), (20,210), (140,-1))
 
@@ -105,7 +105,7 @@ class Preferences(wx.Dialog):
 #
 
     def LayoutSettings(self, notebook):
-        
+
         panel = wx.Panel(self)
         self.DisplayRows = []
 
@@ -114,9 +114,9 @@ class Preferences(wx.Dialog):
         self.EditLayout = wx.Button(panel, label="Edit")
         sizerbuttons    = wx.BoxSizer(wx.HORIZONTAL)
         sizerbuttons.Add(self.AddLayout, flag=wx.RIGHT | wx.TOP, border=10)
-        sizerbuttons.Add(self.DelLayout, flag=wx.RIGHT | wx.TOP, border=10) 
+        sizerbuttons.Add(self.DelLayout, flag=wx.RIGHT | wx.TOP, border=10)
         sizerbuttons.Add(self.EditLayout, flag=wx.RIGHT | wx.TOP, border=10)
-        
+
 
         self.LayoutList = wx.ListBox(panel,-1, size=wx.DefaultSize, choices=[], style= wx.LB_NEEDED_SB)
         self.LayoutList.SetBackgroundColour(wx.Colour(255, 255, 255))
@@ -124,22 +124,22 @@ class Preferences(wx.Dialog):
 
         # Load data into table
         self.BuildLayoutList()
-        
+
         self.AddLayout.Bind(wx.EVT_BUTTON, self.OnAddLayout)
         self.EditLayout.Bind(wx.EVT_BUTTON, self.OnEditLayout)
         self.DelLayout.Bind(wx.EVT_BUTTON, self.OnDelLayout)
-        
+
         sizer = wx.BoxSizer(wx.VERTICAL)
         sizer.Add(self.LayoutList, proportion=1, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
         sizer.Add(sizerbuttons, flag=wx.LEFT | wx.BOTTOM | wx.TOP, border=10)
         panel.SetSizer(sizer)
-        
+
         return panel
 
 
     def BuildLayoutList(self):
         self.DisplayRows = []
-        for i in range(0, len(beamSettings._myDisplaySettings)): 
+        for i in range(0, len(beamSettings._myDisplaySettings)):
             Settings = beamSettings._myDisplaySettings[i]
             self.DisplayRows.append(Settings[u'Field'])
         self.LayoutList.Set(self.DisplayRows)
@@ -149,20 +149,20 @@ class Preferences(wx.Dialog):
 #
 
     def RulesSettings(self, notebook):
-    
+
         panel = wx.Panel(self)
-        
+
         self.RuleRows = []
-        
+
         # Add buttons
         self.AddRule    = wx.Button(panel, label="Add")
         self.DelRule    = wx.Button(panel, label="Delete")
         self.EditRule   = wx.Button(panel, label="Edit")
         sizerbuttons    = wx.BoxSizer(wx.HORIZONTAL)
         sizerbuttons.Add(self.AddRule, flag=wx.RIGHT | wx.TOP, border=10)
-        sizerbuttons.Add(self.DelRule, flag=wx.RIGHT | wx.TOP, border=10)   
+        sizerbuttons.Add(self.DelRule, flag=wx.RIGHT | wx.TOP, border=10)
         sizerbuttons.Add(self.EditRule, flag=wx.RIGHT | wx.TOP, border=10)
-        
+
         self.AddRule.Bind(wx.EVT_BUTTON, self.OnAddRule)
         self.EditRule.Bind(wx.EVT_BUTTON, self.OnEditRule)
         self.DelRule.Bind(wx.EVT_BUTTON, self.OnDelRule)
@@ -173,18 +173,18 @@ class Preferences(wx.Dialog):
 
         # Load data into table
         self.BuildRuleList()
-        
+
         sizer = wx.BoxSizer(wx.VERTICAL)
         sizer.Add(self.RuleList, proportion=1, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
         sizer.Add(sizerbuttons, flag=wx.LEFT | wx.BOTTOM | wx.TOP, border=10)
         panel.SetSizer(sizer)
-    
+
         return panel
 
 
     def BuildRuleList(self):
         self.RuleRows = []
-        for i in range(0, len(beamSettings._rules)): 
+        for i in range(0, len(beamSettings._rules)):
             rule = beamSettings._rules[i]
             if rule[u'Type'] == "Set":
                 self.RuleRows.append(str('Copy (Set) '+rule[u'Field1']+' to '+rule[u'Field2']))
@@ -203,16 +203,15 @@ class Preferences(wx.Dialog):
 #
     def onApply(self, e):
         # Get Settings
-        beamSettings._moduleSelected     = self.Dropdown.GetValue()  
+        beamSettings._moduleSelected     = self.Dropdown.GetValue()
         beamSettings._updateTimer        = int(self.TimerText.GetValue())
         beamSettings._maxTandaLength     =  int(self.TandaLength.GetValue())
             #try:
         confFile = open(os.path.join(os.getcwd(), beamSettings.defaultConfigFileName), 'w')
-        beamSettings.SaveConfig(confFile)    
+        beamSettings.SaveConfig(confFile)
         confFile.close()
-        
-        # Apply current settings
-        self.MainWindowParent.applyCurrentSettings()
+
+
 
 #
 # Cancel preferences
@@ -221,11 +220,13 @@ class Preferences(wx.Dialog):
         self.Destroy()
 
     def browseBackgroundImage(self, event):
-        openFileDialog = wx.FileDialog(self, "Open", "", "", 
-                                       "Image files PNG (*.png)|*.png|Image files JPEG (*.jpg)|*.jpg", 
+        openFileDialog = wx.FileDialog(self, "Open", "", "",
+                                       "Image files PNG (*.png)|*.png|Image files JPEG (*.jpg)|*.jpg",
                                        wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
-        if openFileDialog.ShowModal() == wx.ID_OK:        
+        if openFileDialog.ShowModal() == wx.ID_OK:
             beamSettings._backgroundPath = openFileDialog.GetPath()
+            # change current background
+            self.MainWindowParent.fadeBackground()
             openFileDialog.Destroy()
 
 
@@ -243,7 +244,7 @@ class Preferences(wx.Dialog):
         if RowSelected>-1:
             self.EditLayout = EditLayoutDialog(self, RowSelected, "Add layout item")
             self.EditLayout.Show()
-        
+
     def OnDelLayout(self, event):
         RowSelected = self.LayoutList.GetSelection()
         if RowSelected>-1:
@@ -254,7 +255,7 @@ class Preferences(wx.Dialog):
             result = dlg.ShowModal()
             dlg.Destroy()
             if result == wx.ID_OK:
-                beamsettings._myDisplaySettings.pop(RowSelected)
+                beamSettings._myDisplaySettings.pop(RowSelected)
                 self.BuildLayoutList()
 #
 # RULE BUTTONS
@@ -262,13 +263,13 @@ class Preferences(wx.Dialog):
     def OnAddRule(self, event):
         self.EditRule = EditRuleDialog(self, self.RuleList.GetCount(), "Add rule")
         self.EditRule.Show()
-        
+
     def OnEditRule(self, event):
         RowSelected = self.RuleList.GetSelection()
         if RowSelected>-1:
             self.EditRule = EditRuleDialog(self, RowSelected, "Edit rule")
             self.EditRule.Show()
-       
+
     def OnDelRule(self, event):
         RowSelected = self.RuleList.GetSelection()
         if RowSelected>-1:
