@@ -19,7 +19,7 @@
 #    Revision History:
 #
 #    22/10/2014 Version 1.0
-#    	- Initial release
+#       - Initial release
 #
 
 import wx, wx.html
@@ -32,12 +32,13 @@ import os, sys
 class HelpDialog(wx.Dialog):
     def __init__(self, settings, *args, **kwargs):
         wx.Dialog.__init__(self, None, title="Help", size=(600,600))
-        html 	= wxHTML(self)
-	filename 	= 'docs/Help.html'
-	dirname 	= os.getcwd()
-	f 		= open(os.path.join(filename), 'r')
-	page 	= f.read()
-	f.close
+        html = wxHTML(self)
+
+        filename = os.path.join(os.getcwd(), 'docs', 'Help.html')
+        fHandler = open(filename, 'r')
+
+        page = fHandler.read()
+        fHandler.close
         html.SetPage(page)
  
 class wxHTML(wx.html.HtmlWindow):
