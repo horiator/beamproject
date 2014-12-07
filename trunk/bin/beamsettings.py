@@ -21,8 +21,8 @@
 #    XX/XX/2014 Version 1.0
 #       - Initial release
 #
-
-import json, wx, platform, os
+# This Python file uses the following encoding: utf-8
+import json, wx, platform, os, sys
 
 
 class BeamSettings:
@@ -46,7 +46,8 @@ class BeamSettings:
                     }
 
     # strings resources JSON format
-    stringResources = json.load(open(os.getcwd() + "/resources/text/strings.txt", "r"))
+    filename = os.path.join(os.getcwd(), 'resources', 'text', 'strings.txt')
+    stringResources = json.load(open(filename, "r"))
 
     defaultConfigFileName = stringResources["defaultConfigFileName"]
     mainFrameTitle = stringResources["mainFrameTitle"]
@@ -107,8 +108,8 @@ class BeamSettings:
         output = {}
 
         output[u'Configname']       = "Default Configuration"
-        output[u'Comment']          = "This configuration works with version 0.1 of DJ Display"
-        output[u'Author']           = "Mikael Holber - 2014"
+        output[u'Comment']          = "This configuration works with version 0.2 of Beam"
+        output[u'Author']           = "Mikael Holber & Horia Uifaleanu - 2014"
         output[u'Module']           = self._moduleSelected
         output[u'MaxTandaLength']   = self._maxTandaLength
         output[u'Updtime']          = self._updateTimer

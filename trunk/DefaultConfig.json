@@ -1,5 +1,5 @@
 {
-  "Comment": "This configuration works with version 0.1 of DJ Display", 
+  "Comment": "This configuration works with version 0.2 of Beam", 
   "Updtime": 2000, 
   "Configname": "Default Configuration", 
   "AllModules": [
@@ -27,9 +27,8 @@
       "System": "Mac"
     }
   ], 
-  "Author": "Mikael Holber - 2014", 
+  "Author": "Mikael Holber & Horia Uifaleanu - 2014", 
   "DefaultBackgroundImage": "/home/horia/work/beamproject/backgrounds/bg1920x1080px.jpg", 
-  "StoppedStateBackgroundImage": "/home/horia/work/beamproject/backgrounds/bg1920x1080px.jpg", 
   "PlayingStateBackgroundImage": "/home/horia/work/beamproject/backgrounds/bg1920x1080px.jpg", 
   "Module": "Audacious", 
   "Rules": [
@@ -82,29 +81,29 @@
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
+      "Row": 1, 
       "Field": "Beam me up", 
-      "Size": 10, 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
         30, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Row": 1
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
+      "Row": 2, 
       "Field": "Scotty", 
-      "Size": 7, 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
         60, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Row": 2
+      "Size": 7
     }
   ], 
   "MaxTandaLength": 4, 
@@ -115,11 +114,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Artist[1]", 
+      "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         8, 
         0
       ], 
-      "FontColor": "(153, 203, 204, 255)", 
       "Font": "Swiss", 
       "Size": 7
     }, 
@@ -129,11 +128,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Title[1]", 
+      "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         23, 
         10
       ], 
-      "FontColor": "(153, 203, 204, 255)", 
       "Font": "Swiss", 
       "Size": 9
     }, 
@@ -142,12 +141,12 @@
       "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
-      "Field": "'--- '+ Singer[1] + ' ---'", 
+      "Field": "'-- '+ Singer[1] + ' --'", 
+      "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         40, 
         1
       ], 
-      "FontColor": "(153, 203, 204, 255)", 
       "Font": "Roman", 
       "Size": 6
     }, 
@@ -157,11 +156,11 @@
       "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "Next Tanda:", 
+      "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         68, 
         0
       ], 
-      "FontColor": "(153, 203, 204, 255)", 
       "Font": "Roman", 
       "Size": 5
     }, 
@@ -171,11 +170,11 @@
       "Weight": "Normal", 
       "HideControl": "NextTanda[0]", 
       "Field": "NextTanda[3]+' - '+NextTanda[0]", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         76, 
         0
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Decorative", 
       "Size": 5
     }, 
@@ -185,13 +184,14 @@
       "Weight": "Light", 
       "HideControl": "", 
       "Field": "'Milonga Napoca 15'", 
+      "FontColor": "(237, 7, 10, 255)", 
       "Position": [
         92, 
         65
       ], 
-      "FontColor": "(237, 7, 10, 255)", 
       "Font": "Teletype", 
       "Size": 2
     }
-  ]
+  ], 
+  "StoppedStateBackgroundImage": "/home/horia/work/beamproject/backgrounds/bg1920x1080px.jpg"
 }
