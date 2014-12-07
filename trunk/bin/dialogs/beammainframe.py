@@ -23,11 +23,10 @@ class beamMainFrame(wx.Frame):
         self.SetDoubleBuffered(True)
 
     # Set Icon
-        self.icon = 'icons/icon_square/icon_square_256px.png'
-        image = wx.Image(self.icon, wx.BITMAP_TYPE_PNG).ConvertToBitmap()
-        icon = wx.EmptyIcon()
-        icon.CopyFromBitmap(image)
-        self.SetIcon(icon)
+        iconFilename = os.path.join(os.getcwd(),'resources','icons','icon_square','icon_square_256px.png')
+        
+        favicon = wx.Icon(iconFilename, wx.BITMAP_TYPE_ANY, 256, 256)
+        self.SetIcon(favicon)
 
     # faders
         self.timer1 = wx.Timer(self)

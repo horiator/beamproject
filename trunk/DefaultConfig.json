@@ -28,8 +28,10 @@
     }
   ], 
   "Author": "Mikael Holber & Horia Uifaleanu - 2014", 
-  "DefaultBackgroundImage": "/home/horia/work/beamproject/backgrounds/bg1920x1080px.jpg", 
-  "PlayingStateBackgroundImage": "/home/horia/work/beamproject/backgrounds/bg1920x1080px.jpg", 
+  "DefaultBackgroundImage": "/home/horia/work/beamproject/resources/backgrounds/bg1920x1080px.jpg", 
+  "PlayingStateBackgroundImage": "/home/horia/work/beamproject/resources/backgrounds/bg1920x1080px.jpg",
+  "StoppedStateBackgroundImage": "/home/horia/work/beamproject/resources/backgrounds/bg1920x1080px.jpg",
+
   "Module": "Audacious", 
   "Rules": [
     {
@@ -192,6 +194,5 @@
       "Font": "Teletype", 
       "Size": 2
     }
-  ], 
-  "StoppedStateBackgroundImage": "/home/horia/work/beamproject/backgrounds/bg1920x1080px.jpg"
+  ] 
 }
