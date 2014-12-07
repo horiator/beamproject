@@ -103,6 +103,7 @@ class beamMainFrame(wx.Frame):
 
         self.triggerChannelsAdjusted = True
         self.triggerBackgroundresize = True
+        self.triggerDrawTexts = False
         self.currentlyUpdating = False
 
         self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._defaultBackgroundPath)))
@@ -128,6 +129,8 @@ class beamMainFrame(wx.Frame):
     # Set background image
         self.triggerBackgroundresize = True
         self.triggerChannelsAdjusted = True
+        
+        self.triggerDrawTexts = True
 
         self.Refresh()
 
@@ -141,6 +144,7 @@ class beamMainFrame(wx.Frame):
 
     def getDataFinished(self, result):
         self.currentlyUpdating = False
+        self.triggerDrawTexts = True
         print "getData - workerfinished"
         if self.playbackStatus:
             self.SetStatusText(self.playbackStatus)
@@ -152,6 +156,7 @@ class beamMainFrame(wx.Frame):
 #
     def OnSize(self, size):
         self.triggerBackgroundresize = True
+        self.triggerDrawTexts = True
 #        self.Layout()
         self.Refresh()
     def OnEraseBackground(self, evt):
@@ -191,20 +196,13 @@ class beamMainFrame(wx.Frame):
         self.yPosResized = (cliHeight - resizedHeight)/2
         dc.DrawBitmap(self.modifiedBitmap, self.xPosResized, self.yPosResized)
 
-#
-# This is where the scaling of the image takes place
-#
-    def Draw(self, dc):
-    # Get width and height of window
+    # DRAW TEXT
+    #
+    def drawTexts(self, dc):
         cliWidth, cliHeight = self.GetClientSize()
         if not cliWidth or not cliHeight:
             return
-        dc.Clear()
-
-        self.drawBackgroundBitmap(dc)
-        # DRAW TEXT
-        #
-
+        
         if self.playbackStatus in 'Playing':
             #Display what is playing
             DisplayLength = len(beamSettings._myDisplaySettings)
@@ -260,6 +258,22 @@ class beamMainFrame(wx.Frame):
 
             # Draw the text
             dc.DrawText(text, WidthPosition,  HeightPosition)
+
+#
+# This is where the scaling of the image takes place
+#
+    def Draw(self, dc):
+    # Get width and height of window
+        cliWidth, cliHeight = self.GetClientSize()
+        if not cliWidth or not cliHeight:
+            return
+        dc.Clear()
+
+        self.drawBackgroundBitmap(dc)
+        
+        if self.triggerDrawTexts:
+            self.drawTexts(dc)
+            self.triggerDrawTexts = False
 
 
 #####################################################

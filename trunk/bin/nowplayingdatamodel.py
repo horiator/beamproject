@@ -30,7 +30,7 @@ if platform.system() == 'Linux':
 if platform.system() == 'Windows':
     from Modules import itunesWindowsModule, winampWindowsModule, MediaMonkeyModule
 
-class nowPlayingDataModel:
+class NowPlayingDataModel:
 
     def __init__(self):
         
@@ -146,3 +146,4 @@ class nowPlayingDataModel:
 
         return
         
+nowPlayingDataModel = NowPlayingDataModel()   # Create the data model object
