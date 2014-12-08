@@ -28,9 +28,8 @@
     }
   ], 
   "Author": "Mikael Holber & Horia Uifaleanu - 2014", 
-  "DefaultBackgroundImage": "/home/likewise-open/RO/horia.uifaleanu/_work/beam/resources/backgrounds/bg1920x1080px.jpg", 
-  "PlayingStateBackgroundImage": "/home/likewise-open/RO/horia.uifaleanu/_work/beam/resources/backgrounds/bg1920x1080px.jpg", 
-  "StoppedStateBackgroundImage": "",
+  "DefaultBackgroundImage": "/home/horia/work/beamproject/resources/backgrounds/bg1920x1080px.jpg", 
+  "PlayingStateBackgroundImage": "/home/horia/work/beamproject/resources/backgrounds/bg1920x1080px.jpg", 
   "Module": "Audacious", 
   "Rules": [
     {
@@ -83,7 +82,7 @@
       "Center": "yes", 
       "Weight": "Normal", 
       "Row": 1, 
-      "Field": "Beam me up", 
+      "Field": "", 
       "FontColor": "(255,255,255,255)", 
       "Position": [
         30, 
@@ -97,14 +96,14 @@
       "Center": "yes", 
       "Weight": "Normal", 
       "Row": 2, 
-      "Field": "Scotty", 
+      "Field": "Dj Horia U.", 
       "FontColor": "(255,255,255,255)", 
       "Position": [
-        60, 
+        88, 
         0
       ], 
       "Font": "Decorative", 
-      "Size": 7
+      "Size": 4
     }
   ], 
   "MaxTandaLength": 4, 
@@ -135,7 +134,7 @@
         10
       ], 
       "Font": "Swiss", 
-      "Size": 9
+      "Size": 7
     }, 
     {
       "Style": "Normal", 
@@ -184,14 +183,15 @@
       "Center": "yes", 
       "Weight": "Light", 
       "HideControl": "", 
-      "Field": "'Milonga Napoca 15'", 
+      "Field": "%CurrentDate + ' - ' + %CurrentTime", 
       "FontColor": "(237, 7, 10, 255)", 
       "Position": [
-        92, 
+        94, 
         65
       ], 
       "Font": "Teletype", 
-      "Size": 2
+      "Size": 3
     }
-  ]
+  ], 
+  "StoppedStateBackgroundImage": "/home/horia/work/beamproject/resources/backgrounds/milonga_napoca_15.jpg"
 }
