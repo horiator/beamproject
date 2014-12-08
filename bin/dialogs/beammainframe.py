@@ -120,6 +120,7 @@ class beamMainFrame(wx.Frame):
         self.green = float(1.0)
         self.blue = float(1.0)
 
+        
 
 ########################## END FRAME INITIALIZATION #########################
 
@@ -147,7 +148,7 @@ class beamMainFrame(wx.Frame):
     def getDataFinished(self, result):
         self.currentlyUpdating = False
         self.triggerDrawTexts = True
-        print "getData - workerfinished"
+        print "data updated - ", nowPlayingDataModel.CurrentTime
         if nowPlayingDataModel.PreviousPlaybackStatus != nowPlayingDataModel.PlaybackStatus:
             print "new status:", nowPlayingDataModel.PlaybackStatus
             if (nowPlayingDataModel.PlaybackStatus == 'Playing' and 

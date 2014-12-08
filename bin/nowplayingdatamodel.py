@@ -23,6 +23,7 @@
 #
 
 import wx, platform, os, sys
+import time
 from bin.beamsettings import *
 
 if platform.system() == 'Linux':
@@ -51,6 +52,9 @@ class NowPlayingDataModel:
         self.NextTanda = [ [] for i in range(7) ]
 
         self.DisplayRow = []
+        
+        self.CurrentTime = time.strftime("%H:%M")
+        self.CurrentDate = time.strftime("%d %B-%Y")
 
     def ExtractPlaylistInfo(self):
         
@@ -158,7 +162,8 @@ class NowPlayingDataModel:
                     except:
                         self.DisplayRow[j] = ""
 
-
+        self.CurrentTime = time.strftime("%H:%M")
+        self.CurrentDate = time.strftime("%d %B-%Y")
         return
         
 nowPlayingDataModel = NowPlayingDataModel()   # Create the data model object
