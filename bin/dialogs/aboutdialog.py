@@ -38,7 +38,7 @@ def ShowAboutDialog(self):
     info = wx.AboutDialogInfo()
     info.SetIcon(wx.Icon(self.icon, wx.BITMAP_TYPE_PNG))
     info.SetName(beamSettings.mainFrameTitle)
-    info.SetVersion('0.1')
+    info.SetVersion('0.2')
     info.SetDescription(textwrap.fill(beamSettings.aboutDialogDescription,100))
     info.SetLicence(textwrap.fill(beamSettings.aboutDialogLicense, 100))    
     info.SetCopyright(beamSettings.aboutCopyright)
