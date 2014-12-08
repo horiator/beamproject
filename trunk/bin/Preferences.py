@@ -226,6 +226,7 @@ class Preferences(wx.Dialog):
         if openFileDialog.ShowModal() == wx.ID_OK:
             beamSettings._defaultBackgroundPath = openFileDialog.GetPath()
             # change current background
+            self.MainWindowParent._currentBackgroundPath = beamSettings._defaultBackgroundPath
             self.MainWindowParent.fadeBackground()
             openFileDialog.Destroy()
 
