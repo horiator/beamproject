@@ -28,7 +28,9 @@ import wx.lib.delayedresult
 
 
 from bin.beamsettings import *
-from bin import HandleData
+from bin.nowplayingdatamodel import *
+
+
 from bin.Preferences import Preferences
 
 from bin.dialogs.helpdialog import HelpDialog
@@ -123,8 +125,8 @@ class beamMainFrame(wx.Frame):
 
     def applyCurrentSettings(self):
     # Create an empty display line
-        self.DisplayRow = []
-        for i in range(0, len(beamSettings._myDisplaySettings)): self.DisplayRow.append('')
+#        self.DisplayRow = []
+#        for i in range(0, len(beamSettings._myDisplaySettings)): self.DisplayRow.append('')
 
     # Set background image
         self.triggerBackgroundresize = True
@@ -140,7 +142,7 @@ class beamMainFrame(wx.Frame):
     def updateData(self, event = wx.EVT_TIMER):
         if not self.currentlyUpdating:
             self.currentlyUpdating = True
-            wx.lib.delayedresult.startWorker(self.getDataFinished, HandleData.GetData(self) )
+            wx.lib.delayedresult.startWorker(self.getDataFinished, nowPlayingDataModel.ExtractPlaylistInfo() )
 
     def getDataFinished(self, result):
         self.currentlyUpdating = False
@@ -203,16 +205,16 @@ class beamMainFrame(wx.Frame):
         if not cliWidth or not cliHeight:
             return
         
-        if self.playbackStatus in 'Playing':
+        if nowPlayingDataModel.PlaybackStatus in 'Playing':
             #Display what is playing
             DisplayLength = len(beamSettings._myDisplaySettings)
         else:
             # Display the stopp-message
             DisplayLength = len(beamSettings._displayWhenStopped)
         for j in range(0, DisplayLength):
-            if self.playbackStatus in 'Playing':
+            if nowPlayingDataModel.PlaybackStatus in 'Playing':
                 #Display what is playing
-                text = self.DisplayRow[j]
+                text = nowPlayingDataModel.DisplayRow[j]
                 Settings = beamSettings._myDisplaySettings[j]
             else:
                 # Display the stopp-message
