@@ -112,13 +112,14 @@ class beamMainFrame(wx.Frame):
         self.modifiedBitmap = self.backgroundImage
         self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
 
-
-        self.applyCurrentSettings()
-        self.updateData()
-
         self.red = float(1.0)
         self.green = float(1.0)
         self.blue = float(1.0)
+	
+        self.applyCurrentSettings()
+        self.updateData()
+
+
 
         
 
