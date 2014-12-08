@@ -77,7 +77,6 @@ class BeamSettings:
         self._moduleSelected        = ConfigData[u'Module']         # Player to read from
         self._maxTandaLength        = ConfigData[u'MaxTandaLength'] # Longest tandas, optimize for performance
         self._updateTimer           = ConfigData[u'Updtime']        # mSec between reading
-        self._defaultBackgroundPath        = ConfigData[u'DefaultBackgroundImage']     # Relative path to DefaultBackground, use 1920x1080 for best performance
         self._stoppedStateBackgroundPath   = ConfigData[u'StoppedStateBackgroundImage'] # Relative path to StoppedStateBackground, use 1920x1080 for best performance
         self._playingStateBackgroundPath   = ConfigData[u'PlayingStateBackgroundImage']# Relative path to PlahyingStateBackground, use 1920x1080 for best performance
 
@@ -113,7 +112,6 @@ class BeamSettings:
         output[u'Module']           = self._moduleSelected
         output[u'MaxTandaLength']   = self._maxTandaLength
         output[u'Updtime']          = self._updateTimer
-        output[u'DefaultBackgroundImage']         = self._defaultBackgroundPath
         output[u'StoppedStateBackgroundImage']    = self._stoppedStateBackgroundPath
         output[u'PlayingStateBackgroundImage']    = self._playingStateBackgroundPath
 
