@@ -100,14 +100,9 @@ class beamMainFrame(wx.Frame):
         self.Bind(wx.EVT_SIZE, self.OnSize)
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
-        self.SetStatusText('Ready')
+        
 
-        self.triggerChannelsAdjusted = True
-        self.triggerBackgroundresize = True
-        self.triggerDrawTexts = False
-        self.currentlyUpdating = False
-
-        self._currentBackgroundPath = beamSettings._defaultBackgroundPath;
+        self._currentBackgroundPath = conFilename = os.path.join(os.getcwd(),'resources','backgrounds','bg1920x1080px.jpg')
         self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), self._currentBackgroundPath)))
         self.modifiedBitmap = self.backgroundImage
         self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
@@ -115,7 +110,11 @@ class beamMainFrame(wx.Frame):
         self.red = float(1.0)
         self.green = float(1.0)
         self.blue = float(1.0)
-	
+        
+        self.triggerChannelsAdjusted = True
+        self.triggerBackgroundresize = True
+        self.triggerDrawTexts = False
+        self.currentlyUpdating = False
         self.applyCurrentSettings()
         self.updateData()
 
@@ -164,7 +163,7 @@ class beamMainFrame(wx.Frame):
                 self._currentBackgroundPath = beamSettings._stoppedStateBackgroundPath
                 self.fadeBackground()
 
-                
+        self.SetStatusText(nowPlayingDataModel.PlaybackStatus) 
         self.Layout()
         self.Refresh()
 
