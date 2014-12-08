@@ -51,8 +51,8 @@ class beamMainFrame(wx.Frame):
     # Set Icon
         iconFilename = os.path.join(os.getcwd(),'resources','icons','icon_square','icon_square_256px.png')
         
-        favicon = wx.Icon(iconFilename, wx.BITMAP_TYPE_ANY, 256, 256)
-        self.SetIcon(favicon)
+        self.favicon = wx.Icon(iconFilename, wx.BITMAP_TYPE_ANY, 256, 256)
+        self.SetIcon(self.favicon)
 
     # faders
         self.timer1 = wx.Timer(self)
