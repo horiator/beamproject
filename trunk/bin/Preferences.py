@@ -224,7 +224,7 @@ class Preferences(wx.Dialog):
                                        "Image files PNG (*.png)|*.png|Image files JPEG (*.jpg)|*.jpg",
                                        wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
         if openFileDialog.ShowModal() == wx.ID_OK:
-            beamSettings._defaultBackgroundPath = openFileDialog.GetPath()
+            beamSettings.__playingStateBackgroundPath = openFileDialog.GetPath()
             # change current background
             self.MainWindowParent._currentBackgroundPath = beamSettings._defaultBackgroundPath
             self.MainWindowParent.fadeBackground()
