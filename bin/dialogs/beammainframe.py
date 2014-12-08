@@ -147,7 +147,7 @@ class beamMainFrame(wx.Frame):
 
     def getDataFinished(self, result):
         self.currentlyUpdating = False
-        self.triggerDrawTexts = True
+        
         print "data updated - ", nowPlayingDataModel.CurrentTime
         if nowPlayingDataModel.PreviousPlaybackStatus != nowPlayingDataModel.PlaybackStatus:
             print "new status:", nowPlayingDataModel.PlaybackStatus
@@ -162,7 +162,7 @@ class beamMainFrame(wx.Frame):
                 beamSettings._stoppedStateBackgroundPath !=""):
                 self._currentBackgroundPath = beamSettings._stoppedStateBackgroundPath
                 self.fadeBackground()
-
+        self.triggerDrawTexts = True
         self.SetStatusText(nowPlayingDataModel.PlaybackStatus) 
         self.Layout()
         self.Refresh()
@@ -361,6 +361,7 @@ class beamMainFrame(wx.Frame):
 
         self.triggerChannelsAdjusted = True
         self.triggerBackgroundresize = True
+        self.triggerDrawTexts = True
     # -----------------------------------------------------------------------------------
     def FadeinNewImage(self, event):
 
@@ -375,3 +376,4 @@ class beamMainFrame(wx.Frame):
 
         self.triggerChannelsAdjusted = True
         self.triggerBackgroundresize = True
+        self.triggerDrawTexts = True
