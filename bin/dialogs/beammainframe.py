@@ -100,7 +100,6 @@ class beamMainFrame(wx.Frame):
         self.Bind(wx.EVT_SIZE, self.OnSize)
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
-        self.playbackStatus = ''
         self.SetStatusText('Ready')
 
         self.triggerChannelsAdjusted = True
@@ -108,7 +107,8 @@ class beamMainFrame(wx.Frame):
         self.triggerDrawTexts = False
         self.currentlyUpdating = False
 
-        self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._defaultBackgroundPath)))
+        self._currentBackgroundPath = beamSettings._defaultBackgroundPath;
+        self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), self._currentBackgroundPath)))
         self.modifiedBitmap = self.backgroundImage
         self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
 
@@ -148,8 +148,21 @@ class beamMainFrame(wx.Frame):
         self.currentlyUpdating = False
         self.triggerDrawTexts = True
         print "getData - workerfinished"
-        if self.playbackStatus:
-            self.SetStatusText(self.playbackStatus)
+        if nowPlayingDataModel.PreviousPlaybackStatus != nowPlayingDataModel.PlaybackStatus:
+            print "new status:", nowPlayingDataModel.PlaybackStatus
+            if (nowPlayingDataModel.PlaybackStatus == 'Playing' and 
+                beamSettings._playingStateBackgroundPath != self._currentBackgroundPath and
+                beamSettings._playingStateBackgroundPath != ""):
+                self._currentBackgroundPath = beamSettings._playingStateBackgroundPath
+                self.fadeBackground()
+
+            if (nowPlayingDataModel.PlaybackStatus == 'Stopped' and 
+                beamSettings._stoppedStateBackgroundPath != self._currentBackgroundPath and
+                beamSettings._stoppedStateBackgroundPath !=""):
+                self._currentBackgroundPath = beamSettings._stoppedStateBackgroundPath
+                self.fadeBackground()
+
+                
         self.Layout()
         self.Refresh()
 
@@ -339,7 +352,7 @@ class beamMainFrame(wx.Frame):
             self.red = float(0.0)
             self.green = float(0.0)
             self.blue = float(0.0)
-            self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), beamSettings._defaultBackgroundPath)))
+            self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), self._currentBackgroundPath)))
             self.modifiedBitmap = self.backgroundImage
             self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
             self.timer2.Start(self.fadeSpeed)

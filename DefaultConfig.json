@@ -28,53 +28,52 @@
     }
   ], 
   "Author": "Mikael Holber & Horia Uifaleanu - 2014", 
-  "DefaultBackgroundImage": "/home/horia/work/beamproject/resources/backgrounds/bg1920x1080px.jpg", 
-  "PlayingStateBackgroundImage": "/home/horia/work/beamproject/resources/backgrounds/bg1920x1080px.jpg",
-  "StoppedStateBackgroundImage": "/home/horia/work/beamproject/resources/backgrounds/bg1920x1080px.jpg",
-
+  "DefaultBackgroundImage": "/home/likewise-open/RO/horia.uifaleanu/_work/beam/resources/backgrounds/bg1920x1080px.jpg", 
+  "PlayingStateBackgroundImage": "/home/likewise-open/RO/horia.uifaleanu/_work/beam/resources/backgrounds/bg1920x1080px.jpg", 
+  "StoppedStateBackgroundImage": "",
   "Module": "Audacious", 
   "Rules": [
     {
       "Active": "no", 
-      "Field2": "Singer", 
-      "Field1": "Comment", 
+      "Field2": "%Singer", 
+      "Field1": "%Comment", 
       "Type": "Set"
     }, 
     {
       "Active": "yes", 
       "Field2": "is", 
-      "Field1": "Artist", 
+      "Field1": "%Artist", 
       "Type": "Cortina", 
       "Field3": "-- Cortina"
     }, 
     {
       "Active": "yes", 
       "Field2": "is", 
-      "Field1": "Genre", 
+      "Field1": "%Genre", 
       "Type": "Cortina", 
       "Field3": "cortina"
     }, 
     {
       "Active": "no", 
       "Field2": "is not", 
-      "Field1": "Genre", 
+      "Field1": "%Genre", 
       "Type": "Cortina", 
       "Field3": "[Tango, Milonga, Vals]"
     }, 
     {
       "Field2": "-", 
-      "Field3": "Title", 
-      "Field1": "Title", 
-      "Field4": "Singer", 
-      "Active": "no", 
+      "Field3": "%Title", 
+      "Field1": "%Title", 
+      "Field4": "%Singer", 
+      "Active": "yes", 
       "Type": "Parse"
     }, 
     {
       "Field2": " - ", 
-      "Field3": "Artist", 
-      "Field1": "Artist", 
-      "Field4": "Singer", 
-      "Active": "yes", 
+      "Field3": "%Artist", 
+      "Field1": "%Artist", 
+      "Field4": "%Singer", 
+      "Active": "no", 
       "Type": "Parse"
     }
   ], 
@@ -115,7 +114,7 @@
       "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
-      "Field": "Artist[1]", 
+      "Field": "%Artist[1]", 
       "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         8, 
@@ -129,7 +128,7 @@
       "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
-      "Field": "Title[1]", 
+      "Field": "%Title[1]", 
       "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         23, 
@@ -143,7 +142,7 @@
       "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
-      "Field": "'-- '+ Singer[1] + ' --'", 
+      "Field": "'-- '+ %Singer[1] + ' --'", 
       "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         40, 
@@ -156,7 +155,7 @@
       "Style": "Italic", 
       "Center": "no", 
       "Weight": "Normal", 
-      "HideControl": "NextTanda[0]", 
+      "HideControl": "%NextTanda[0]", 
       "Field": "Next Tanda:", 
       "FontColor": "(153, 203, 204, 255)", 
       "Position": [
@@ -170,8 +169,8 @@
       "Style": "Italic", 
       "Center": "no", 
       "Weight": "Normal", 
-      "HideControl": "NextTanda[0]", 
-      "Field": "NextTanda[3]+' - '+NextTanda[0]", 
+      "HideControl": "%NextTanda[0]", 
+      "Field": "%NextTanda[3] +' - '+ %NextTanda[0]", 
       "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         76, 
@@ -194,5 +193,5 @@
       "Font": "Teletype", 
       "Size": 2
     }
-  ] 
+  ]
 }

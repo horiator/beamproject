@@ -45,11 +45,21 @@ class NowPlayingDataModel:
         self.IsCortina   = []
 
         self.PlaybackStatus = ""
+        self.PreviousPlaybackStatus = ""
+        self.PreviouslyPlayedSong = [ [] for i in range(7) ]
+        
         self.NextTanda = [ [] for i in range(7) ]
 
         self.DisplayRow = []
 
     def ExtractPlaylistInfo(self):
+        
+        self.PreviousPlaybackStatus = self.PlaybackStatus
+        if self.PreviousPlaybackStatus in 'Playing':
+            try:
+                self.PreviouslyPlayedSong = [self.Artist[0], self.Album[0], self.Title[0], self.Genre[0], self.Comment [j+1], self.Composer[0], self.Year[0]]
+            except:
+                pass
         
         # Extract data using the player module
         if beamSettings._moduleSelected == 'Audacious':
