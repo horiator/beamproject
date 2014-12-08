@@ -44,14 +44,10 @@ class NowPlayingDataModel:
         self.Singer      = []
         self.IsCortina   = []
 
-        self.PlaybackStatus = ''
+        self.PlaybackStatus = ""
         self.NextTanda = [ [] for i in range(7) ]
 
-        # The display lines
         self.DisplayRow = []
-        
-        
-        for i in range(0, len(beamSettings._myDisplaySettings)): self.DisplayRow.append('')
 
     def ExtractPlaylistInfo(self):
         
@@ -78,46 +74,55 @@ class NowPlayingDataModel:
         
     #Process and Filter the freshly extracted Data
         
-        Singer  = [ "" for i in range(len(Artist)) ] # Does not exist in ID3
-        IsCortina   = [ 0 for i in range(len(Artist)) ] # Sets 1 if song is cortina
+        self.Singer  = [ "" for i in range(len(self.Artist)) ] # Does not exist in ID3
+        self.IsCortina   = [ 0 for i in range(len(self.Artist)) ] # Sets 1 if song is cortina
 
+        # The display lines
+        for i in range(0, len(beamSettings._myDisplaySettings)): self.DisplayRow.append('')
+        
         #
         # Apply rules, for every song in list
         #
-        for j in range(0, len(Artist)):
+        for j in range(0, len(self.Artist)):
             for i in range(0, len(beamSettings._rules)):
                 Rule = beamSettings._rules[i]
-                if Rule[u'Type'] == 'Parse' and Rule[u'Active'] == 'yes':
-                    # Find Rule[u'Field2'] in Rule[u'Field1'],
-                    # split Rule[u'Field1'] and save into Rule[u'Field3 and 4]
-                    if str(Rule[u'Field2']) in str(eval(Rule[u'Field1'])[j]):
-                        splitStrings = eval(str(Rule[u'Field1']))[j].split(str(Rule[u'Field2']))
-                        [eval(Rule[u'Field3'])[j], eval(Rule[u'Field4'])[j]] = [splitStrings[0], splitStrings[1]]
+                try:
+                    if Rule[u'Type'] == 'Parse' and Rule[u'Active'] == 'yes':
+                        # Find Rule[u'Field2'] in Rule[u'Field1'],
+                        # split Rule[u'Field1'] and save into Rule[u'Field3 and 4]
+                        if str(Rule[u'Field2'].replace("%"," self.")) in str(eval(Rule[u'Field1'].replace("%"," self."))[j]):
+                            splitStrings = eval(str(Rule[u'Field1']).replace("%"," self."))[j].split(str(Rule[u'Field2']))
+                            [eval(Rule[u'Field3'].replace("%"," self."))[j], eval(Rule[u'Field4'].replace("%"," self."))[j]] = [splitStrings[0], splitStrings[1]]
 
-                if Rule[u'Type'] == 'Cortina' and Rule[u'Active'] == 'yes':
-                    # Rule[u'Field2'] == is: IsCortina[j] shall be 1 if Rule[u'Field1'] is Rule[u'Field3']
-                    if Rule[u'Field2'] == 'is':
-                        if str(eval(Rule[u'Field1'])[j]) in str(Rule[u'Field3']):
-                            IsCortina[j] = 1
-                    # Rule[u'Field2'] == is not: IsCortina[j] shall be 1 if Rule[u'Field1'] not in Rule[u'Field3']
-                    if Rule[u'Field2'] == 'is not':
-                        if str(eval(Rule[u'Field1'])[j]) not in str(Rule[u'Field3']):
-                            IsCortina[j] = 1
+                    if Rule[u'Type'] == 'Cortina' and Rule[u'Active'] == 'yes':
+                        # Rule[u'Field2'] == is: IsCortina[j] shall be 1 if Rule[u'Field1'] is Rule[u'Field3']
+                        if Rule[u'Field2'] == 'is':
+                            if eval(str(Rule[u'Field1']).replace("%"," self."))[j] in str(Rule[u'Field3']):
+                                self.IsCortina[j] = 1
+                        # Rule[u'Field2'] == is not: IsCortina[j] shall be 1 if Rule[u'Field1'] not in Rule[u'Field3']
+                        if Rule[u'Field2'] == 'is not':
+                            if eval(str(Rule[u'Field1']).replace("%"," self."))[j] not in str(Rule[u'Field3']):
+                                self.IsCortina[j] = 1
 
-                if Rule[u'Type'] == 'Set' and Rule[u'Active'] == 'yes':
-                    # Rule[u'Field1'] shall be Rule[u'Field2']
-                    # Example:
-                    # Singer(j) = Comment(j)
-                    eval(str(Rule[u'Field2']))[j] = eval(str(Rule[u'Field1']))[j]
+                    if Rule[u'Type'] == 'Set' and Rule[u'Active'] == 'yes':
+                        # Rule[u'Field1'] shall be Rule[u'Field2']
+                        # Example:
+                        # Singer(j) = Comment(j)
+                        eval(str(Rule[u'Field2']).replace("%"," self."))[j] = eval(str(Rule[u'Field1']).replace("%"," self."))[j]
+                except:
+                    print "Error at Rule:", i,".Type:", Rule[u'Type'], ". First Field", Rule[u'Field1']
+                    break
+                    
+                    
         #
         # Create NextTanda
         #
         
-        for j in range(1, len(Artist)-1):
+        for j in range(1, len(self.Artist)-1):
             # Check if song is cortina
-            if IsCortina[j] and not IsCortina[j+1]:
-                NextTanda = [Artist[j+1], Album[j+1], Title[j+1], Genre[j+1], Comment [j+1], Composer[j+1], Year[j+1]]
-            if IsCortina[j] and IsCortina[j+1]:
+            if self.IsCortina[j] and not self.IsCortina[j+1]:
+                self.NextTanda = [self.Artist[j+1], self.Album[j+1], self.Title[j+1], self.Genre[j+1], self.Comment [j+1], self.Composer[j+1], self.Year[j+1]]
+            if self.IsCortina[j] and self.IsCortina[j+1]:
                 break
         #
         # Display
@@ -127,15 +132,15 @@ class NowPlayingDataModel:
                 MyDisplay = beamSettings._myDisplaySettings[j]
                 if MyDisplay['HideControl']  == "":
                     try:
-                        self.DisplayRow[j] = eval(MyDisplay['Field'])
+                        self.DisplayRow[j] = eval(str(MyDisplay['Field']).replace("%"," self."))
                     except:
                         pass
                 else:
                     # Hides line if HideControl is empty if there is no next tanda
                     try:
-                        if  not eval(MyDisplay['HideControl']) == []:
+                        if  not eval(MyDisplay['HideControl'].replace("%"," self.")) == []:
                             try:
-                                self.DisplayRow[j] = eval(MyDisplay['Field'])
+                                self.DisplayRow[j] = eval(MyDisplay['Field'].replace("%"," self."))
                             except:
                                 self.DisplayRow[j] = MyDisplay['Field']
                         else:

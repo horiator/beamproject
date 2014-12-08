@@ -19,8 +19,8 @@ class EditRuleDialog(wx.Dialog):
         self.ButtonCancelRule   = wx.Button(self.EditRulePanel, label="Cancel")
         self.ButtonSaveRule.Bind(wx.EVT_BUTTON, self.OnSaveRuleItem)
         self.ButtonCancelRule.Bind(wx.EVT_BUTTON, self.OnCancelRuleItem)
-        self.InputFields    = ["Artist","Album","Title","Genre","Comment","Composer","Year"]
-        self.OutputFields   = ["Artist","Album","Title","Genre","Comment","Composer","Year", "Singer"]
+        self.InputFields    = ["%Artist","%Album","%Title","%Genre","%Comment","%Composer","%Year"]
+        self.OutputFields   = ["%Artist","%Album","%Title","%Genre","%Comment","%Composer","%Year", "%Singer"]
 
     # Check if it is a new line
         if self.RowSelected<len(beamSettings._rules):
@@ -28,7 +28,7 @@ class EditRuleDialog(wx.Dialog):
             self.Settings   = beamSettings._rules[self.RowSelected]
         else:
             # Create a new default setting
-            self.Settings   = ({"Type": "Set", "Field1": "Comment","Field2": "Singer", "Active": "yes"})
+            self.Settings   = ({"Type": "Set", "Field1": "%Comment","Field2": "%Singer", "Active": "yes"})
 
         # Build the static elements
         self.InputID3Field      = wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Field1'], choices=self.InputFields)
@@ -95,13 +95,13 @@ class EditRuleDialog(wx.Dialog):
             self.TokenField.Hide()
 
             #Add correct fields
-            self.OutputField1       = wx.ComboBox(self.EditRulePanel,value="Artist", choices=self.OutputFields)
+            self.OutputField1       = wx.ComboBox(self.EditRulePanel,value="%Artist", choices=self.OutputFields)
             self.sizer1.Add(self.OutputField1)
 
             if self.Settings[u'Type'] == 'Set':
                 self.OutputField1.SetStringSelection(self.Settings[u'Field2'])
             else:
-                self.OutputField1.SetStringSelection("Artist")
+                self.OutputField1.SetStringSelection("%Artist")
 
         ########################################
         if RuleSelected == 'Parse':
@@ -111,9 +111,9 @@ class EditRuleDialog(wx.Dialog):
             self.RemoveDynamicElements()
 
             #Add correct fields
-            self.OutputField1       = wx.ComboBox(self.EditRulePanel,value="Artist", choices=self.OutputFields)
+            self.OutputField1       = wx.ComboBox(self.EditRulePanel,value="%Artist", choices=self.OutputFields)
             self.sizer1.Add(self.OutputField1)
-            self.OutputField2       = wx.ComboBox(self.EditRulePanel,value="Artist", choices=self.OutputFields)
+            self.OutputField2       = wx.ComboBox(self.EditRulePanel,value="%Artist", choices=self.OutputFields)
             self.sizer2.Add(self.OutputField2)
 
             if self.Settings[u'Type'] == 'Parse':
@@ -121,8 +121,8 @@ class EditRuleDialog(wx.Dialog):
                 self.OutputField2.SetStringSelection(self.Settings[u'Field4'])
                 self.TokenField.SetValue(self.Settings[u'Field2'])
             else:
-                self.OutputField1.SetStringSelection("Artist")
-                self.OutputField2.SetStringSelection("Title")
+                self.OutputField1.SetStringSelection("%Artist")
+                self.OutputField2.SetStringSelection("%Title")
                 self.TokenField.SetValue("-")
             # Show Fields
             self.TokenLabel.Show()
