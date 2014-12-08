@@ -19,7 +19,7 @@
 #    Revision History:
 #
 #    22/10/2014 Version 1.0
-#    	- Initial release
+#       - Initial release
 #
 
 import wx, wx.html
@@ -30,16 +30,20 @@ import os, sys
 ##################################################
 
 def ShowCloseDialog(self):
-	
-	dlg = wx.MessageDialog(self,
-		"Do you really want to close this application?",
-		"Confirm Exit", wx.OK|wx.CANCEL|wx.ICON_QUESTION)
-	result = dlg.ShowModal()
-	dlg.Destroy()
-	if result == wx.ID_OK:
-		try:
-			self.timer.Stop()
-			del self.timer
-		except:
-			pass
-		self.Destroy()
+    
+    dlg = wx.MessageDialog(self,
+        "Do you really want to close this application?",
+        "Confirm Exit", wx.OK|wx.CANCEL|wx.ICON_QUESTION)
+    result = dlg.ShowModal()
+    dlg.Destroy()
+    if result == wx.ID_OK:
+        try:
+            self.timer.Stop()
+            del self.timer
+            self.timer1.Stop()
+            del self.timer1
+            self.timer2.Stop()
+            del self.timer2
+        except:
+            pass
+        self.Destroy()
