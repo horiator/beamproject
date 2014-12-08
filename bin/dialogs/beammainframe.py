@@ -156,13 +156,19 @@ class beamMainFrame(wx.Frame):
                 beamSettings._playingStateBackgroundPath != ""):
                 self._currentBackgroundPath = beamSettings._playingStateBackgroundPath
                 self.fadeBackground()
+            else:
+                self.triggerDrawTexts = True
 
             if (nowPlayingDataModel.PlaybackStatus == 'Stopped' and 
                 beamSettings._stoppedStateBackgroundPath != self._currentBackgroundPath and
                 beamSettings._stoppedStateBackgroundPath !=""):
                 self._currentBackgroundPath = beamSettings._stoppedStateBackgroundPath
                 self.fadeBackground()
-        self.triggerDrawTexts = True
+            else:
+                self.triggerDrawTexts = True
+        else:
+            self.triggerDrawTexts = True        
+        
         self.SetStatusText(nowPlayingDataModel.PlaybackStatus) 
         self.Layout()
         self.Refresh()
@@ -219,14 +225,14 @@ class beamMainFrame(wx.Frame):
         if not cliWidth or not cliHeight:
             return
         
-        if nowPlayingDataModel.PlaybackStatus in 'Playing':
+        if nowPlayingDataModel.PlaybackStatus in ['Playing', 'Paused']:
             #Display what is playing
             DisplayLength = len(beamSettings._myDisplaySettings)
         else:
             # Display the stopp-message
             DisplayLength = len(beamSettings._displayWhenStopped)
         for j in range(0, DisplayLength):
-            if nowPlayingDataModel.PlaybackStatus in 'Playing':
+            if nowPlayingDataModel.PlaybackStatus in ['Playing', 'Paused']:
                 #Display what is playing
                 text = nowPlayingDataModel.DisplayRow[j]
                 Settings = beamSettings._myDisplaySettings[j]
@@ -289,7 +295,7 @@ class beamMainFrame(wx.Frame):
         
         if self.triggerDrawTexts:
             self.drawTexts(dc)
-            self.triggerDrawTexts = False
+            #self.triggerDrawTexts = False
 
 
 #####################################################
@@ -328,11 +334,11 @@ class beamMainFrame(wx.Frame):
 
 
 
-    def fadeBackground(self, fadeSpeed = 2):
+    def fadeBackground(self, fadeSpeed = 5):
         self.red = float(1.0)
         self.green = float(1.0)
         self.blue = float(1.0)
-        self.delta = float(0.20)
+        self.delta = float(0.10)
         self.fadeSpeed = fadeSpeed
 
 
@@ -341,7 +347,7 @@ class beamMainFrame(wx.Frame):
         print "FadeoutOldImage"
 
     def FadeoutOldImage(self, event):
-
+        self.triggerDrawTexts = False
         self.red -= 2 * self.delta
         self.green -= 2 * self.delta
         self.blue -= 2 * self.delta
@@ -361,7 +367,9 @@ class beamMainFrame(wx.Frame):
 
         self.triggerChannelsAdjusted = True
         self.triggerBackgroundresize = True
-        self.triggerDrawTexts = True
+        
+
+        
     # -----------------------------------------------------------------------------------
     def FadeinNewImage(self, event):
 
