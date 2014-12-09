@@ -62,11 +62,6 @@ class NowPlayingDataModel:
     def ExtractPlaylistInfo(self):
         
         self.PreviousPlaybackStatus = self.PlaybackStatus
-        if self.PreviousPlaybackStatus in 'Playing':
-            try:
-                self.PreviouslyPlayedSong = [self.Artist[1], self.Album[1], self.Title[1], self.Genre[1], self.Comment [1], self.Composer[1], self.Year[1]]
-            except:
-                pass
         
         # Extract data using the player module
         if beamSettings._moduleSelected == 'Audacious':
@@ -128,7 +123,16 @@ class NowPlayingDataModel:
                     print "Error at Rule:", i,".Type:", Rule[u'Type'], ". First Field", Rule[u'Field1']
                     break
                     
-                    
+        #
+        # Create NextTanda
+        #                    
+        
+        if self.PreviousPlaybackStatus in 'Playing':
+            try:
+                self.PreviouslyPlayedSong = [self.Artist[0], self.Album[0], self.Title[0], self.Genre[0], self.Comment[0], self.Composer[0], self.Year[0]]
+            except:
+                pass
+
         #
         # Create NextTanda
         #
