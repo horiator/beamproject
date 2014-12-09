@@ -30,6 +30,7 @@
 #
 
 try:
+	import win32ui
 	import win32com.client
 except ImportError:
 	pass
@@ -49,12 +50,13 @@ def run(MaxTandaLength):
 
 		
 	# Create a communications object
-	try:
-		MediaMonkey = win32com.client.Dispatch("SongsDB.SDBApplication")
-	except:
+	if WindowExists("MediaMonkey"):
 		try:
 			MediaMonkey = win32com.client.Dispatch("SongsDB.SDBApplication")
 		except:
+			playbackStatus = 'Mediaplayer is not running'
+			return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+	else:
 			playbackStatus = 'Mediaplayer is not running'
 			return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 	
@@ -84,7 +86,7 @@ def run(MaxTandaLength):
 				
 			except:
 				break
-				searchsong = searchsong+1
+			searchsong = searchsong+1
 
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 	
@@ -95,3 +97,12 @@ def run(MaxTandaLength):
 	elif MediaMonkey.Player.isPaused and MediaMonkey.Player.isPlaying:
 		playbackStatus = 'Paused'
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+
+
+def WindowExists(WindowName):
+    try:
+        win32ui.FindWindow(None, WindowName)
+    except win32ui.error:
+        return False
+    else:
+        return True
