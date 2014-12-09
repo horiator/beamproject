@@ -28,8 +28,8 @@
     }
   ], 
   "Author": "Mikael Holber & Horia Uifaleanu - 2014", 
-  "PlayingStateBackgroundImage": "/home/horia/work/beamproject/resources/backgrounds/bg1920x1080px.jpg", 
-  "Module": "Audacious", 
+  "PlayingStateBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
+  "Module": "Itunes", 
   "Rules": [
     {
       "Active": "no", 
