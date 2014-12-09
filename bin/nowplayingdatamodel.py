@@ -35,15 +35,17 @@ class NowPlayingDataModel:
 
     def __init__(self):
         
-        self.Artist      = []
-        self.Album       = []
-        self.Title       = []
-        self.Genre       = []
-        self.Comment     = []
-        self.Composer    = []
-        self.Year        = []
-        self.Singer      = []
-        self.IsCortina   = []
+        songNo = eval(beamSettings._maxTandaLength + "+2")
+        
+        self.Artist      = [None] * songNo
+        self.Album       = [None] * songNo
+        self.Title       = [None] * songNo
+        self.Genre       = [None] * songNo
+        self.Comment     = [None] * songNo
+        self.Composer    = [None] * songNo
+        self.Year        = [None] * songNo
+        self.Singer      = [None] * songNo
+        self.IsCortina   = [None] * songNo
 
         self.PlaybackStatus = ""
         self.PreviousPlaybackStatus = ""
@@ -56,6 +58,8 @@ class NowPlayingDataModel:
         self.CurrentTime = time.strftime("%H:%M")
         self.CurrentDate = time.strftime("%d %B-%Y")
 
+        self.convDict = dict()
+        
     def ExtractPlaylistInfo(self):
         
         self.PreviousPlaybackStatus = self.PlaybackStatus
@@ -139,8 +143,12 @@ class NowPlayingDataModel:
             if self.IsCortina[j] and self.IsCortina[j+1]:
                 break
         #
-        # Display
+        # Create Display Strings
         #
+        
+        #first, update the conversion dictionary
+        self.updateConversionDisctionary()
+        
         if self.PlaybackStatus in 'Playing':
             for j in range(0, len(beamSettings._myDisplaySettings)):
                 MyDisplay = beamSettings._myDisplaySettings[j]
@@ -165,5 +173,58 @@ class NowPlayingDataModel:
         self.CurrentTime = time.strftime("%H:%M")
         self.CurrentDate = time.strftime("%d %B-%Y")
         return
+    
+    def updateConversionDisctionary(self):
+        self.convDict = dict()
+        #CurrentSong
+        self.convDict['%Artist']    = self.Artist[1]
+        self.convDict['%Album']     = self.Album[1]
+        self.convDict['%Title']     = self.Title[1]
+        self.convDict['%Genre']     = self.Genre[1]
+        self.convDict['%Comment']   = self.Genre[1]
+        self.convDict['%Composer']  = self.Composer[1]
+        self.convDict['%Year']      = self.Year[1]
+        self.convDict['%Singer']    = self.Singer[1]
+        self.convDict['%IsCortina'] = self.IsCortina[1]
+        #PreviousSong
+        self.convDict['%PreviousArtist']    = self.Artist[0]
+        self.convDict['%PreviousAlbum']     = self.Album[0]
+        self.convDict['%PreviousTitle']     = self.Title[0]
+        self.convDict['%PreviousGenre']     = self.Genre[0]
+        self.convDict['%PreviousComment']   = self.Genre[0]
+        self.convDict['%PreviousComposer']  = self.Composer[0]
+        self.convDict['%PreviousYear']      = self.Year[0]
+        self.convDict['%PreviousSinger']    = self.Singer[0]
+        self.convDict['%PreviousIsCortina'] = self.IsCortina[0]
+        #NextSong
+        self.convDict['%NextArtist']    = self.Artist[2]
+        self.convDict['%NextAlbum']     = self.Album[2]
+        self.convDict['%NextTitle']     = self.Title[2]
+        self.convDict['%NextGenre']     = self.Genre[2]
+        self.convDict['%NextComment']   = self.Genre[2]
+        self.convDict['%NextComposer']  = self.Composer[2]
+        self.convDict['%NextYear']      = self.Year[2]
+        self.convDict['%NextSinger']    = self.Singer[2]
+        self.convDict['%NextIsCortina'] = self.IsCortina[2]
+        #NextTanda
+        self.convDict['%NextTandaArtist']   = self.NextTanda[0]
+        self.convDict['%NextTandaAlbum']    = self.NextTanda[1]
+        self.convDict['%NextTandaTitle']    = self.NextTanda[2]
+        self.convDict['%NextTandaGenre']    = self.NextTanda[3]
+        self.convDict['%NextTandaComment']  = self.NextTanda[4]
+        self.convDict['%NextTandaComposer'] = self.NextTanda[5]
+        self.convDict['%NextTandaYear']     = self.NextTanda[6]
+
         
+        #date and time
+        
+        self.convDict['%Hour']      = time.strftime("%H")
+        self.convDict['%Min']       = time.strftime("%M")
+        self.convDict['%Day']       = time.strftime("%e")
+        self.convDict['%Month']     = time.strftime("%m")
+        self.convDict['%Year']      = time.strftime("%Y")
+        self.convDict['%LongDate']  = time.strftime("%d %B %Y")
+
+
+    
 nowPlayingDataModel = NowPlayingDataModel()   # Create the data model object
