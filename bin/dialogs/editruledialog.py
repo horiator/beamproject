@@ -31,8 +31,8 @@ class EditRuleDialog(wx.Dialog):
             self.Settings   = ({"Type": "Set", "Field1": "%Comment","Field2": "%Singer", "Active": "yes"})
 
         # Build the static elements
-        self.InputID3Field      = wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Field1'], choices=self.InputFields)
-        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Type'], choices=['Set','Cortina','Parse'])
+        self.InputID3Field      = wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Field1'], choices=self.InputFields, style=wx.CB_READONLY)
+        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Type'], choices=['Set','Cortina','Parse'], style=wx.CB_READONLY)
         self.RuleSelectDropdown.Bind(wx.EVT_COMBOBOX, self.ChangeRuleType)
         self.RuleOrder          = wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected+1))
         self.ActivateRule       = wx.CheckBox(self.EditRulePanel, label="Activate")
@@ -95,7 +95,7 @@ class EditRuleDialog(wx.Dialog):
             self.TokenField.Hide()
 
             #Add correct fields
-            self.OutputField1       = wx.ComboBox(self.EditRulePanel,value="%Artist", choices=self.OutputFields)
+            self.OutputField1       = wx.ComboBox(self.EditRulePanel,value="%Artist", choices=self.OutputFields, style=wx.CB_READONLY)
             self.sizer1.Add(self.OutputField1)
 
             if self.Settings[u'Type'] == 'Set':
@@ -111,9 +111,9 @@ class EditRuleDialog(wx.Dialog):
             self.RemoveDynamicElements()
 
             #Add correct fields
-            self.OutputField1       = wx.ComboBox(self.EditRulePanel,value="%Artist", choices=self.OutputFields)
+            self.OutputField1       = wx.ComboBox(self.EditRulePanel,value="%Artist", choices=self.OutputFields,style=wx.CB_READONLY)
             self.sizer1.Add(self.OutputField1)
-            self.OutputField2       = wx.ComboBox(self.EditRulePanel,value="%Artist", choices=self.OutputFields)
+            self.OutputField2       = wx.ComboBox(self.EditRulePanel,value="%Artist", choices=self.OutputFields,style=wx.CB_READONLY)
             self.sizer2.Add(self.OutputField2)
 
             if self.Settings[u'Type'] == 'Parse':
@@ -140,7 +140,7 @@ class EditRuleDialog(wx.Dialog):
             self.TokenField.Hide()
 
             #Add correct fields
-            self.IsIsNot    = wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"])
+            self.IsIsNot    = wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"], style=wx.CB_READONLY)
             self.sizer1.Add(self.IsIsNot)
             self.OutputField3 = wx.TextCtrl(self.EditRulePanel, value="", size=(165,-1))
             self.sizer2.Add(self.OutputField3)

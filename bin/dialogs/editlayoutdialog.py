@@ -58,9 +58,9 @@ class EditLayoutDialog(wx.Dialog):
         
         # Define fields
         self.LabelText          = wx.TextCtrl(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Field'])
-        self.FontDropdown       = wx.ComboBox(self.EditLayoutPanel,value=self.Settings[u'Font'], choices=Fonts)
-        self.StyleDropdown      = wx.ComboBox(self.EditLayoutPanel,value=self.Settings[u'Style'], choices=Styles)
-        self.WeightDropdown     = wx.ComboBox(self.EditLayoutPanel,value=self.Settings[u'Weight'], choices=Weights)
+        self.FontDropdown       = wx.ComboBox(self.EditLayoutPanel,value=self.Settings[u'Font'], choices=Fonts, style=wx.CB_READONLY)
+        self.StyleDropdown      = wx.ComboBox(self.EditLayoutPanel,value=self.Settings[u'Style'], choices=Styles, style=wx.CB_READONLY)
+        self.WeightDropdown     = wx.ComboBox(self.EditLayoutPanel,value=self.Settings[u'Weight'], choices=Weights, style=wx.CB_READONLY)
         self.SizeText           = wx.TextCtrl(self.EditLayoutPanel, value=str(self.Settings[u'Size']))
         self.ColorField         = wx.ColourPickerCtrl(self.EditLayoutPanel)
         self.HideText           = wx.TextCtrl(self.EditLayoutPanel, value=self.Settings[u'HideControl'])
@@ -77,20 +77,20 @@ class EditLayoutDialog(wx.Dialog):
         
         # Information area
         InfoGrid    =   wx.FlexGridSizer(4, 5, 5, 5)
-        InfoGrid.AddMany ( [(wx.StaticText(self.EditLayoutPanel, label="Label"), 0, wx.EXPAND),
-                        (wx.StaticText(self.EditLayoutPanel, label="Font"), 0, wx.EXPAND),
-                        (wx.StaticText(self.EditLayoutPanel, label="Style"), 0, wx.EXPAND),
-                        (wx.StaticText(self.EditLayoutPanel, label="Weight"), 0, wx.EXPAND),
-                        (wx.StaticText(self.EditLayoutPanel, label="Size"), 0, wx.EXPAND),
-                        (self.LabelText, 0, wx.EXPAND),
-                        (self.FontDropdown, 0, wx.EXPAND),
-                        (self.StyleDropdown, 0, wx.EXPAND),
-                        (self.WeightDropdown, 0, wx.EXPAND),
+        InfoGrid.AddMany ( [(wx.StaticText(self.EditLayoutPanel, label="Label"), 0, wx.FIXED_MINSIZE),
+                        (wx.StaticText(self.EditLayoutPanel, label="Font"), 0, wx.FIXED_MINSIZE),
+                        (wx.StaticText(self.EditLayoutPanel, label="Style"), 0, wx.FIXED_MINSIZE),
+                        (wx.StaticText(self.EditLayoutPanel, label="Weight"), 0, wx.FIXED_MINSIZE),
+                        (wx.StaticText(self.EditLayoutPanel, label="Size"), 0,wx.FIXED_MINSIZE),
+                        (self.LabelText, 0, wx.FIXED_MINSIZE ),
+                        (self.FontDropdown, 0, wx.FIXED_MINSIZE),
+                        (self.StyleDropdown, 0, wx.FIXED_MINSIZE),
+                        (self.WeightDropdown, 0, wx.FIXED_MINSIZE),
                         (self.SizeText, 0, wx.EXPAND),
-                        (wx.StaticText(self.EditLayoutPanel, label="Hide/Show"), 0, wx.EXPAND),
-                        (wx.StaticText(self.EditLayoutPanel, label="Color"), 0, wx.EXPAND),
-                        (wx.StaticText(self.EditLayoutPanel, label="Vertical"), 0, wx.EXPAND),
-                        (wx.StaticText(self.EditLayoutPanel, label="Horizontal"), 0, wx.EXPAND),
+                        (wx.StaticText(self.EditLayoutPanel, label="Hide/Show"), 0, wx.FIXED_MINSIZE),
+                        (wx.StaticText(self.EditLayoutPanel, label="Color"), 0, wx.FIXED_MINSIZE),
+                        (wx.StaticText(self.EditLayoutPanel, label="Vertical"), 0, wx.FIXED_MINSIZE),
+                        (wx.StaticText(self.EditLayoutPanel, label="Horizontal"), 0, wx.FIXED_MINSIZE),
                         (wx.StaticText(self.EditLayoutPanel, label=""), 0, wx.EXPAND),
                         (self.HideText, 0, wx.EXPAND),
                         (self.ColorField, 0, wx.EXPAND),
