@@ -10,7 +10,8 @@ packages = []
 dll_excludes = ['libgdk-win32-2.0-0.dll', 'libgobject-2.0-0.dll', 'tcl84.dll',
 	'tk84.dll']
 	
-setup(windows=['Beam.py'], 
+setup(windows=[{"script": "Beam.py",
+	"icon_resources": [(1, "resources\icons\installer_icon\icon_Microsoft_48px.ico")]}], 
 	options = {"py2exe": {"compressed": 2, 
 	"optimize": 2,
 	"includes": includes,
