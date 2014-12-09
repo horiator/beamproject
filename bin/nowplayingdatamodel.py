@@ -55,8 +55,7 @@ class NowPlayingDataModel:
 
         self.DisplayRow = []
         
-        self.CurrentTime = time.strftime("%H:%M")
-        self.CurrentDate = time.strftime("%d %B-%Y")
+
 
         self.convDict = dict()
         
@@ -152,26 +151,24 @@ class NowPlayingDataModel:
         if self.PlaybackStatus in 'Playing':
             for j in range(0, len(beamSettings._myDisplaySettings)):
                 MyDisplay = beamSettings._myDisplaySettings[j]
+                
+                displayValue = str(MyDisplay['Field'])
+                for key in self.convDict:
+                    displayValue = displayValue.replace(str(key), str(self.convDict[key]))
+                print displayValue
+                     
                 if MyDisplay['HideControl']  == "":
-                    try:
-                        self.DisplayRow[j] = eval(str(MyDisplay['Field']).replace("%"," self."))
-                    except:
-                        pass
+                    self.DisplayRow[j] = displayValue
                 else:
                     # Hides line if HideControl is empty if there is no next tanda
-                    try:
-                        if  not eval(MyDisplay['HideControl'].replace("%"," self.")) == []:
-                            try:
-                                self.DisplayRow[j] = eval(MyDisplay['Field'].replace("%"," self."))
-                            except:
-                                self.DisplayRow[j] = MyDisplay['Field']
-                        else:
-                            self.DisplayRow[j] = ""
-                    except:
+                    hideControlEval = str(MyDisplay['HideControl'])
+                    for key in self.convDict:
+                        hideControlEval = hideControlEval.replace(str(key), str(self.convDict[key]))
+                        
+                    if  not hideControlEval == []:
+                        self.DisplayRow[j] = displayValue
+                    else:
                         self.DisplayRow[j] = ""
-
-        self.CurrentTime = time.strftime("%H:%M")
-        self.CurrentDate = time.strftime("%d %B-%Y")
         return
     
     def updateConversionDisctionary(self):
@@ -224,7 +221,6 @@ class NowPlayingDataModel:
         self.convDict['%Month']     = time.strftime("%m")
         self.convDict['%Year']      = time.strftime("%Y")
         self.convDict['%LongDate']  = time.strftime("%d %B %Y")
-
 
     
 nowPlayingDataModel = NowPlayingDataModel()   # Create the data model object
