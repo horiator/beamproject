@@ -29,7 +29,7 @@
   ], 
   "Author": "Mikael Holber & Horia Uifaleanu - 2014", 
   "PlayingStateBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
-  "Module": "Itunes", 
+  "Module": "Audacious", 
   "Rules": [
     {
       "Active": "no", 
@@ -95,7 +95,7 @@
       "Center": "yes", 
       "Weight": "Normal", 
       "Row": 2, 
-      "Field": "Dj Horia U.", 
+      "Field": "Milonga Napoca 15", 
       "FontColor": "(255,255,255,255)", 
       "Position": [
         88, 
@@ -112,7 +112,7 @@
       "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
-      "Field": "%Artist[1]", 
+      "Field": "%Artist", 
       "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         8, 
@@ -126,7 +126,7 @@
       "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
-      "Field": "%Title[1]", 
+      "Field": "%Title", 
       "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         23, 
@@ -140,7 +140,7 @@
       "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
-      "Field": "'-- '+ %Singer[1] + ' --'", 
+      "Field": " - - %Singer  - - ", 
       "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         40, 
@@ -153,7 +153,7 @@
       "Style": "Italic", 
       "Center": "no", 
       "Weight": "Normal", 
-      "HideControl": "%NextTanda[0]", 
+      "HideControl": "%NextTandaArtist", 
       "Field": "Next Tanda:", 
       "FontColor": "(153, 203, 204, 255)", 
       "Position": [
@@ -167,8 +167,8 @@
       "Style": "Italic", 
       "Center": "no", 
       "Weight": "Normal", 
-      "HideControl": "%NextTanda[0]", 
-      "Field": "%NextTanda[3] +' - '+ %NextTanda[0]", 
+      "HideControl": "%NextTandaArtist", 
+      "Field": "%NextTandaGenre  - %NextTandaArtist", 
       "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         76, 
@@ -182,7 +182,7 @@
       "Center": "yes", 
       "Weight": "Light", 
       "HideControl": "", 
-      "Field": "%CurrentDate + ' - ' + %CurrentTime", 
+      "Field": "%LongDate - %Hour:%Min", 
       "FontColor": "(237, 7, 10, 255)", 
       "Position": [
         94, 

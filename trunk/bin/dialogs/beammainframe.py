@@ -148,7 +148,6 @@ class beamMainFrame(wx.Frame):
     def getDataFinished(self, result):
         self.currentlyUpdating = False
         
-        print "data updated - ", nowPlayingDataModel.CurrentTime
         if nowPlayingDataModel.PreviousPlaybackStatus != nowPlayingDataModel.PlaybackStatus:
             print "new status:", nowPlayingDataModel.PlaybackStatus
             if (nowPlayingDataModel.PlaybackStatus == 'Playing' and 
@@ -196,7 +195,6 @@ class beamMainFrame(wx.Frame):
             Image = wx.ImageFromBitmap(self.backgroundImage)
             if self.triggerChannelsAdjusted:
                 Image = Image.AdjustChannels(self.red, self.green, self.blue, 1.0)
-                print self.red
             if self.triggerBackgroundresize:
                 # Figure out how to scale the background image and position it
                 aspectRatioWindow = float(cliHeight) / float(cliWidth)
@@ -367,8 +365,6 @@ class beamMainFrame(wx.Frame):
 
         self.triggerChannelsAdjusted = True
         self.triggerBackgroundresize = True
-        
-
         
     # -----------------------------------------------------------------------------------
     def FadeinNewImage(self, event):
