@@ -49,9 +49,9 @@ class NowPlayingDataModel:
 
         self.PlaybackStatus = ""
         self.PreviousPlaybackStatus = ""
-        self.PreviouslyPlayedSong = [ [] for i in range(7) ]
+        self.PreviouslyPlayedSong = [ '' for i in range(7) ]
         
-        self.NextTanda = [ [] for i in range(7) ]
+        self.NextTanda = [ '' for i in range(7) ]
 
         self.DisplayRow = []
         
@@ -64,7 +64,7 @@ class NowPlayingDataModel:
         self.PreviousPlaybackStatus = self.PlaybackStatus
         if self.PreviousPlaybackStatus in 'Playing':
             try:
-                self.PreviouslyPlayedSong = [self.Artist[0], self.Album[0], self.Title[0], self.Genre[0], self.Comment [j+1], self.Composer[0], self.Year[0]]
+                self.PreviouslyPlayedSong = [self.Artist[1], self.Album[1], self.Title[1], self.Genre[1], self.Comment [1], self.Composer[1], self.Year[1]]
             except:
                 pass
         
@@ -94,9 +94,7 @@ class NowPlayingDataModel:
         self.Singer  = [ "" for i in range(len(self.Artist)) ] # Does not exist in ID3
         self.IsCortina   = [ 0 for i in range(len(self.Artist)) ] # Sets 1 if song is cortina
 
-        # The display lines
-        for i in range(0, len(beamSettings._myDisplaySettings)): self.DisplayRow.append('')
-        
+      
         #
         # Apply rules, for every song in list
         #
@@ -134,7 +132,7 @@ class NowPlayingDataModel:
         #
         # Create NextTanda
         #
-        
+        self.NextTanda = [ '' for i in range(7) ]
         for j in range(1, len(self.Artist)-1):
             # Check if song is cortina
             if self.IsCortina[j] and not self.IsCortina[j+1]:
@@ -144,6 +142,9 @@ class NowPlayingDataModel:
         #
         # Create Display Strings
         #
+        
+        # The display lines
+        for i in range(0, len(beamSettings._myDisplaySettings)): self.DisplayRow.append('')
         
         #first, update the conversion dictionary
         self.updateConversionDisctionary()
@@ -165,7 +166,7 @@ class NowPlayingDataModel:
                     for key in self.convDict:
                         hideControlEval = hideControlEval.replace(str(key), str(self.convDict[key]))
                         
-                    if  not hideControlEval == []:
+                    if  not hideControlEval == "":
                         self.DisplayRow[j] = displayValue
                     else:
                         self.DisplayRow[j] = ""
@@ -174,45 +175,86 @@ class NowPlayingDataModel:
     def updateConversionDisctionary(self):
         self.convDict = dict()
         #CurrentSong
-        self.convDict['%Artist']    = self.Artist[1]
-        self.convDict['%Album']     = self.Album[1]
-        self.convDict['%Title']     = self.Title[1]
-        self.convDict['%Genre']     = self.Genre[1]
-        self.convDict['%Comment']   = self.Genre[1]
-        self.convDict['%Composer']  = self.Composer[1]
-        self.convDict['%Year']      = self.Year[1]
-        self.convDict['%Singer']    = self.Singer[1]
-        self.convDict['%IsCortina'] = self.IsCortina[1]
+        try:
+            self.convDict['%Artist']    = self.Artist[1]
+            self.convDict['%Album']     = self.Album[1]
+            self.convDict['%Title']     = self.Title[1]
+            self.convDict['%Genre']     = self.Genre[1]
+            self.convDict['%Comment']   = self.Genre[1]
+            self.convDict['%Composer']  = self.Composer[1]
+            self.convDict['%Year']      = self.Year[1]
+            self.convDict['%Singer']    = self.Singer[1]
+            self.convDict['%IsCortina'] = self.IsCortina[1]
+        except:
+            self.convDict['%Artist']    = ""
+            self.convDict['%Album']     = ""
+            self.convDict['%Title']     = ""
+            self.convDict['%Genre']     = ""
+            self.convDict['%Comment']   = ""
+            self.convDict['%Composer']  = ""
+            self.convDict['%Year']      = ""
+            self.convDict['%Singer']    = ""
+            self.convDict['%IsCortina'] = ""
+            
         #PreviousSong
-        self.convDict['%PreviousArtist']    = self.Artist[0]
-        self.convDict['%PreviousAlbum']     = self.Album[0]
-        self.convDict['%PreviousTitle']     = self.Title[0]
-        self.convDict['%PreviousGenre']     = self.Genre[0]
-        self.convDict['%PreviousComment']   = self.Genre[0]
-        self.convDict['%PreviousComposer']  = self.Composer[0]
-        self.convDict['%PreviousYear']      = self.Year[0]
-        self.convDict['%PreviousSinger']    = self.Singer[0]
-        self.convDict['%PreviousIsCortina'] = self.IsCortina[0]
+        try:
+            self.convDict['%PreviousArtist']    = self.PreviouslyPlayedSong[0]
+            self.convDict['%PreviousAlbum']     = self.PreviouslyPlayedSong[1]
+            self.convDict['%PreviousTitle']     = self.PreviouslyPlayedSong[2]
+            self.convDict['%PreviousGenre']     = self.PreviouslyPlayedSong[3]
+            self.convDict['%PreviousComment']   = self.PreviouslyPlayedSong[4]
+            self.convDict['%PreviousComposer']  = self.PreviouslyPlayedSong[5]
+            self.convDict['%PreviousYear']      = self.PreviouslyPlayedSong[6]
+        except:
+            self.convDict['%PreviousArtist']    = ""
+            self.convDict['%PreviousAlbum']     = ""
+            self.convDict['%PreviousTitle']     = ""
+            self.convDict['%PreviousGenre']     = ""
+            self.convDict['%PreviousComment']   = ""
+            self.convDict['%PreviousComposer']  = ""
+            self.convDict['%PreviousYear']      = ""
+            
         #NextSong
-        self.convDict['%NextArtist']    = self.Artist[2]
-        self.convDict['%NextAlbum']     = self.Album[2]
-        self.convDict['%NextTitle']     = self.Title[2]
-        self.convDict['%NextGenre']     = self.Genre[2]
-        self.convDict['%NextComment']   = self.Genre[2]
-        self.convDict['%NextComposer']  = self.Composer[2]
-        self.convDict['%NextYear']      = self.Year[2]
-        self.convDict['%NextSinger']    = self.Singer[2]
-        self.convDict['%NextIsCortina'] = self.IsCortina[2]
-        #NextTanda
-        self.convDict['%NextTandaArtist']   = self.NextTanda[0]
-        self.convDict['%NextTandaAlbum']    = self.NextTanda[1]
-        self.convDict['%NextTandaTitle']    = self.NextTanda[2]
-        self.convDict['%NextTandaGenre']    = self.NextTanda[3]
-        self.convDict['%NextTandaComment']  = self.NextTanda[4]
-        self.convDict['%NextTandaComposer'] = self.NextTanda[5]
-        self.convDict['%NextTandaYear']     = self.NextTanda[6]
-
+        try:
+            self.convDict['%NextArtist']    = self.Artist[1]
+            self.convDict['%NextAlbum']     = self.Album[1]
+            self.convDict['%NextTitle']     = self.Title[1]
+            self.convDict['%NextGenre']     = self.Genre[1]
+            self.convDict['%NextComment']   = self.Genre[1]
+            self.convDict['%NextComposer']  = self.Composer[1]
+            self.convDict['%NextYear']      = self.Year[1]
+            self.convDict['%NextSinger']    = self.Singer[1]
+            self.convDict['%NextIsCortina'] = self.IsCortina[1]
+        except:
+            self.convDict['%NextArtist']    = ""
+            self.convDict['%NextAlbum']     = ""
+            self.convDict['%NextTitle']     = ""
+            self.convDict['%NextGenre']     = ""
+            self.convDict['%NextComment']   = ""
+            self.convDict['%NextComposer']  = ""
+            self.convDict['%NextYear']      = ""
+            self.convDict['%NextSinger']    = ""
+            self.convDict['%NextIsCortina'] = ""
         
+        #NextTanda
+        try:
+            self.convDict['%NextTandaArtist']   = self.NextTanda[0]
+            self.convDict['%NextTandaAlbum']    = self.NextTanda[1]
+            self.convDict['%NextTandaTitle']    = self.NextTanda[2]
+            self.convDict['%NextTandaGenre']    = self.NextTanda[3]
+            self.convDict['%NextTandaComment']  = self.NextTanda[4]
+            self.convDict['%NextTandaComposer'] = self.NextTanda[5]
+            self.convDict['%NextTandaYear']     = self.NextTanda[6]
+        except:
+            self.convDict['%NextTandaArtist']   = ""
+            self.convDict['%NextTandaAlbum']    = ""
+            self.convDict['%NextTandaTitle']    = ""
+            self.convDict['%NextTandaGenre']    = ""
+            self.convDict['%NextTandaComment']  = ""
+            self.convDict['%NextTandaComposer'] = ""
+            self.convDict['%NextTandaYear']     = ""
+            
+            
         #date and time
         
         self.convDict['%Hour']      = time.strftime("%H")

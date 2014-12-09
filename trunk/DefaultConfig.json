@@ -1,6 +1,6 @@
 {
   "Comment": "This configuration works with version 0.2 of Beam", 
-  "Updtime": 2000, 
+  "Updtime": 4000, 
   "Configname": "Default Configuration", 
   "AllModules": [
     {
@@ -192,5 +192,5 @@
       "Size": 3
     }
   ], 
-  "StoppedStateBackgroundImage": ""
+  "StoppedStateBackgroundImage": "resources/backgrounds/macheta-milonga-napoca15_1080p.jpg"
 }
