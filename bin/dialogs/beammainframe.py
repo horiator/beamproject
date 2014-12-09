@@ -148,6 +148,8 @@ class beamMainFrame(wx.Frame):
     def getDataFinished(self, result):
         self.currentlyUpdating = False
         
+        self.triggerDrawTexts = False
+        
         if nowPlayingDataModel.PreviousPlaybackStatus != nowPlayingDataModel.PlaybackStatus:
             print "new status:", nowPlayingDataModel.PlaybackStatus
             if (nowPlayingDataModel.PlaybackStatus == 'Playing' and 
@@ -333,6 +335,7 @@ class beamMainFrame(wx.Frame):
 
 
     def fadeBackground(self, fadeSpeed = 5):
+        print "FadeNewBackground"
         self.red = float(1.0)
         self.green = float(1.0)
         self.blue = float(1.0)
@@ -342,7 +345,6 @@ class beamMainFrame(wx.Frame):
 
         # start the timer for the fadeout
         self.timer1.Start(self.fadeSpeed)
-        print "FadeoutOldImage"
 
     def FadeoutOldImage(self, event):
         self.triggerDrawTexts = False
@@ -360,8 +362,9 @@ class beamMainFrame(wx.Frame):
             self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), self._currentBackgroundPath)))
             self.modifiedBitmap = self.backgroundImage
             self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
+            self.triggerDrawTexts = True
             self.timer2.Start(self.fadeSpeed)
-            print "FadeinNewImage"
+
 
         self.triggerChannelsAdjusted = True
         self.triggerBackgroundresize = True
@@ -380,4 +383,4 @@ class beamMainFrame(wx.Frame):
 
         self.triggerChannelsAdjusted = True
         self.triggerBackgroundresize = True
-        self.triggerDrawTexts = True
+        
