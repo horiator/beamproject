@@ -29,7 +29,9 @@
 #    	- Initial release
 #
 
+
 try:
+	import win32ui
 	import win32com.client
 except ImportError:
 	pass
@@ -43,17 +45,22 @@ def run(MaxTandaLength):
 	Album 		= []
 	Title	 		= []
 	Genre	 	= []
-	Comment		= []
-	Composer		= []
+	Comment	= []
+	Composer	= []
 	Year			= []
 
 		
-	# Create a communications object
-	#try:
-	itunes = win32com.client.gencache.EnsureDispatch ("iTunes.Application")
-	#except:
-	#	playbackStatus = 'Mediaplayer is not running'
-	#	return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+	# Check if iTunes is running and create a communications object
+	if WindowExists("iTunes"):
+		try:
+			itunes = win32com.client.gencache.EnsureDispatch ("iTunes.Application")
+		except:
+			playbackStatus = 'Mediaplayer is not running'
+			return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+	else:
+		playbackStatus = 'Mediaplayer is not running'
+		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+	
 	
 	if itunes.PlayerState == 1:
 	#	print "Lets get some info!"
@@ -88,3 +95,12 @@ def run(MaxTandaLength):
 	else:
 		playbackStatus = 'Stopped'
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+
+
+def WindowExists(classname):
+    try:
+        win32ui.FindWindow(classname, None)
+    except win32ui.error:
+        return False
+    else:
+        return True
