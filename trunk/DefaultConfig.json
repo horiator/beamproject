@@ -28,8 +28,6 @@
     }
   ], 
   "Author": "Mikael Holber & Horia Uifaleanu - 2014", 
-  "PlayingStateBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
-  "Module": "Audacious", 
   "Rules": [
     {
       "Active": "no", 
@@ -75,6 +73,8 @@
       "Type": "Parse"
     }
   ], 
+  "PlayingStateBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
+  "Module": "Audacious", 
   "DisplayWhenStopped": [
     {
       "Style": "Italic", 
@@ -113,7 +113,7 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "%Artist", 
-      "FontColor": "(153, 203, 204, 255)", 
+      "FontColor": "(178, 36, 42, 255)", 
       "Position": [
         8, 
         0
@@ -140,7 +140,7 @@
       "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
-      "Field": " - - %Singer  - - ", 
+      "Field": "- %Singer -", 
       "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         40, 
@@ -154,7 +154,7 @@
       "Center": "no", 
       "Weight": "Normal", 
       "HideControl": "%NextTandaArtist", 
-      "Field": "Next Tanda:", 
+      "Field": "Next Tanda: \u00b8.\u00b7\u00b4\u00af`\u00b7.\u00b4\u00af`\u00b7.\u00b8\u00b8.\u00b7\u00b4\u00af`\u00b7.\u00b8><(((\u00ba>", 
       "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         68, 
