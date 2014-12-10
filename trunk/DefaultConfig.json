@@ -16,7 +16,8 @@
       "Modules": [
         "Itunes", 
         "MediaMonkey", 
-        "Winamp"
+        "Winamp",
+		"JRiver Media Center"
       ], 
       "System": "Windows"
     }, 
