@@ -154,7 +154,7 @@
       "Center": "no", 
       "Weight": "Normal", 
       "HideControl": "%NextTandaArtist", 
-      "Field": "Next Tanda: \u00b8.\u00b7\u00b4\u00af`\u00b7.\u00b4\u00af`\u00b7.\u00b8\u00b8.\u00b7\u00b4\u00af`\u00b7.\u00b8><(((\u00ba>", 
+      "Field": "Next Tanda:", 
       "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         68, 
