@@ -114,10 +114,9 @@ class beamMainFrame(wx.Frame):
         #triggers
         self.triggerAdjustBackgroundRGB = True
         self.triggerResizeBackground = True
-        self.triggerDrawTexts = True
         
         #visibility switch
-        self.textsAreVisible = False
+        self.textsAreVisible = True
         
         self.currentlyUpdating = False
         self.applyCurrentSettings()
@@ -131,7 +130,6 @@ class beamMainFrame(wx.Frame):
 
     def applyCurrentSettings(self):
         self.triggerResizeBackground = True
-        self.triggerDrawTexts = True
         self.Refresh()
 
 #
@@ -158,18 +156,16 @@ class beamMainFrame(wx.Frame):
                 beamSettings._stoppedStateBackgroundPath !=""):
                 self._currentBackgroundPath = beamSettings._stoppedStateBackgroundPath
                 self.fadeBackground()
+        else:
+            self.Refresh()
 
-        self.triggerDrawTexts = True        
-        
         self.SetStatusText(nowPlayingDataModel.PlaybackStatus) 
-        self.Refresh()
 
 #####################################################
 # BACKGROUND resize and repaint
 #
     def OnSize(self, size):
         self.triggerResizeBackground = True
-        self.triggerDrawTexts = True
         self.Refresh()
     def OnEraseBackground(self, evt):
         pass
@@ -280,7 +276,6 @@ class beamMainFrame(wx.Frame):
 
             # Draw the text
             dc.DrawText(text, WidthPosition,  HeightPosition)
-        print "textsdrawn"
 
 #
 # This is where the scaling of the image takes place
@@ -294,9 +289,7 @@ class beamMainFrame(wx.Frame):
 
         self.drawBackgroundBitmap(dc)
         
-        if self.triggerDrawTexts:
-            self.drawTexts(dc)
-            self.triggerDrawTexts = False
+        self.drawTexts(dc)
 
 
 #####################################################
@@ -382,7 +375,8 @@ class beamMainFrame(wx.Frame):
 
         if self.red >= 0 and self.red <= 1:
             self.triggerAdjustBackgroundRGB = True
-            self.Refresh()
         else:
             self.timer2.Stop()
-            
+        
+        #self.Refresh()
+
