@@ -142,7 +142,6 @@ class NowPlayingDataModel:
             # Check if song is cortina
             if self.IsCortina[j] and not self.IsCortina[j+1]:
                 self.NextTanda = [self.Artist[j+1], self.Album[j+1], self.Title[j+1], self.Genre[j+1], self.Comment [j+1], self.Composer[j+1], self.Year[j+1]]
-            if self.IsCortina[j] and self.IsCortina[j+1]:
                 break
         #
         # Create Display Strings
@@ -161,7 +160,6 @@ class NowPlayingDataModel:
                 displayValue = str(MyDisplay['Field'])
                 for key in self.convDict:
                     displayValue = displayValue.replace(str(key), str(self.convDict[key]))
-                print displayValue
                      
                 if MyDisplay['HideControl']  == "":
                     self.DisplayRow[j] = displayValue
@@ -175,6 +173,7 @@ class NowPlayingDataModel:
                         self.DisplayRow[j] = displayValue
                     else:
                         self.DisplayRow[j] = ""
+        print "data updated: ", time.strftime("%H:%M:%S")
         return
     
     def updateConversionDisctionary(self):
