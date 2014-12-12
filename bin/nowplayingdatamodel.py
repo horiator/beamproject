@@ -29,7 +29,7 @@ from bin.beamsettings import *
 if platform.system() == 'Linux':
     from Modules import audaciousModule, rhythmboxModule, clementineModule, bansheeModule
 if platform.system() == 'Windows':
-    from Modules import itunesWindowsModule, winampWindowsModule, MediaMonkeyModule, JRMCWindowsModule
+    from Modules import itunesWindowsModule, winampWindowsModule, MediaMonkeyModule, JRMCWindowsModule, spotifyWindowsModule
 
 class NowPlayingDataModel:
 
@@ -83,7 +83,9 @@ class NowPlayingDataModel:
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = MediaMonkeyModule.run(beamSettings._maxTandaLength)
         if beamSettings._moduleSelected == 'JRiver Media Center':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =JRMCWindowsModule.run(beamSettings._maxTandaLength)
-        
+        if beamSettings._moduleSelected == 'Spotify':
+            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =spotifyWindowsModule.run(beamSettings._maxTandaLength)
+          
         
     #Process and Filter the freshly extracted Data
         
