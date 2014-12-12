@@ -66,12 +66,11 @@ def run(MaxTandaLength):
 		playbackStatus = 'Playing'
 
 		#Declare our position
-		currentplaylist = JRMC.GetCurPlaylist()
-		print currentplaylist.GetFile(currentplaylist.Position)
-		currentsong	= currentplaylist.Position
+		CurrentPlaylist = JRMC.GetCurPlaylist()
+		currentsong	= CurrentPlaylist.Position
 
 		# Extract previous song
-		if currentsong == 1:
+		if currentsong == 2:
 			searchsong = currentsong # Start on the current song
 		else:
 			searchsong = currentsong-1 # Start on previous song
@@ -84,7 +83,7 @@ def run(MaxTandaLength):
 				Title.append((Track.Name).encode('cp1250'))
 				Genre.append((Track.Genre).encode('cp1250'))
 				Comment.append((Track.Comment).encode('cp1250'))
-				#Composer.append((Track.Composer).encode('cp1250'))
+				Composer.append("")
 				Year.append(Track.Year)
 				
 			except:
