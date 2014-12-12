@@ -91,6 +91,10 @@ def run(MaxTandaLength):
 		except:
 			Comment.append('')
 		try:
+			Composer.append('')
+		except:
+			Composer.append('')
+		try:
 			Year.append((metadata['xesam:contentCreated'])[:4].encode('utf-8'))
 		except:
 			Year.append('')
