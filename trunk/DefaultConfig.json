@@ -16,8 +16,9 @@
       "Modules": [
         "Itunes", 
         "MediaMonkey", 
-        "Winamp",
-		"JRiver Media Center"
+        "JRiver Media Center", 
+        "Spotify", 
+        "Winamp"
       ], 
       "System": "Windows"
     }, 
@@ -75,35 +76,35 @@
     }
   ], 
   "PlayingStateBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
-  "Module": "Audacious", 
+  "Module": "", 
   "DisplayWhenStopped": [
     {
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
-      "Row": 1, 
       "Field": "", 
-      "FontColor": "(255,255,255,255)", 
+      "Size": 10, 
       "Position": [
         30, 
         0
       ], 
+      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Size": 10
+      "Row": 1
     }, 
     {
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
-      "Row": 2, 
       "Field": "Milonga Napoca 15", 
-      "FontColor": "(255,255,255,255)", 
+      "Size": 4, 
       "Position": [
         88, 
         0
       ], 
+      "FontColor": "(255,255,255,255)", 
       "Font": "Decorative", 
-      "Size": 4
+      "Row": 2
     }
   ], 
   "MaxTandaLength": 4, 
@@ -114,11 +115,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "%Artist", 
-      "FontColor": "(178, 36, 42, 255)", 
       "Position": [
         8, 
         0
       ], 
+      "FontColor": "(178, 36, 42, 255)", 
       "Font": "Swiss", 
       "Size": 7
     }, 
@@ -128,11 +129,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "%Title", 
-      "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         23, 
         10
       ], 
+      "FontColor": "(153, 203, 204, 255)", 
       "Font": "Swiss", 
       "Size": 7
     }, 
@@ -142,11 +143,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "- %Singer -", 
-      "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         40, 
         1
       ], 
+      "FontColor": "(153, 203, 204, 255)", 
       "Font": "Roman", 
       "Size": 6
     }, 
@@ -156,11 +157,11 @@
       "Weight": "Normal", 
       "HideControl": "%NextTandaArtist", 
       "Field": "Next Tanda:", 
-      "FontColor": "(153, 203, 204, 255)", 
       "Position": [
         68, 
         0
       ], 
+      "FontColor": "(153, 203, 204, 255)", 
       "Font": "Roman", 
       "Size": 5
     }, 
@@ -170,11 +171,11 @@
       "Weight": "Normal", 
       "HideControl": "%NextTandaArtist", 
       "Field": "%NextTandaGenre  - %NextTandaArtist", 
-      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         76, 
         0
       ], 
+      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Decorative", 
       "Size": 5
     }, 
@@ -184,11 +185,11 @@
       "Weight": "Light", 
       "HideControl": "", 
       "Field": "%LongDate - %Hour:%Min", 
-      "FontColor": "(237, 7, 10, 255)", 
       "Position": [
         94, 
         65
       ], 
+      "FontColor": "(237, 7, 10, 255)", 
       "Font": "Teletype", 
       "Size": 3
     }
