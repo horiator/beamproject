@@ -171,8 +171,7 @@ class NowPlayingDataModel:
                     try:
                         displayValue = displayValue.replace(str(key), str(self.convDict[key]))
                     except:
-                        pass
-                       # displayValue = displayValue.replace(unicode(key), unicode(self.convDict[key]))
+                       displayValue = displayValue.replace(key.decode('utf-8'), self.convDict[key].decode('utf-8'))
                      
                 if MyDisplay['HideControl']  == "":
                     self.DisplayRow[j] = displayValue
