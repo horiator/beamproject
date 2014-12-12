@@ -1,5 +1,5 @@
-#!/usr/bin/python
-# -*- coding: <<encoding>> -*-
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 #    Copyright (C) 2014 Mikael Holber http://mywebsite.com
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 #    XX/XX/2014 Version 1.0
 #       - Initial release
 #
+# This Python file uses the following encoding: utf-8
 
 import wx, wx.html
 import os, sys
