@@ -1,4 +1,6 @@
-#    Copyright (C) 2014 Mikael Holber http://mywebsite.com
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#    Copyright (C) 2014 Mikael Holber http://http://www.beam-project.com
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,7 +24,9 @@
 #       - Initial release
 #
 # This Python file uses the following encoding: utf-8
-import json, wx, platform, os, sys
+
+import json, wx, platform
+import io, os, sys
 
 
 class BeamSettings:
@@ -74,6 +78,11 @@ class BeamSettings:
         # Load Settings
         ConfigData = json.load(inputConfigFile)             # Loading settings from the specfied file
 
+        
+        #ConfigData = json.load(io.open(inputConfigFile,"r", encoding='utf8').read().decode("utf-8"))
+        #print data                
+        
+
         self._moduleSelected        = ConfigData[u'Module']         # Player to read from
         self._maxTandaLength        = ConfigData[u'MaxTandaLength'] # Longest tandas, optimize for performance
         self._updateTimer           = ConfigData[u'Updtime']        # mSec between reading
@@ -123,6 +132,12 @@ class BeamSettings:
 
         # Write config file
         json.dump(output, outputConfigFile, indent=2)
+        
+        #output_utf8 = output.encode('UTF-8')
+        #open("test_utf8.json, 'w').write(output_utf8)
+        
+                
+        
         return
 
 beamSettings = BeamSettings()   # Create the settings object

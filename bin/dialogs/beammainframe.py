@@ -1,4 +1,6 @@
-#    Copyright (C) 2014 Mikael Holber http://mywebsite.com
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#    Copyright (C) 2014 Mikael Holber http://http://www.beam-project.com
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,6 +23,8 @@
 #    XX/XX/2014 Version 1.0
 #       - Initial release
 #
+# This Python file uses the following encoding: utf-8
+
 
 import wx, wx.html
 import os, sys
@@ -378,5 +382,5 @@ class beamMainFrame(wx.Frame):
         else:
             self.timer2.Stop()
         
-        #self.Refresh()
+        self.Refresh()
 
