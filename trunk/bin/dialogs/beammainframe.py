@@ -257,9 +257,11 @@ class beamMainFrame(wx.Frame):
             if Settings['Center'] == 'yes':
                 while TextWidth > cliWidth:
                     text = text.decode('utf-8')[:-1]
+                    text = text.encode('utf-8')
                     TextWidth, TextHeight = dc.GetTextExtent(text)
                     if TextWidth < cliWidth:
                         text = text.decode('utf-8')[:-1]
+                        text = text.encode('utf-8')
                         text = text + '...'
                 TextWidth, TextHeight = dc.GetTextExtent(text)
             # Position
@@ -271,9 +273,11 @@ class beamMainFrame(wx.Frame):
                 WidthPosition = int(Settings['Position'][1]*cliWidth/100)
                 while TextWidth > cliWidth-WidthPosition:
                     text = text.decode('utf-8')[:-1]
+                    text = text.encode('utf-8')
                     TextWidth, TextHeight = dc.GetTextExtent(text)
                     if TextWidth < cliWidth-WidthPosition:
                         text = text.decode('utf-8')[:-1]
+                        text = text.encode('utf-8')
                         text = text + '...'
                 TextWidth, TextHeight = dc.GetTextExtent(text)
 
