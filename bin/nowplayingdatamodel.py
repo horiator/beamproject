@@ -63,7 +63,7 @@ class NowPlayingDataModel:
         self.convDict = dict()
         
     def ExtractPlaylistInfo(self):
-        
+        print "Start updating data... ", time.strftime("%H:%M:%S")
         self.PreviousPlaybackStatus = self.PlaybackStatus
         
         # Extract data using the player module
@@ -185,7 +185,7 @@ class NowPlayingDataModel:
                         self.DisplayRow[j] = displayValue
                     else:
                         self.DisplayRow[j] = ""
-        print "data updated: ", time.strftime("%H:%M:%S")
+        print "...data updated: ", time.strftime("%H:%M:%S")
         return
     
     def updateConversionDisctionary(self):
@@ -283,5 +283,6 @@ class NowPlayingDataModel:
         self.convDict['%Year']      = time.strftime("%Y")
         self.convDict['%LongDate']  = time.strftime("%d %B %Y")
 
-    
+
 nowPlayingDataModel = NowPlayingDataModel()   # Create the data model object
+

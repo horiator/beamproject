@@ -126,7 +126,8 @@ class beamMainFrame(wx.Frame):
         self.applyCurrentSettings()
         self.updateData()
 
-
+        self.currentDisplayRows = []
+        self.currentPlayBackStatus = u''
 
         
 
@@ -140,11 +141,15 @@ class beamMainFrame(wx.Frame):
 # UPDATE THE DATA
 #
     def updateData(self, event = wx.EVT_TIMER):
+        self.currentDisplayRows = nowPlayingDataModel.DisplayRow
+        self.currentPlaybackStatus = nowPlayingDataModel.PlaybackStatus
         if not self.currentlyUpdating:
             self.currentlyUpdating = True
             wx.lib.delayedresult.startWorker(self.getDataFinished, nowPlayingDataModel.ExtractPlaylistInfo() )
 
     def getDataFinished(self, result):
+        self.currentDisplayRows = nowPlayingDataModel.DisplayRow
+        self.currentPlaybackStatus = nowPlayingDataModel.PlaybackStatus
         self.currentlyUpdating = False
         
         
@@ -225,16 +230,16 @@ class beamMainFrame(wx.Frame):
         if not cliWidth or not cliHeight:
             return
         
-        if nowPlayingDataModel.PlaybackStatus in ['Playing', 'Paused']:
+        if self.currentPlaybackStatus in ['Playing', 'Paused']:
             #Display what is playing
             DisplayLength = len(beamSettings._myDisplaySettings)
         else:
             # Display the stopp-message
             DisplayLength = len(beamSettings._displayWhenStopped)
         for j in range(0, DisplayLength):
-            if nowPlayingDataModel.PlaybackStatus in ['Playing', 'Paused']:
+            if self.currentPlaybackStatus in ['Playing', 'Paused']:
                 #Display what is playing
-                text = nowPlayingDataModel.DisplayRow[j]
+                text = self.currentDisplayRows[j]
                 Settings = beamSettings._myDisplaySettings[j]
             else:
                 # Display the stopp-message
@@ -244,7 +249,9 @@ class beamMainFrame(wx.Frame):
             Size = Settings['Size']*cliHeight/100
             HeightPosition = int(Settings['Position'][0]*cliHeight/100)
             # Set font from settings
-            dc.SetFont(wx.Font(Size, beamSettings.FontTypeDictionary[Settings['Font']], beamSettings.FontStyleDictionary[Settings['Style']], beamSettings.FontWeightDictionary[Settings['Weight']]))
+            face = "Great Vibes"
+            face = "Liberation Sans"
+            dc.SetFont(wx.Font(Size, beamSettings.FontTypeDictionary[Settings['Font']], beamSettings.FontStyleDictionary[Settings['Style']], beamSettings.FontWeightDictionary[Settings['Weight']], False, face))
 
             # Set font color, in the future, drawing a shadow ofsetted with the same text first might make a shadow!
             dc.SetTextForeground(eval(Settings['FontColor']))
