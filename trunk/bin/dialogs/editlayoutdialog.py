@@ -38,7 +38,7 @@ from bin.beamsettings import *
 #
 class EditLayoutDialog(wx.Dialog):
     def __init__(self, parent, RowSelected, mode):
-        self.EditLayoutDialog   = wx.Dialog.__init__(self, parent, title=mode, size=(570,210))
+        self.EditLayoutDialog   = wx.Dialog.__init__(self, parent, title=mode)
         self.EditLayoutPanel    = wx.Panel(self)
         self.parent             = parent
         self.RowSelected        = RowSelected
@@ -58,14 +58,14 @@ class EditLayoutDialog(wx.Dialog):
             self.Settings   = beamSettings._myDisplaySettings[self.RowSelected]
         else:
             # Create a new default setting
-            self.Settings   = ({"Field": "Artist[1]", "Font": "Default","Style": "Normal", "Weight": "Bold", "Size": 20, "FontColor": "(255,255,255,255)", "HideControl": "NextTanda[1]", "Position": [50,50], "Center": "yes"})
+            self.Settings   = ({"Field": "%Artist", "Font": "Default","Style": "Normal", "Weight": "Bold", "Size": 20, "FontColor": "(255,255,255,255)", "HideControl": "NextTanda[1]", "Position": [50,50], "Center": "yes"})
 
         
         # Define fields
         self.LabelText          = wx.TextCtrl(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Field'])
-        self.FontDropdown       = wx.ComboBox(self.EditLayoutPanel,value=self.Settings[u'Font'], choices=Fonts, style=wx.CB_READONLY)
-        self.StyleDropdown      = wx.ComboBox(self.EditLayoutPanel,value=self.Settings[u'Style'], choices=Styles, style=wx.CB_READONLY)
-        self.WeightDropdown     = wx.ComboBox(self.EditLayoutPanel,value=self.Settings[u'Weight'], choices=Weights, style=wx.CB_READONLY)
+        self.FontDropdown       = wx.ComboBox(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Font'], choices=Fonts, style=wx.CB_READONLY)
+        self.StyleDropdown      = wx.ComboBox(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Style'], choices=Styles, style=wx.CB_READONLY)
+        self.WeightDropdown     = wx.ComboBox(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Weight'], choices=Weights, style=wx.CB_READONLY)
         self.SizeText           = wx.TextCtrl(self.EditLayoutPanel, value=str(self.Settings[u'Size']))
         self.ColorField         = wx.ColourPickerCtrl(self.EditLayoutPanel)
         self.HideText           = wx.TextCtrl(self.EditLayoutPanel, value=self.Settings[u'HideControl'])
@@ -82,20 +82,20 @@ class EditLayoutDialog(wx.Dialog):
         
         # Information area
         InfoGrid    =   wx.FlexGridSizer(4, 5, 5, 5)
-        InfoGrid.AddMany ( [(wx.StaticText(self.EditLayoutPanel, label="Label"), 0, wx.FIXED_MINSIZE),
-                        (wx.StaticText(self.EditLayoutPanel, label="Font"), 0, wx.FIXED_MINSIZE),
-                        (wx.StaticText(self.EditLayoutPanel, label="Style"), 0, wx.FIXED_MINSIZE),
-                        (wx.StaticText(self.EditLayoutPanel, label="Weight"), 0, wx.FIXED_MINSIZE),
-                        (wx.StaticText(self.EditLayoutPanel, label="Size"), 0,wx.FIXED_MINSIZE),
-                        (self.LabelText, 0, wx.FIXED_MINSIZE ),
-                        (self.FontDropdown, 0, wx.FIXED_MINSIZE),
-                        (self.StyleDropdown, 0, wx.FIXED_MINSIZE),
-                        (self.WeightDropdown, 0, wx.FIXED_MINSIZE),
+        InfoGrid.AddMany ( [(wx.StaticText(self.EditLayoutPanel, label="Label"), 0, wx.EXPAND),
+                        (wx.StaticText(self.EditLayoutPanel, label="Font"), 0, wx.EXPAND),
+                        (wx.StaticText(self.EditLayoutPanel, label="Style"), 0, wx.EXPAND),
+                        (wx.StaticText(self.EditLayoutPanel, label="Weight"), 0, wx.EXPAND),
+                        (wx.StaticText(self.EditLayoutPanel, label="Size"), 0,wx.EXPAND),
+                        (self.LabelText, 0, wx.EXPAND ),
+                        (self.FontDropdown, 0, wx.EXPAND),
+                        (self.StyleDropdown, 0, wx.EXPAND),
+                        (self.WeightDropdown, 0, wx.EXPAND),
                         (self.SizeText, 0, wx.EXPAND),
-                        (wx.StaticText(self.EditLayoutPanel, label="Hide/Show"), 0, wx.FIXED_MINSIZE),
-                        (wx.StaticText(self.EditLayoutPanel, label="Color"), 0, wx.FIXED_MINSIZE),
-                        (wx.StaticText(self.EditLayoutPanel, label="Vertical"), 0, wx.FIXED_MINSIZE),
-                        (wx.StaticText(self.EditLayoutPanel, label="Horizontal"), 0, wx.FIXED_MINSIZE),
+                        (wx.StaticText(self.EditLayoutPanel, label="Hide/Show"), 0, wx.EXPAND),
+                        (wx.StaticText(self.EditLayoutPanel, label="Color"), 0, wx.EXPAND),
+                        (wx.StaticText(self.EditLayoutPanel, label="Vertical"), 0, wx.EXPAND),
+                        (wx.StaticText(self.EditLayoutPanel, label="Horizontal"), 0, wx.EXPAND),
                         (wx.StaticText(self.EditLayoutPanel, label=""), 0, wx.EXPAND),
                         (self.HideText, 0, wx.EXPAND),
                         (self.ColorField, 0, wx.EXPAND),
@@ -107,13 +107,13 @@ class EditLayoutDialog(wx.Dialog):
         self.vboxLayout = wx.BoxSizer(wx.VERTICAL)
         self.hboxLayout = wx.BoxSizer(wx.HORIZONTAL)
         
-        self.hboxLayout.Add((400, -1), 1, flag=wx.EXPAND | wx.ALIGN_RIGHT)
-        self.hboxLayout.Add(self.ButtonSaveLayout, flag=wx.LEFT | wx.BOTTOM | wx.TOP, border=10)
-        self.hboxLayout.Add(self.ButtonCancelLayout, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
+        self.hboxLayout.Add(self.ButtonSaveLayout, 0, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
+        self.hboxLayout.Add(self.ButtonCancelLayout, 0, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
         
-        self.vboxLayout.Add(InfoGrid, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
-        self.vboxLayout.Add(self.hboxLayout)
+        self.vboxLayout.Add(InfoGrid, 0, flag=wx.ALL, border=10)
+        self.vboxLayout.Add(self.hboxLayout, 0, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
 
+        self.vboxLayout.SetSizeHints(self)
         self.EditLayoutPanel.SetSizer(self.vboxLayout)
         
     def DisableHorizontalBox(self, event):
@@ -140,7 +140,7 @@ class EditLayoutDialog(wx.Dialog):
             beamSettings._myDisplaySettings[self.RowSelected] = self.Settings
         self.parent.BuildLayoutList()
         self.Destroy()
-    
+
     def OnCancelLayoutItem(self, event):
         self.Destroy()
 
