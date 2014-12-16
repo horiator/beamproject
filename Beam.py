@@ -25,7 +25,7 @@
 #
 # This Python file uses the following encoding: utf-8
 
-import wx, wx.html
+import wx, wx.html, platform
 import os, sys
 
 from bin.beamsettings import *
@@ -43,6 +43,8 @@ app = wx.App(False)             # Error messages go to terminal, for debugging p
 confFile = open(os.path.join(os.getcwd(), beamSettings.defaultConfigFileName), 'r')
 beamSettings.LoadConfig(confFile)
 confFile.close()
+if platform.system() == 'Windows': #Send error-log to file for Windows
+    sys.stderr = open(os.path.join(os.path.expanduser("~"),"Beam-log.txt"),"w")
 print beamSettings.mainFrameTitle
 
 ########################################################
