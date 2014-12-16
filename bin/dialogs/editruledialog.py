@@ -38,7 +38,7 @@ from bin.beamsettings import *
 #
 class EditRuleDialog(wx.Dialog):
     def __init__(self, parent, RowSelected, mode):
-        self.EditRuleDialog     = wx.Dialog.__init__(self, parent, title=mode, size=(470,210))
+        self.EditRuleDialog     = wx.Dialog.__init__(self, parent, title=mode)
         self.EditRulePanel  = wx.Panel(self)
         self.parent             = parent
         self.RowSelected    = RowSelected
@@ -60,8 +60,8 @@ class EditRuleDialog(wx.Dialog):
             self.Settings   = ({"Type": "Set", "Field1": "%Comment","Field2": "%Singer", "Active": "yes"})
 
         # Build the static elements
-        self.InputID3Field      = wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Field1'], choices=self.InputFields, style=wx.CB_READONLY)
-        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel,value=self.Settings[u'Type'], choices=['Set','Cortina','Parse'], style=wx.CB_READONLY)
+        self.InputID3Field      = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Field1'], choices=self.InputFields, style=wx.CB_READONLY)
+        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Type'], choices=['Set','Cortina','Parse'], style=wx.CB_READONLY)
         self.RuleSelectDropdown.Bind(wx.EVT_COMBOBOX, self.ChangeRuleType)
         self.RuleOrder          = wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected+1))
         self.ActivateRule       = wx.CheckBox(self.EditRulePanel, label="Activate")
@@ -79,8 +79,8 @@ class EditRuleDialog(wx.Dialog):
         self.sizer2 = wx.BoxSizer(wx.HORIZONTAL)
 
         InfoGrid    =   wx.FlexGridSizer(4, 4, 5, 5)
-        InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Input ID3 tag"), 0, wx.EXPAND),
-                        (wx.StaticText(self.EditRulePanel, label="Rule type"), 0, wx.EXPAND),
+        InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Input ID3 tag", size=(150,-1)), 0, wx.EXPAND),
+                        (wx.StaticText(self.EditRulePanel, label="Rule type", size=(150,-1)), 0, wx.EXPAND),
                         (self.DynamicFieldLabel1, 0, wx.EXPAND),
                         (self.DynamicFieldLabel2, 0, wx.EXPAND),
                         (self.InputID3Field, 0, wx.EXPAND),
@@ -88,27 +88,30 @@ class EditRuleDialog(wx.Dialog):
                         (self.sizer1, 0, wx.EXPAND),
                         (self.sizer2, 0, wx.EXPAND),
                         (wx.StaticText(self.EditRulePanel, label="Rule order"), 0, wx.EXPAND),
-                        (self.TokenLabel, 0, wx.EXPAND),
+                        (self.TokenLabel, 0, wx.EXPAND  ),
                         (wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
                         (wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
                         (self.RuleOrder, 0, wx.EXPAND),
-                        (self.TokenField, 0, wx.EXPAND)
+                        (self.TokenField, 0, wx.EXPAND )
                         ])
 
         self.vbox = wx.BoxSizer(wx.VERTICAL)
         self.hbox = wx.BoxSizer(wx.HORIZONTAL)
 
-        self.EditRulePanel.SetSizer(self.vbox)
 
-        self.hbox.Add((200, -1), 1, flag=wx.EXPAND | wx.ALIGN_RIGHT)
-        self.hbox.Add(self.ActivateRule, flag=wx.LEFT | wx.TOP, border=13)
-        self.hbox.Add(self.ButtonSaveRule, flag=wx.LEFT | wx.BOTTOM | wx.TOP, border=10)
-        self.hbox.Add(self.ButtonCancelRule, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
 
-        self.vbox.Add(InfoGrid, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
-        self.vbox.Add(self.hbox)
+        self.hbox.Add(self.ActivateRule, flag=wx.ALL | wx.ALIGN_LEFT, border=10)
+        self.hbox.Add(self.ButtonSaveRule, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
+        self.hbox.Add(self.ButtonCancelRule, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
+
+        self.vbox.Add(InfoGrid, flag=wx.ALL, border=10)
+        self.vbox.Add(self.hbox, flag=wx.ALL | wx.ALIGN_RIGHT | wx.EXPAND, border = 10)
 
         self.ChangeRuleType(self)
+        self.vbox.SetSizeHints(self)  
+        self.EditRulePanel.SetSizer(self.vbox)
+        
+        
 
 
     def ChangeRuleType(self, event):
@@ -124,7 +127,7 @@ class EditRuleDialog(wx.Dialog):
             self.TokenField.Hide()
 
             #Add correct fields
-            self.OutputField1       = wx.ComboBox(self.EditRulePanel,value="%Artist", choices=self.OutputFields, style=wx.CB_READONLY)
+            self.OutputField1       = wx.ComboBox(self.EditRulePanel, size=(150,-1), value="%Artist", choices=self.OutputFields, style=wx.CB_READONLY)
             self.sizer1.Add(self.OutputField1)
 
             if self.Settings[u'Type'] == 'Set':
@@ -140,9 +143,9 @@ class EditRuleDialog(wx.Dialog):
             self.RemoveDynamicElements()
 
             #Add correct fields
-            self.OutputField1       = wx.ComboBox(self.EditRulePanel,value="%Artist", choices=self.OutputFields,style=wx.CB_READONLY)
+            self.OutputField1       = wx.ComboBox(self.EditRulePanel,value="%Artist", size=(150,-1), choices=self.OutputFields,style=wx.CB_READONLY)
             self.sizer1.Add(self.OutputField1)
-            self.OutputField2       = wx.ComboBox(self.EditRulePanel,value="%Artist", choices=self.OutputFields,style=wx.CB_READONLY)
+            self.OutputField2       = wx.ComboBox(self.EditRulePanel,value="%Artist", size=(150,-1), choices=self.OutputFields,style=wx.CB_READONLY)
             self.sizer2.Add(self.OutputField2)
 
             if self.Settings[u'Type'] == 'Parse':
@@ -181,8 +184,11 @@ class EditRuleDialog(wx.Dialog):
                 self.IsIsNot.SetStringSelection("is")
                 self.OutputField3.SetValue("")
 
+        self.vbox.SetSizeHints(self)  
+        self.EditRulePanel.SetSizer(self.vbox)
         self.EditRulePanel.Layout()
 
+        
     def RemoveDynamicElements(self):
         try:
             self.sizer1.Remove(self.OutputField1)
@@ -195,13 +201,11 @@ class EditRuleDialog(wx.Dialog):
         try:
             self.sizer1.Remove(self.IsIsNot)
             self.IsIsNot.Hide()
-        except:
-            pass
+        except: pass
         try:
             self.sizer2.Remove(self.OutputField3)
             self.OutputField3.Hide()
-        except:
-            pass
+        except: pass
 
 
     def OnSaveRuleItem(self, event):
