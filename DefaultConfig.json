@@ -32,7 +32,7 @@
   "Author": "Mikael Holber & Horia Uifaleanu - 2014", 
   "Rules": [
     {
-      "Active": "no", 
+      "Active": "yes", 
       "Field2": "%Singer", 
       "Field1": "%Comment", 
       "Type": "Set"
@@ -52,7 +52,7 @@
       "Field3": "cortina"
     }, 
     {
-      "Active": "no", 
+      "Active": "yes", 
       "Field2": "is not", 
       "Field1": "%Genre", 
       "Type": "Cortina", 
@@ -71,128 +71,142 @@
       "Field3": "%Artist", 
       "Field1": "%Artist", 
       "Field4": "%Singer", 
-      "Active": "no", 
+      "Active": "yes", 
       "Type": "Parse"
     }
   ], 
   "PlayingStateBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
-  "Module": "", 
+  "Module": "Itunes", 
   "DisplayWhenStopped": [
     {
       "Style": "Italic", 
       "Center": "yes", 
-      "Weight": "Normal", 
-      "Field": "", 
-      "Size": 10, 
+      "Weight": "Bold", 
+      "Row": 1, 
+      "Field": "Beam", 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
         30, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
-      "Font": "Decorative", 
-      "Row": 1
+      "Font": "Roman", 
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
       "Center": "yes", 
-      "Weight": "Normal", 
-      "Field": "Milonga Napoca 15", 
-      "Size": 4, 
+      "Weight": "Bold", 
+      "Row": 2, 
+      "Field": "Me Up Scotty", 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
-        88, 
+        50, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
-      "Font": "Decorative", 
-      "Row": 2
+      "Font": "Roman", 
+      "Size": 8
     }
   ], 
   "MaxTandaLength": 4, 
   "Display": [
     {
-      "Style": "Normal", 
+      "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "%Artist", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
-        8, 
+        7, 
         0
       ], 
-      "FontColor": "(178, 36, 42, 255)", 
-      "Font": "Swiss", 
-      "Size": 7
+      "Font": "Roman", 
+      "Size": 11
     }, 
     {
-      "Style": "Normal", 
+      "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "%Title", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
-        23, 
-        10
+        24, 
+        0
       ], 
-      "FontColor": "(153, 203, 204, 255)", 
-      "Font": "Swiss", 
-      "Size": 7
-    }, 
-    {
-      "Style": "Normal", 
-      "Center": "yes", 
-      "Weight": "Normal", 
-      "HideControl": "", 
-      "Field": "- %Singer -", 
-      "Position": [
-        40, 
-        1
-      ], 
-      "FontColor": "(153, 203, 204, 255)", 
       "Font": "Roman", 
-      "Size": 6
+      "Size": 11
     }, 
     {
       "Style": "Italic", 
-      "Center": "no", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "%Singer", 
+      "Field": "- %Singer -", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        41, 
+        1
+      ], 
+      "Font": "Roman", 
+      "Size": 11
+    }, 
+    {
+      "Style": "Italic", 
+      "Center": "yes", 
       "Weight": "Normal", 
       "HideControl": "%NextTandaArtist", 
       "Field": "Next Tanda:", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         68, 
         0
       ], 
-      "FontColor": "(153, 203, 204, 255)", 
+      "Font": "Roman", 
+      "Size": 5
+    }, 
+    {
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "HideControl": "%NextTandaArtist", 
+      "Field": "%NextTandaGenre  - %NextTandaArtist", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        76, 
+        0
+      ], 
       "Font": "Roman", 
       "Size": 5
     }, 
     {
       "Style": "Italic", 
       "Center": "no", 
-      "Weight": "Normal", 
-      "HideControl": "%NextTandaArtist", 
-      "Field": "%NextTandaGenre  - %NextTandaArtist", 
-      "Position": [
-        76, 
-        0
-      ], 
-      "FontColor": "(255, 255, 255, 255)", 
-      "Font": "Decorative", 
-      "Size": 5
-    }, 
-    {
-      "Style": "Normal", 
-      "Center": "yes", 
       "Weight": "Light", 
       "HideControl": "", 
-      "Field": "%LongDate - %Hour:%Min", 
+      "Field": "%Hour:%Min", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
-        94, 
-        65
+        90, 
+        90
       ], 
-      "FontColor": "(237, 7, 10, 255)", 
-      "Font": "Teletype", 
-      "Size": 3
+      "Font": "Roman", 
+      "Size": 4
+    }, 
+    {
+      "Style": "Italic", 
+      "Center": "no", 
+      "Weight": "Light", 
+      "HideControl": "", 
+      "Field": "%LongDate", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        90, 
+        2
+      ], 
+      "Font": "Roman", 
+      "Size": 4
     }
   ], 
-  "StoppedStateBackgroundImage": "resources/backgrounds/macheta-milonga-napoca15_1080p.jpg"
+  "StoppedStateBackgroundImage": ""
 }
