@@ -113,8 +113,8 @@ class EditLayoutDialog(wx.Dialog):
         self.vboxLayout.Add(InfoGrid, 0, flag=wx.ALL, border=10)
         self.vboxLayout.Add(self.hboxLayout, 0, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
 
-        self.vboxLayout.SetSizeHints(self)
         self.EditLayoutPanel.SetSizer(self.vboxLayout)
+        self.vboxLayout.SetSizeHints(self)
         
     def DisableHorizontalBox(self, event):
         self.HorizontalPos.Enable(not self.CenterCheck.GetValue())
