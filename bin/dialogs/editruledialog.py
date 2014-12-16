@@ -100,17 +100,16 @@ class EditRuleDialog(wx.Dialog):
 
 
 
-        self.hbox.Add(self.ActivateRule, flag=wx.ALL | wx.ALIGN_LEFT, border=10)
-        self.hbox.Add(self.ButtonSaveRule, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
-        self.hbox.Add(self.ButtonCancelRule, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
+        self.hbox.Add(self.ActivateRule, 0, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
+        self.hbox.Add(self.ButtonSaveRule, 0, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
+        self.hbox.Add(self.ButtonCancelRule, 0, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
 
         self.vbox.Add(InfoGrid, flag=wx.ALL, border=10)
-        self.vbox.Add(self.hbox, flag=wx.ALL | wx.ALIGN_RIGHT | wx.EXPAND, border = 10)
+        self.vbox.Add(self.hbox, flag=wx.ALL | wx.ALIGN_RIGHT, border = 10)
 
         self.ChangeRuleType(self)
-        self.vbox.SetSizeHints(self)  
         self.EditRulePanel.SetSizer(self.vbox)
-        
+        self.vbox.SetSizeHints(self)  
         
 
 
