@@ -114,7 +114,11 @@ class beamMainFrame(wx.Frame):
         self.red = float(1.0)
         self.green = float(1.0)
         self.blue = float(1.0)
-        
+
+        self.currentDisplayRows = []
+        self.currentPlaybackStatus = ""
+        self.previousPlaybackStatus = ""
+                
         #triggers
         self.triggerAdjustBackgroundRGB = True
         self.triggerResizeBackground = True
@@ -126,8 +130,7 @@ class beamMainFrame(wx.Frame):
         self.applyCurrentSettings()
         self.updateData()
 
-        self.currentDisplayRows = []
-        self.currentPlayBackStatus = u''
+
 
         
 
@@ -143,24 +146,26 @@ class beamMainFrame(wx.Frame):
     def updateData(self, event = wx.EVT_TIMER):
         self.currentDisplayRows = nowPlayingDataModel.DisplayRow
         self.currentPlaybackStatus = nowPlayingDataModel.PlaybackStatus
+        self.previousPlaybackStatus = nowPlayingDataModel.PreviousPlaybackStatus        
         if not self.currentlyUpdating:
             self.currentlyUpdating = True
-            wx.lib.delayedresult.startWorker(self.getDataFinished, nowPlayingDataModel.ExtractPlaylistInfo() )
+            wx.lib.delayedresult.startWorker(self.getDataFinished, nowPlayingDataModel.ExtractPlaylistInfo( beamSettings ) )
 
     def getDataFinished(self, result):
         self.currentDisplayRows = nowPlayingDataModel.DisplayRow
         self.currentPlaybackStatus = nowPlayingDataModel.PlaybackStatus
+        self.previousPlaybackStatus = nowPlayingDataModel.PreviousPlaybackStatus
         self.currentlyUpdating = False
         
         
-        if nowPlayingDataModel.PreviousPlaybackStatus != nowPlayingDataModel.PlaybackStatus:
-            print "new status:", nowPlayingDataModel.PlaybackStatus
-            if (nowPlayingDataModel.PlaybackStatus == 'Playing' and 
+        if self.previousPlaybackStatus != self.currentPlaybackStatus:
+            print "new status:", self.currentPlaybackStatus
+            if (self.currentPlaybackStatus == 'Playing' and 
                 beamSettings._playingStateBackgroundPath != self._currentBackgroundPath and
                 beamSettings._playingStateBackgroundPath != ""):
                 self._currentBackgroundPath = beamSettings._playingStateBackgroundPath
                 self.fadeBackground()
-            if (nowPlayingDataModel.PlaybackStatus == 'Stopped' and 
+            if (self.currentPlaybackStatus == 'Stopped' and 
                 beamSettings._stoppedStateBackgroundPath != self._currentBackgroundPath and
                 beamSettings._stoppedStateBackgroundPath !=""):
                 self._currentBackgroundPath = beamSettings._stoppedStateBackgroundPath
@@ -168,7 +173,7 @@ class beamMainFrame(wx.Frame):
         else:
             self.Refresh()
 
-        self.SetStatusText(nowPlayingDataModel.PlaybackStatus) 
+        self.SetStatusText(self.currentPlaybackStatus) 
 
 #####################################################
 # BACKGROUND resize and repaint

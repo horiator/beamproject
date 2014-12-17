@@ -36,19 +36,21 @@ if platform.system() == 'Windows':
 
 class NowPlayingDataModel:
 
-    def __init__(self):
+    def __init__(self, currentSettings = beamSettings):
         
-        songNo = eval(beamSettings._maxTandaLength + "+2")
+        self.maxTandaLength = currentSettings._maxTandaLength
         
-        self.Artist      = [None] * songNo
-        self.Album       = [None] * songNo
-        self.Title       = [None] * songNo
-        self.Genre       = [None] * songNo
-        self.Comment     = [None] * songNo
-        self.Composer    = [None] * songNo
-        self.Year        = [None] * songNo
-        self.Singer      = [None] * songNo
-        self.IsCortina   = [None] * songNo
+        numberOfRequestedSongs = eval(self.maxTandaLength + '2')
+        
+        self.Artist      = [None] * numberOfRequestedSongs
+        self.Album       = [None] * numberOfRequestedSongs
+        self.Title       = [None] * numberOfRequestedSongs
+        self.Genre       = [None] * numberOfRequestedSongs
+        self.Comment     = [None] * numberOfRequestedSongs
+        self.Composer    = [None] * numberOfRequestedSongs
+        self.Year        = [None] * numberOfRequestedSongs
+        self.Singer      = [None] * numberOfRequestedSongs
+        self.IsCortina   = [None] * numberOfRequestedSongs
 
         self.PlaybackStatus = ""
         self.PreviousPlaybackStatus = ""
@@ -62,33 +64,34 @@ class NowPlayingDataModel:
 
         self.convDict = dict()
         
-    def ExtractPlaylistInfo(self):
+    def ExtractPlaylistInfo(self, currentSettings = beamSettings):
         print "Start updating data... ", time.strftime("%H:%M:%S")
         self.PreviousPlaybackStatus = self.PlaybackStatus
         
         # Extract data using the player module
-        if beamSettings._moduleSelected == 'Audacious':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = audaciousModule.run(beamSettings._maxTandaLength)
-        if beamSettings._moduleSelected == 'Rhythmbox':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = rhythmboxModule.run(beamSettings._maxTandaLength)
-        if beamSettings._moduleSelected == 'Itunes':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = itunesWindowsModule.run(beamSettings._maxTandaLength)
-        if beamSettings._moduleSelected == 'Clementine':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = clementineModule.run(beamSettings._maxTandaLength)
-        if beamSettings._moduleSelected == 'Banshee':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = bansheeModule.run(beamSettings._maxTandaLength)
+        if currentSettings._moduleSelected == 'Audacious':
+            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = audaciousModule.run(currentSettings._maxTandaLength)
+        if currentSettings._moduleSelected == 'Rhythmbox':
+            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = rhythmboxModule.run(currentSettings._maxTandaLength)
+        if currentSettings._moduleSelected == 'Itunes':
+            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = itunesWindowsModule.run(currentSettings._maxTandaLength)
+        if currentSettings._moduleSelected == 'Clementine':
+            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = clementineModule.run(currentSettings._maxTandaLength)
+        if currentSettings._moduleSelected == 'Banshee':
+            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = bansheeModule.run(currentSettings._maxTandaLength)
         try: #required due to loaded modules
-            if beamSettings._moduleSelected == 'Winamp':
-                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = winampWindowsModule.run(beamSettings._maxTandaLength)
+            if currentSettings._moduleSelected == 'Winamp':
+                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = winampWindowsModule.run(currentSettings._maxTandaLength)
         except:
             pass
-        if beamSettings._moduleSelected == 'MediaMonkey':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = MediaMonkeyModule.run(beamSettings._maxTandaLength)
-        if beamSettings._moduleSelected == 'JRiver Media Center':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =JRMCWindowsModule.run(beamSettings._maxTandaLength)
-        if beamSettings._moduleSelected == 'Spotify':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =spotifyWindowsModule.run(beamSettings._maxTandaLength)
-          
+        if currentSettings._moduleSelected == 'MediaMonkey':
+            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = MediaMonkeyModule.run(currentSettings._maxTandaLength)
+        if currentSettings._moduleSelected == 'JRiver Media Center':
+            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =JRMCWindowsModule.run(currentSettings._maxTandaLength)
+        if currentSettings._moduleSelected == 'Spotify':
+            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =spotifyWindowsModule.run(currentSettings._maxTandaLength)
+  
+        print "Data Extracted... ", time.strftime("%H:%M:%S")        
         #if it's first update
         if self.PreviousPlaybackStatus == "":
             self.PreviousPlaybackStatus = self.PlaybackStatus
@@ -102,8 +105,8 @@ class NowPlayingDataModel:
         # Apply rules, for every song in list
         #
         for j in range(0, len(self.Artist)):
-            for i in range(0, len(beamSettings._rules)):
-                Rule = beamSettings._rules[i]
+            for i in range(0, len(currentSettings._rules)):
+                Rule = currentSettings._rules[i]
                 try:
                     if Rule[u'Type'] == 'Parse' and Rule[u'Active'] == 'yes':
                         # Find Rule[u'Field2'] in Rule[u'Field1'],
@@ -155,14 +158,14 @@ class NowPlayingDataModel:
         #
         
         # The display lines
-        for i in range(0, len(beamSettings._myDisplaySettings)): self.DisplayRow.append('')
+        for i in range(0, len(currentSettings._myDisplaySettings)): self.DisplayRow.append('')
         
         #first, update the conversion dictionary
         self.updateConversionDisctionary()
         
         if self.PlaybackStatus in 'Playing':
-            for j in range(0, len(beamSettings._myDisplaySettings)):
-                MyDisplay = beamSettings._myDisplaySettings[j]
+            for j in range(0, len(currentSettings._myDisplaySettings)):
+                MyDisplay = currentSettings._myDisplaySettings[j]
                 try:
                     displayValue = str(MyDisplay['Field'])
                 except:
@@ -185,7 +188,7 @@ class NowPlayingDataModel:
                         self.DisplayRow[j] = displayValue
                     else:
                         self.DisplayRow[j] = ""
-        print "...data updated: ", time.strftime("%H:%M:%S")
+        print "...data filtered: ", time.strftime("%H:%M:%S")
         return
     
     def updateConversionDisctionary(self):
