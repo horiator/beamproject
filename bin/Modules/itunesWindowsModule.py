@@ -29,9 +29,8 @@
 #    	- Initial release
 #
 
-
+import subprocess
 try:
-	import win32ui
 	import win32com.client
 except ImportError:
 	pass
@@ -51,7 +50,7 @@ def run(MaxTandaLength):
 
 		
 	# Check if iTunes is running and create a communications object
-	if WindowExists("iTunes"):
+	if ApplicationRunning("iTunes.exe"):
 		try:
 			itunes = win32com.client.gencache.EnsureDispatch ("iTunes.Application")
 		except:
@@ -97,10 +96,11 @@ def run(MaxTandaLength):
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 
 
-def WindowExists(classname):
-    try:
-        win32ui.FindWindow(classname, None)
-    except win32ui.error:
-        return False
-    else:
-        return True
+def ApplicationRunning(AppName):
+    import subprocess
+    cmd = 'WMIC PROCESS get Caption,Commandline,Processid'
+    proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    for line in proc.stdout:
+        if AppName in line:
+            return True
+    return False
