@@ -76,9 +76,10 @@ class BeamSettings:
     def LoadConfig(self, inputConfigFile):
 
         # Load Settings
-        ConfigFile = open(os.path.join(os.getcwd(), inputConfigFile), 'r')
-        ConfigData = json.load(ConfigFile)             # Loading settings from the specfied file
-        ConfigFile.close()
+        try:
+            ConfigData = self.OpenSetting(os.path.join(os.path.expanduser("~"), inputConfigFile)) #Try loading in home directory
+        except:
+            ConfigData = self.OpenSetting(os.path.join(os.getcwd(), inputConfigFile)) #Otherwise read default setting
         
         #ConfigData = json.load(io.open(inputConfigFile,"r", encoding='utf8').read().decode("utf-8"))
         #print data                
@@ -132,13 +133,25 @@ class BeamSettings:
         output[u'Rules']                = self._rules
 
         # Write config file
-        ConfigFile = open(os.path.join(os.getcwd(), outputConfigFile), 'w')
-        json.dump(output, ConfigFile, indent=2)
-        ConfigFile.close()
+        self.WriteSetting(os.path.join(os.path.expanduser("~"),outputConfigFile), output) #Write setting in home-dir
         
         #output_utf8 = output.encode('UTF-8')
         #open("test_utf8.json, 'w').write(output_utf8)
         
         return
+
+
+    def OpenSetting(self, inputConfigFile):
+        ConfigFile = open(inputConfigFile, 'r')
+        ConfigData = json.load(ConfigFile)
+        ConfigFile.close()
+        return ConfigData
+
+
+    def WriteSetting(self, outputConfigFile, output):
+        ConfigFile = open(outputConfigFile, 'w')
+        json.dump(output, ConfigFile, indent=2)
+        ConfigFile.close()
+        return 
 
 beamSettings = BeamSettings()   # Create the settings object

@@ -76,35 +76,35 @@
     }
   ], 
   "PlayingStateBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
-  "Module": "MediaMonkey", 
+  "Module": "", 
   "DisplayWhenStopped": [
     {
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Bold", 
+      "Row": 1, 
       "Field": "Beam", 
-      "Size": 10, 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
         30, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Roman", 
-      "Row": 1
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Bold", 
+      "Row": 2, 
       "Field": "Me Up Scotty", 
-      "Size": 8, 
+      "FontColor": "(255,255,255,255)", 
       "Position": [
         50, 
         0
       ], 
-      "FontColor": "(255,255,255,255)", 
       "Font": "Roman", 
-      "Row": 2
+      "Size": 8
     }
   ], 
   "MaxTandaLength": 4, 
@@ -115,11 +115,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "%Artist", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         7, 
         0
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 11
     }, 
@@ -129,11 +129,11 @@
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "%Title", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         24, 
         0
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 11
     }, 
@@ -143,11 +143,11 @@
       "Weight": "Normal", 
       "HideControl": "%Singer", 
       "Field": "- %Singer -", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         41, 
         1
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 11
     }, 
@@ -157,11 +157,11 @@
       "Weight": "Normal", 
       "HideControl": "%NextTandaArtist", 
       "Field": "Next Tanda:", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         68, 
         0
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 5
     }, 
@@ -171,11 +171,11 @@
       "Weight": "Bold", 
       "HideControl": "%NextTandaArtist", 
       "Field": "%NextTandaGenre  - %NextTandaArtist", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         76, 
         0
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 5
     }, 
@@ -185,11 +185,11 @@
       "Weight": "Light", 
       "HideControl": "", 
       "Field": "%Hour:%Min", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         90, 
         90
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 4
     }, 
@@ -199,11 +199,11 @@
       "Weight": "Light", 
       "HideControl": "", 
       "Field": "%LongDate", 
+      "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         90, 
         2
       ], 
-      "FontColor": "(255, 255, 255, 255)", 
       "Font": "Roman", 
       "Size": 4
     }
