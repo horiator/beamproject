@@ -76,8 +76,9 @@ class BeamSettings:
     def LoadConfig(self, inputConfigFile):
 
         # Load Settings
-        ConfigData = json.load(inputConfigFile)             # Loading settings from the specfied file
-
+        ConfigFile = open(os.path.join(os.getcwd(), inputConfigFile), 'r')
+        ConfigData = json.load(ConfigFile)             # Loading settings from the specfied file
+        ConfigFile.close()
         
         #ConfigData = json.load(io.open(inputConfigFile,"r", encoding='utf8').read().decode("utf-8"))
         #print data                
@@ -131,12 +132,12 @@ class BeamSettings:
         output[u'Rules']                = self._rules
 
         # Write config file
-        json.dump(output, outputConfigFile, indent=2)
+        ConfigFile = open(os.path.join(os.getcwd(), outputConfigFile), 'w')
+        json.dump(output, ConfigFile, indent=2)
+        ConfigFile.close()
         
         #output_utf8 = output.encode('UTF-8')
         #open("test_utf8.json, 'w').write(output_utf8)
-        
-                
         
         return
 

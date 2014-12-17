@@ -209,10 +209,7 @@ class Preferences(wx.Dialog):
         beamSettings._moduleSelected     = self.Dropdown.GetValue()
         beamSettings._updateTimer        = int(self.TimerText.GetValue())
         beamSettings._maxTandaLength     =  int(self.TandaLength.GetValue())
-            #try:
-        confFile = open(os.path.join(os.getcwd(), beamSettings.defaultConfigFileName), 'w')
-        beamSettings.SaveConfig(confFile)
-        confFile.close()
+        beamSettings.SaveConfig(beamSettings.defaultConfigFileName)
 
 
 
