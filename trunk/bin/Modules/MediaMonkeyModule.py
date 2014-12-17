@@ -28,9 +28,8 @@
 #    18/10/2014 Version 1.0
 #    	- Initial release
 #
-
+import subprocess
 try:
-	import win32ui
 	import win32com.client
 except ImportError:
 	pass
@@ -50,7 +49,7 @@ def run(MaxTandaLength):
 
 		
 	# Create a communications object
-	if WindowExists("MediaMonkey"):
+	if ApplicationRunning("MediaMonkey.exe"):
 		try:
 			MediaMonkey = win32com.client.Dispatch("SongsDB.SDBApplication")
 		except:
@@ -99,10 +98,11 @@ def run(MaxTandaLength):
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 
 
-def WindowExists(WindowName):
-    try:
-        win32ui.FindWindow(None, WindowName)
-    except win32ui.error:
-        return False
-    else:
-        return True
+def ApplicationRunning(AppName):
+    import subprocess
+    cmd = 'WMIC PROCESS get Caption,Commandline,Processid'
+    proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    for line in proc.stdout:
+        if AppName in line:
+            return True
+    return False
