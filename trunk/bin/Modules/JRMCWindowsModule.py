@@ -29,9 +29,8 @@
 #    	- Initial release
 #
 
-
+import subprocess
 try:
-	import win32ui
 	import win32com.client
 except ImportError:
 	pass
@@ -50,7 +49,7 @@ def run(MaxTandaLength):
 	Year			= []
 
 	# Check if iTunes is running and create a communications object
-	if WindowExists("JRiver Media Center 20"):
+	if ApplicationRunning("Media Center 20.exe"):
 		try:
 			JRMC = win32com.client.Dispatch ("MediaJukebox Application")
 		except:
@@ -100,10 +99,11 @@ def run(MaxTandaLength):
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 
 
-def WindowExists(classname):
-    try:
-        win32ui.FindWindow(None, classname)
-    except win32ui.error:
-        return False
-    else:
-        return True
+def ApplicationRunning(AppName):
+    import subprocess
+    cmd = 'WMIC PROCESS get Caption,Commandline,Processid'
+    proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    for line in proc.stdout:
+        if AppName in line:
+            return True
+    return False
