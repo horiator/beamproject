@@ -73,12 +73,12 @@ def run(MaxTandaLength):
         while searchsong < currentsong+MaxTandaLength+2:
             try:
                 Track = itunes.CurrentTrack.Playlist.Tracks.Item(searchsong)
-                Artist.append((Track.Artist).encode('cp1250'))
-                Album.append((Track.Album).encode('cp1250'))
-                Title.append((Track.Name).encode('cp1250'))
-                Genre.append((Track.Genre).encode('cp1250'))
-                Comment.append((Track.Comment).encode('cp1250'))
-                Composer.append((Track.Composer).encode('cp1250'))
+                Artist.append((Track.Artist).encode('latin-1'))
+                Album.append((Track.Album).encode('latin-1'))
+                Title.append((Track.Name).encode('latin-1'))
+                Genre.append((Track.Genre).encode('latin-1'))
+                Comment.append((Track.Comment).encode('latin-1'))
+                Composer.append((Track.Composer).encode('latin-1'))
                 Year.append(Track.Year)
                 
             except:
