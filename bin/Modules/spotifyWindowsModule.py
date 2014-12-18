@@ -29,10 +29,10 @@
 #    	- Initial release
 #
 
-
+import subprocess
 try:
 	import win32gui
-except ImportError:
+except:
 	pass
 	
 def run(MaxTandaLength):
@@ -49,16 +49,21 @@ def run(MaxTandaLength):
 	Year			= []
 
 	# Check if Spotify is running and create a handle
-	try:
-		spotify = win32gui.FindWindow("SpotifyMainWindow", None)
-	except:
+	if ApplicationRunning("spotify.exe"):
+		try:
+			spotify = win32gui.FindWindow("SpotifyMainWindow", None)
+		except:
+			playbackStatus = 'Mediaplayer is not running'
+			return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+	else:
 		playbackStatus = 'Mediaplayer is not running'
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+	
 	# Check if closed
 	if win32gui.GetWindowText(spotify) == "":
 		playbackStatus = 'Mediaplayer is not running'
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-		
+	print "hejda"
 	# Read from Spotify
 	try:
 		trackinfo = win32gui.GetWindowText(spotify).split(" - ")
@@ -88,3 +93,12 @@ def run(MaxTandaLength):
 		playbackStatus = 'Paused'
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 
+
+def ApplicationRunning(AppName):
+    import subprocess
+    cmd = 'WMIC PROCESS get Caption,Commandline,Processid'
+    proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    for line in proc.stdout:
+        if AppName in line:
+            return True
+    return False
