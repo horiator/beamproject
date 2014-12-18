@@ -75,12 +75,12 @@ def run(MaxTandaLength):
 		while searchsong < currentsong+MaxTandaLength+2:
 			try:
 				Track = MediaMonkey.Player.CurrentPlaylist.Item(searchsong)
-				Artist.append(Track.ArtistName.encode('cp1250'))
-				Album.append(Track.AlbumName.encode('cp1250'))
-				Title.append(Track.Title.encode('cp1250'))
-				Genre.append(Track.Genre.encode('cp1250'))
-				Comment.append(Track.Comment.encode('cp1250'))
-				Composer.append(Track.Author.encode('cp1250'))
+				Artist.append(Track.ArtistName.encode('latin-1'))
+				Album.append(Track.AlbumName.encode('latin-1'))
+				Title.append(Track.Title.encode('latin-1'))
+				Genre.append(Track.Genre.encode('latin-1'))
+				Comment.append(Track.Comment.encode('latin-1'))
+				Composer.append(Track.Author.encode('latin-1'))
 				Year.append(Track.Year)
 				
 			except:
