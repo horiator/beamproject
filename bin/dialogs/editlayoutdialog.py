@@ -111,7 +111,7 @@ class EditLayoutDialog(wx.Dialog):
         self.hboxLayout.Add(self.ButtonCancelLayout, 0, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
         
         self.vboxLayout.Add(InfoGrid, 0, flag=wx.ALL, border=10)
-        self.vboxLayout.Add(self.hboxLayout, 0, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
+        self.vboxLayout.Add(self.hboxLayout, 0, flag=wx.ALL | wx.ALIGN_RIGHT)
 
         self.EditLayoutPanel.SetSizer(self.vboxLayout)
         self.vboxLayout.SetSizeHints(self)

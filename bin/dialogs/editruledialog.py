@@ -64,10 +64,6 @@ class EditRuleDialog(wx.Dialog):
         self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Type'], choices=['Set','Cortina','Parse'], style=wx.CB_READONLY)
         self.RuleSelectDropdown.Bind(wx.EVT_COMBOBOX, self.ChangeRuleType)
         self.RuleOrder          = wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected+1))
-        self.ActivateRule       = wx.CheckBox(self.EditRulePanel, label="Activate")
-
-        if self.Settings[u'Active'] == "yes":
-            self.ActivateRule.SetValue(True)
 
         # Dynamic fields (Changes depending on RuleSelectDropdown)
         self.DynamicFieldLabel1 = wx.StaticText(self.EditRulePanel, label="")
@@ -98,14 +94,11 @@ class EditRuleDialog(wx.Dialog):
         self.vbox = wx.BoxSizer(wx.VERTICAL)
         self.hbox = wx.BoxSizer(wx.HORIZONTAL)
 
-
-
-        self.hbox.Add(self.ActivateRule, 0, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
         self.hbox.Add(self.ButtonSaveRule, 0, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
         self.hbox.Add(self.ButtonCancelRule, 0, flag=wx.ALL | wx.ALIGN_RIGHT, border=10)
 
         self.vbox.Add(InfoGrid, flag=wx.ALL, border=10)
-        self.vbox.Add(self.hbox, flag=wx.ALL | wx.ALIGN_RIGHT, border = 10)
+        self.vbox.Add(self.hbox, flag=wx.ALL | wx.ALIGN_RIGHT)
 
         self.ChangeRuleType(self)
         self.EditRulePanel.SetSizer(self.vbox)
@@ -215,10 +208,7 @@ class EditRuleDialog(wx.Dialog):
         NewRule = {}
         NewRule[u'Type']        = RuleSelected
         NewRule[u'Field1']      = self.InputID3Field.GetValue()
-        if self.ActivateRule.GetValue():
-            NewRule[u'Active']      = "yes"
-        else:
-            NewRule[u'Active']      = "no"
+        NewRule[u'Active']      = self.Settings[u'Active']
 
         if RuleSelected == 'Set':
             NewRule[u'Field2']      = self.OutputField1.GetValue()
@@ -230,6 +220,7 @@ class EditRuleDialog(wx.Dialog):
             NewRule[u'Field2']      = self.IsIsNot.GetValue()
             NewRule[u'Field3']      = self.OutputField3.GetValue()
 
+        NewRule[u'Field1']      = self.InputID3Field.GetValue()
         # Decide where NewRule goes into the vector self.Settings
         if self.mode == "Add rule":
             if RuleOrderBox < self.RowSelected:
