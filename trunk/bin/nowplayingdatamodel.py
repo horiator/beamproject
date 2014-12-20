@@ -32,7 +32,7 @@ from bin.beamsettings import *
 if platform.system() == 'Linux':
     from Modules import audaciousModule, rhythmboxModule, clementineModule, bansheeModule
 if platform.system() == 'Windows':
-    from Modules import itunesWindowsModule, winampWindowsModule, MediaMonkeyModule, JRMCWindowsModule, spotifyWindowsModule
+    from Modules import itunesWindowsModule, winampWindowsModule, MediaMonkeyModule, JRMCWindowsModule, spotifyWindowsModule, foobarWindowsModule
 
 class NowPlayingDataModel:
 
@@ -90,7 +90,9 @@ class NowPlayingDataModel:
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =JRMCWindowsModule.run(currentSettings._maxTandaLength)
         if currentSettings._moduleSelected == 'Spotify':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =spotifyWindowsModule.run(currentSettings._maxTandaLength)
-  
+        if currentSettings._moduleSelected == 'Foobar2000':
+            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =foobarWindowsModule.run(currentSettings._maxTandaLength)
+    
         print "Data Extracted... ", time.strftime("%H:%M:%S")        
         #if it's first update
         if self.PreviousPlaybackStatus == "":

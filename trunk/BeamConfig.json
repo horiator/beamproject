@@ -16,6 +16,7 @@
       "Modules": [
         "Itunes", 
         "MediaMonkey", 
+		"Foobar2000",
         "JRiver Media Center", 
         "Spotify", 
         "Winamp"

@@ -54,7 +54,7 @@ top.Show()                      # Shows the main frame
 ########################################################
 # Start the timer used to update the displayed data
 ########################################################
-if beamSettings._moduleSelected in ('Audacious', 'Rhythmbox','Itunes','Winamp','Clementine','Rhythmbox','Banshee','MediaMonkey', 'Spotify', 'JRiver Media Center'):
+if beamSettings._moduleSelected in ('Audacious', 'Rhythmbox','Itunes','Winamp','Clementine','Rhythmbox','Banshee','MediaMonkey', 'Spotify', 'JRiver Media Center','Foobar2000'):
     # If the configuration have a timer on how often to update the data
     try:
         # There is not timer, so create and start it
