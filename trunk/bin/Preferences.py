@@ -220,8 +220,9 @@ class Preferences(wx.Dialog):
         self.Destroy()
 
     def browseBackgroundImage(self, event):
-        openFileDialog = wx.FileDialog(self, "Open", "", "",
-                                       "Image files PNG (*.png)|*.png|Image files JPEG (*.jpg)|*.jpg",
+        openFileDialog = wx.FileDialog(self, "Set new background image", 
+                                       os.path.join(os.getcwd(), 'resources', 'backgrounds'), "",
+                                       "Image files(*.png,*.jpg)|*.png;*.jpg",
                                        wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
         if openFileDialog.ShowModal() == wx.ID_OK:
             beamSettings._playingStateBackgroundPath = openFileDialog.GetPath()
