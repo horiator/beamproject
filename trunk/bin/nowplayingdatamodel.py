@@ -73,7 +73,7 @@ class NowPlayingDataModel:
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = audaciousModule.run(currentSettings._maxTandaLength)
         if currentSettings._moduleSelected == 'Rhythmbox':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = rhythmboxModule.run(currentSettings._maxTandaLength)
-        if currentSettings._moduleSelected == 'Itunes':
+        if currentSettings._moduleSelected == 'iTunes':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = itunesWindowsModule.run(currentSettings._maxTandaLength)
         if currentSettings._moduleSelected == 'Clementine':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = clementineModule.run(currentSettings._maxTandaLength)

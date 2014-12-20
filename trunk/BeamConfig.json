@@ -14,9 +14,9 @@
     }, 
     {
       "Modules": [
-        "Itunes", 
-        "MediaMonkey", 
+        "iTunes", 
 		"Foobar2000",
+        "MediaMonkey", 
         "JRiver Media Center", 
         "Spotify", 
         "Winamp"
