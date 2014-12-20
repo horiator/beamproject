@@ -107,7 +107,6 @@ class BeamSettings:
 
         self._currentModules = [s.encode('utf-8') for s in tmp[u'Modules']]
 
-
         if self._moduleSelected == '':
             self._moduleSelected = [s.encode('utf-8') for s in tmp[u'Modules']][0]
         return
