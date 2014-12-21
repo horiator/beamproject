@@ -85,7 +85,7 @@ class Preferences(wx.Dialog):
         Background = wx.StaticText(panel, -1, "Background Image", (10,87))
         font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD)
         Background.SetFont(font)
-        wx.StaticText(panel, -1, "Select default background image (1920x1080 recommended)", (20,110))
+        wx.StaticText(panel, -1, "Select background image (1920x1080 recommended)", (20,110))
         self.browse = wx.Button(panel, label="Browse", pos=(20,129))
         self.browse.Bind(wx.EVT_BUTTON, self.browseBackgroundImage)
 
