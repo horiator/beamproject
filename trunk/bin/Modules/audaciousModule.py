@@ -65,13 +65,8 @@ def run(MaxTandaLength):
     #Declare our position
     currentsong     = int(subprocess.check_output(["audtool", "--playlist-position"]).rstrip('\n'))
     playlistlength  = int(subprocess.check_output(["audtool", "--playlist-length"]).rstrip('\n'))
+    searchsong = currentsong # Start on the current song
 
-    # Extract previous song
-    if currentsong == 1:
-        searchsong = currentsong # Start on the current song
-    else:
-        searchsong = currentsong-1 # Start on previous song
-        
     while searchsong < playlistlength+1 and searchsong < currentsong+MaxTandaLength+2:
         Artist.append(subprocess.check_output(  ["audtool", "--playlist-tuple-data", "artist",   str(searchsong)]).rstrip('\n'))
         Album.append(subprocess.check_output(   ["audtool", "--playlist-tuple-data", "album",    str(searchsong)]).rstrip('\n'))

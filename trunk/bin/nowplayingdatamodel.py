@@ -28,6 +28,7 @@
 import wx, platform, os, sys
 import time
 from bin.beamsettings import *
+from copy import deepcopy
 
 if platform.system() == 'Linux':
     from Modules import audaciousModule, rhythmboxModule, clementineModule, bansheeModule
@@ -42,25 +43,21 @@ class NowPlayingDataModel:
         
         numberOfRequestedSongs = eval(self.maxTandaLength + '2')
         
-        self.Artist      = [None] * numberOfRequestedSongs
-        self.Album       = [None] * numberOfRequestedSongs
-        self.Title       = [None] * numberOfRequestedSongs
-        self.Genre       = [None] * numberOfRequestedSongs
-        self.Comment     = [None] * numberOfRequestedSongs
-        self.Composer    = [None] * numberOfRequestedSongs
-        self.Year        = [None] * numberOfRequestedSongs
-        self.Singer      = [None] * numberOfRequestedSongs
-        self.IsCortina   = [None] * numberOfRequestedSongs
+        self.Artist      = [ '' for i in range(numberOfRequestedSongs) ]
+        self.Album       = [ '' for i in range(numberOfRequestedSongs) ]
+        self.Title       = [ '' for i in range(numberOfRequestedSongs) ]
+        self.Genre       = [ '' for i in range(numberOfRequestedSongs) ]
+        self.Comment     = [ '' for i in range(numberOfRequestedSongs) ]
+        self.Composer    = [ '' for i in range(numberOfRequestedSongs) ]
+        self.Year        = [ '' for i in range(numberOfRequestedSongs) ]
+        self.Singer      = [ '' for i in range(numberOfRequestedSongs) ]
+        self.IsCortina   = [ '' for i in range(numberOfRequestedSongs) ]
 
         self.PlaybackStatus = ""
         self.PreviousPlaybackStatus = ""
         self.PreviouslyPlayedSong = [ '' for i in range(7) ]
-        
         self.NextTanda = [ '' for i in range(7) ]
-
         self.DisplayRow = []
-        
-
 
         self.convDict = dict()
         
@@ -68,6 +65,12 @@ class NowPlayingDataModel:
         print "Start updating data... ", time.strftime("%H:%M:%S")
         self.PreviousPlaybackStatus = self.PlaybackStatus
         
+        # Save previous state
+        try:
+            LastRead = deepcopy([ self.Artist[1], self.Album[1], self.Title[1], self.Genre[1], self.Comment[1], self.Composer[1], self.Year[1] ])
+        except:
+            LastRead = [ '' for i in range(7) ]
+
         # Extract data using the player module
         if currentSettings._moduleSelected == 'Audacious':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = audaciousModule.run(currentSettings._maxTandaLength)
@@ -92,17 +95,40 @@ class NowPlayingDataModel:
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =spotifyWindowsModule.run(currentSettings._maxTandaLength)
         if currentSettings._moduleSelected == 'Foobar2000':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =foobarWindowsModule.run(currentSettings._maxTandaLength)
-    
+
+        #
+        # Previous song analysis
+        # 
+        try:
+            if LastRead[0] == self.Artist[0] and LastRead[1] == self.Album[0] and LastRead[2] == self.Title[0] and LastRead[3] == self.Genre[0] and LastRead[4] == self.Comment[0] and LastRead[5] == self.Composer[0] and LastRead[6] == self.Year[0]:
+                #print "Same song, do nothing"
+                pass 
+            else:
+                self.PreviouslyPlayedSong = LastRead
+                #print "Different song, copy"
+        except:
+             #print "Empty"
+             pass
+
+        # Insert previous song
+        self.Artist.insert(0, self.PreviouslyPlayedSong[0])
+        self.Album.insert(0, self.PreviouslyPlayedSong[1])
+        self.Title.insert(0, self.PreviouslyPlayedSong[2])
+        self.Genre.insert(0, self.PreviouslyPlayedSong[3])
+        self.Comment.insert(0, self.PreviouslyPlayedSong[4])
+        self.Composer.insert(0, self.PreviouslyPlayedSong[5])
+        self.Year.insert(0, self.PreviouslyPlayedSong[6])
+
+
         print "Data Extracted... ", time.strftime("%H:%M:%S")        
         #if it's first update
         if self.PreviousPlaybackStatus == "":
             self.PreviousPlaybackStatus = self.PlaybackStatus
-    #Process and Filter the freshly extracted Data
         
+        #Process and Filter the freshly extracted Data
         self.Singer  = [ "" for i in range(len(self.Artist)) ] # Does not exist in ID3
         self.IsCortina   = [ 0 for i in range(len(self.Artist)) ] # Sets 1 if song is cortina
 
-      
         #
         # Apply rules, for every song in list
         #
