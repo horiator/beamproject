@@ -47,20 +47,18 @@ def run(MaxTandaLength):
 	Year			= []
 	playbackStatus  = ''
 
-	#try:
-	bus = dbus.SessionBus()
-	spotify_bus = bus.get_object("org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2")
-	spotify = dbus.Interface(spotify_bus,"org.mpris.MediaPlayer2.Player")
-	properties_manager = dbus.Interface(spotify_bus, 'org.freedesktop.DBus.Properties')
-	metadata = properties_manager.Get('org.mpris.MediaPlayer2.Player', 'Metadata')
-	playbackStatus = properties_manager.Get('org.mpris.MediaPlayer2.Player', 'PlaybackStatus')
-
-	#except:
-	#	playbackStatus  = 'Media player not running'
-	#	return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+	try:
+		bus = dbus.SessionBus()
+		spotify_bus = bus.get_object("org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2")
+		spotify = dbus.Interface(spotify_bus,"org.mpris.MediaPlayer2.Player")
+		properties_manager = dbus.Interface(spotify_bus, 'org.freedesktop.DBus.Properties')
+		metadata = properties_manager.Get('org.mpris.MediaPlayer2.Player', 'Metadata')
+		playbackStatus = properties_manager.Get('org.mpris.MediaPlayer2.Player', 'PlaybackStatus')
+	except:
+		playbackStatus  = 'Media player not running'
+		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 		
 	if playbackStatus == 'Paused':
-		print "Paused"
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 
 	# Retrieve current song
