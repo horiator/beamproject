@@ -31,7 +31,7 @@ from bin.beamsettings import *
 from copy import deepcopy
 
 if platform.system() == 'Linux':
-    from Modules import audaciousModule, rhythmboxModule, clementineModule, bansheeModule
+    from Modules import audaciousModule, rhythmboxModule, clementineModule, bansheeModule, spotifyLinuxModule
 if platform.system() == 'Windows':
     from Modules import itunesWindowsModule, winampWindowsModule, MediaMonkeyModule, JRMCWindowsModule, spotifyWindowsModule, foobarWindowsModule
 
@@ -82,6 +82,8 @@ class NowPlayingDataModel:
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = clementineModule.run(currentSettings._maxTandaLength)
         if currentSettings._moduleSelected == 'Banshee':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = bansheeModule.run(currentSettings._maxTandaLength)
+        if currentSettings._moduleSelected == 'Spotify' and platform.system() == 'Linux':
+            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = spotifyLinuxModule.run(currentSettings._maxTandaLength)
         try: #required due to loaded modules
             if currentSettings._moduleSelected == 'Winamp':
                 self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = winampWindowsModule.run(currentSettings._maxTandaLength)
@@ -91,7 +93,7 @@ class NowPlayingDataModel:
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = MediaMonkeyModule.run(currentSettings._maxTandaLength)
         if currentSettings._moduleSelected == 'JRiver Media Center':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =JRMCWindowsModule.run(currentSettings._maxTandaLength)
-        if currentSettings._moduleSelected == 'Spotify':
+        if currentSettings._moduleSelected == 'Spotify' and platform.system() == 'Windows':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =spotifyWindowsModule.run(currentSettings._maxTandaLength)
         if currentSettings._moduleSelected == 'Foobar2000':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =foobarWindowsModule.run(currentSettings._maxTandaLength)
