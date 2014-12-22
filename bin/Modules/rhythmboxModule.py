@@ -58,15 +58,6 @@ def run(MaxTandaLength):
 	except:
 	    playbackStatus  = 'Media player not running'
 	    return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-	    
-	# If I cannot find previous, then set them to nothing
-	Artist.append('')
-	Album.append('')
-	Title.append('')
-	Genre.append('')
-	Comment.append('')
-	Composer.append('')
-	Year.append('')
 
 	# Retrieve current song
 	if playbackStatus == 'Playing':

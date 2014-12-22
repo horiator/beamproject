@@ -63,12 +63,7 @@ def run(MaxTandaLength):
         #Declare our position
         currentsong = tracklist.GetCurrentTrack()
         listlength      = tracklist.GetLength()
-
-        # Extract previous song
-        if currentsong == '0':
-            searchsong = currentsong # Start on the current song
-        else:
-            searchsong = currentsong-1 # Start on previous song
+        searchsong = currentsong 
             
         while searchsong < currentsong+MaxTandaLength+2 and listlength-1:
                 Track = tracklist.GetMetadata(searchsong)
