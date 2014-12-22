@@ -175,7 +175,7 @@ class NowPlayingDataModel:
         #
         # Create Display Strings
         #
-        print self.IsCortina
+
         # The display lines
         for i in range(0, len(currentSettings._myDisplaySettings)): self.DisplayRow.append('')
         
