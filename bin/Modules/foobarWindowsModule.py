@@ -60,24 +60,35 @@ def run(MaxTandaLength):
     if Foobar.Playback.IsPlaying and not Foobar.Playback.IsPaused:
     #   print "Lets get some info!"
         playbackStatus = 'Playing'
-        print "Playing"
-        Artist.append("")
-        Album.append("")
-        Title.append("")
-        Genre.append("")
-        Comment.append("")
-        Composer.append("")
-        Year.append("")
         try:
             Artist.append(Foobar.Playback.FormatTitle("[%artist%]").encode('latin-1'))
+        except:
+            Artist.append('')
+        try:
             Album.append(Foobar.Playback.FormatTitle("[%album%]").encode('latin-1'))
+        except:
+            Album.append('')
+        try:
             Title.append(Foobar.Playback.FormatTitle("[%title%]").encode('latin-1'))
+        except:
+            Title.append('')
+        try:
             Genre.append(Foobar.Playback.FormatTitle("[%genre%]").encode('latin-1'))
+        except:
+            Genre.append('')
+        try:
             Comment.append(Foobar.Playback.FormatTitle("[%comment%]").encode('latin-1'))
+        except:
+            Comment.append('')
+        try:
             Composer.append(Foobar.Playback.FormatTitle("[%composer%]").encode('latin-1'))
+        except:
+            Composer.append('')
+        try:
             Year.append(Foobar.Playback.FormatTitle("[%date%]"))
         except:
-            pass
+            Year.append('')
+
         return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
     
     elif not Foobar.Playback.IsPlaying:

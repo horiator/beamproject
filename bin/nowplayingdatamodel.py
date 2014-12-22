@@ -161,16 +161,7 @@ class NowPlayingDataModel:
                 except:
                     print "Error at Rule:", i,".Type:", Rule[u'Type'], ". First Field", Rule[u'Field1']
                     break
-                    
-        #
-        # Create NextTanda
-        #                    
-        
-        if self.PreviousPlaybackStatus in 'Playing':
-            try:
-                self.PreviouslyPlayedSong = [self.Artist[0], self.Album[0], self.Title[0], self.Genre[0], self.Comment[0], self.Composer[0], self.Year[0]]
-            except:
-                pass
+                           
 
         #
         # Create NextTanda
@@ -184,7 +175,7 @@ class NowPlayingDataModel:
         #
         # Create Display Strings
         #
-        
+        print self.IsCortina
         # The display lines
         for i in range(0, len(currentSettings._myDisplaySettings)): self.DisplayRow.append('')
         

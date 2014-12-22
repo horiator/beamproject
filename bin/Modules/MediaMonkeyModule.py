@@ -65,24 +65,40 @@ def run(MaxTandaLength):
 
 		#Declare our position
 		currentsong	= MediaMonkey.Player.CurrentSongIndex
+		searchsong = currentsong # Start on the current song
 
-		# Extract previous song
-		if currentsong == 1:
-			searchsong = currentsong # Start on the current song
-		else:
-			searchsong = currentsong-1 # Start on previous song
 		
 		while searchsong < currentsong+MaxTandaLength+2:
 			try:
 				Track = MediaMonkey.Player.CurrentPlaylist.Item(searchsong)
-				Artist.append(Track.ArtistName.encode('latin-1'))
-				Album.append(Track.AlbumName.encode('latin-1'))
-				Title.append(Track.Title.encode('latin-1'))
-				Genre.append(Track.Genre.encode('latin-1'))
-				Comment.append(Track.Comment.encode('latin-1'))
-				Composer.append(Track.Author.encode('latin-1'))
-				Year.append(Track.Year)
-				
+				try:
+				    Artist.append(Track.ArtistName.encode('latin-1'))
+				except:
+					Artist.append('')
+				try:
+					Album.append(Track.AlbumName.encode('latin-1'))
+				except:
+					Album.append('')
+				try:
+					Title.append(Track.Title.encode('latin-1'))
+				except:
+					Title.append('')
+				try:
+					Genre.append(Track.Genre.encode('latin-1'))
+				except:
+					Genre.append('')
+				try:
+					Comment.append(Track.Comment.encode('latin-1'))
+				except:
+					Comment.append('')
+				try:
+					Composer.append(Track.Author.encode('latin-1'))
+				except:
+					Composer.append('')
+				try:
+					Year.append(Track.Year)
+				except:
+					Year.append('')
 			except:
 				break
 			searchsong = searchsong+1

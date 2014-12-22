@@ -49,7 +49,7 @@ def run(MaxTandaLength):
 	Year			= []
 
 	# Check if iTunes is running and create a communications object
-	if ApplicationRunning("Media Center 20.exe"):
+	if ApplicationRunning("Media Center"):
 		try:
 			JRMC = win32com.client.Dispatch ("MediaJukebox Application")
 		except:
@@ -67,24 +67,37 @@ def run(MaxTandaLength):
 		#Declare our position
 		CurrentPlaylist = JRMC.GetCurPlaylist()
 		currentsong	= CurrentPlaylist.Position
-
-		# Extract previous song
-		if currentsong == 2:
-			searchsong = currentsong # Start on the current song
-		else:
-			searchsong = currentsong-1 # Start on previous song
+		searchsong = currentsong # Start on the current song
 		
 		while searchsong < currentsong+MaxTandaLength+2:
 			try:
 				Track = CurrentPlaylist.GetFile(searchsong)
-				Artist.append((Track.Artist).encode('latin-1'))
-				Album.append((Track.Album).encode('latin-1'))
-				Title.append((Track.Name).encode('latin-1'))
-				Genre.append((Track.Genre).encode('latin-1'))
-				Comment.append((Track.Comment).encode('latin-1'))
+				try:
+					Artist.append((Track.Artist).encode('latin-1'))
+				except:
+					Artist.append('')
+				try:
+					Album.append((Track.Album).encode('latin-1'))
+				except:
+					Album.append('')
+				try:
+					Title.append((Track.Name).encode('latin-1'))
+				except:
+					Title.append('')
+				try:
+					Genre.append((Track.Genre).encode('latin-1'))
+				except:
+					Genre.append('')
+				try:
+					Comment.append((Track.Comment).encode('latin-1'))
+				except:
+					Comment.append('')
+					
 				Composer.append("")
-				Year.append(Track.Year)
-				
+				try:
+					Year.append(Track.Year)
+				except:
+					Year.append('')
 			except:
 				break
 			searchsong = searchsong+1
