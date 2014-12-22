@@ -63,21 +63,13 @@ def run(MaxTandaLength):
 	if win32gui.GetWindowText(spotify) == "":
 		playbackStatus = 'Mediaplayer is not running'
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-	print "hejda"
+
 	# Read from Spotify
 	try:
 		trackinfo = win32gui.GetWindowText(spotify).split(" - ")
 		artist, title = trackinfo[1].split(" \x96 ")
 		
 		# Create empty previous
-		Artist.append("")
-		Album.append("")
-		Title.append("")
-		Genre.append("")
-		Comment.append("")
-		Composer.append("")
-		Year.append("")
-		
 		Artist.append(artist)
 		Title.append(title)
 		Album.append("")
@@ -91,6 +83,13 @@ def run(MaxTandaLength):
 	
 	except:
 		playbackStatus = 'Paused'
+		Artist.append("")
+		Title.append("")
+		Album.append("")
+		Genre.append("")
+		Comment.append("")
+		Composer.append("")
+		Year.append("")
 		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
 
 
