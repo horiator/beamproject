@@ -263,19 +263,39 @@ class beamMainFrame(wx.Frame):
 
             # Check if the text fits, cut it and add ...
             TextWidth, TextHeight   = dc.GetTextExtent(text)
+
             # Find length and position of text
 
             # Centered
             if Settings['Center'] == 'yes':
                 while TextWidth > cliWidth:
-                    text = text.decode('utf-8')[:-1]
-                    text = text.encode('utf-8')
-                    TextWidth, TextHeight = dc.GetTextExtent(text)
+                    #Does not work with Latin-1 in Windows
+                    #text = text.decode('utf-8')[:-1] 
+                    #text = text.encode('utf-8')
+                    #TextWidth, TextHeight = dc.GetTextExtent(text)
+                    #if TextWidth < cliWidth:
+                        #text = text.decode('utf-8')[:-1]
+                        #text = text.encode('utf-8')
+                        #text = text + '...'
+                #TextWidth, TextHeight = dc.GetTextExtent(text)
+
+                    # WORKAROUND 2014-12-23
+                    try:
+                        text = text[:-1]
+                        TextWidth, TextHeight = dc.GetTextExtent(text)
+                    except:
+                        text = text[:-2]
+                        TextWidth, TextHeight = dc.GetTextExtent(text)
                     if TextWidth < cliWidth:
-                        text = text.decode('utf-8')[:-1]
-                        text = text.encode('utf-8')
+                        try:
+                            text = text[:-2]
+                            TextWidth, TextHeight = dc.GetTextExtent(text)
+                        except:
+                            text = text[:-3]
+                            TextWidth, TextHeight = dc.GetTextExtent(text)
                         text = text + '...'
                 TextWidth, TextHeight = dc.GetTextExtent(text)
+
             # Position
                 WidthPosition = (cliWidth-TextWidth)/2
 
@@ -284,15 +304,33 @@ class beamMainFrame(wx.Frame):
                 # Position
                 WidthPosition = int(Settings['Position'][1]*cliWidth/100)
                 while TextWidth > cliWidth-WidthPosition:
-                    text = text.decode('utf-8')[:-1]
-                    text = text.encode('utf-8')
-                    TextWidth, TextHeight = dc.GetTextExtent(text)
-                    if TextWidth < cliWidth-WidthPosition:
-                        text = text.decode('utf-8')[:-1]
-                        text = text.encode('utf-8')
+
+                    #Does not work with Latin-1 in Windows
+                    #text = text.decode('utf-8')[:-1] #Does not work with Latin-1 in Windows
+                    #text = text.encode('utf-8')
+                    #TextWidth, TextHeight = dc.GetTextExtent(text)
+                    #if TextWidth < cliWidth-WidthPosition:
+                    #    text = text.decode('utf-8')[:-1] #Does not work with Latin-1 in Windows
+                    #    text = text.encode('utf-8')
+                    #    text = text + '...'
+                #TextWidth, TextHeight = dc.GetTextExtent(text)
+  
+                    # WORKAROUND 2014-12-23
+                    try:
+                        text = text[:-1]
+                        TextWidth, TextHeight = dc.GetTextExtent(text)
+                    except:
+                        text = text[:-2]
+                        TextWidth, TextHeight = dc.GetTextExtent(text)
+                    if TextWidth < cliWidth:
+                        try:
+                            text = text[:-2]
+                            TextWidth, TextHeight = dc.GetTextExtent(text)
+                        except:
+                            text = text[:-3]
+                            TextWidth, TextHeight = dc.GetTextExtent(text)
                         text = text + '...'
                 TextWidth, TextHeight = dc.GetTextExtent(text)
-
 
             # Draw the text
             dc.DrawText(text, WidthPosition,  HeightPosition)
