@@ -300,11 +300,11 @@ class NowPlayingDataModel:
         self.convDict['%Hour']      = time.strftime("%H")
         self.convDict['%Min']       = time.strftime("%M")
         try:
-            self.convDict['%Day']       = time.strftime("%e") # Does not work on Windows
+            self.convDict['%DayDate']       = time.strftime("%e") # Does not work on Windows
         except:
-            self.convDict['%Day']       = time.strftime("%d")
-        self.convDict['%Month']     = time.strftime("%m")
-        self.convDict['%Year']      = time.strftime("%Y")
+            self.convDict['%DayDate']       = time.strftime("%d")
+        self.convDict['%MonthDate']     = time.strftime("%m")
+        self.convDict['%YearDate']      = time.strftime("%Y")
         self.convDict['%LongDate']  = time.strftime("%d %B %Y")
 
 
