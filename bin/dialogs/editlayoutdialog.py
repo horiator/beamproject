@@ -58,7 +58,7 @@ class EditLayoutDialog(wx.Dialog):
             self.Settings   = beamSettings._myDisplaySettings[self.RowSelected]
         else:
             # Create a new default setting
-            self.Settings   = ({"Field": "%Artist", "Font": "Default","Style": "Normal", "Weight": "Bold", "Size": 20, "FontColor": "(255,255,255,255)", "HideControl": "NextTanda[1]", "Position": [50,50], "Center": "yes"})
+            self.Settings   = ({"Field": "%Artist", "Font": "Default","Style": "Normal", "Weight": "Bold", "Size": 20, "FontColor": "(255,255,255,255)", "HideControl": "", "Position": [50,50], "Center": "yes"})
 
         
         # Define fields
