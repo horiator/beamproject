@@ -1,0 +1,214 @@
+{
+  "Comment": "This configuration works with version 0.2 of Beam", 
+  "Updtime": 4000, 
+  "Configname": "Default Configuration", 
+  "AllModules": [
+    {
+      "Modules": [
+        "Audacious", 
+        "Banshee", 
+        "Clementine", 
+        "Rhythmbox",
+		"Spotify"
+      ], 
+      "System": "Linux"
+    }, 
+    {
+      "Modules": [
+        "iTunes", 
+		"Foobar2000",
+        "MediaMonkey", 
+        "JRiver Media Center", 
+        "Spotify", 
+        "Winamp"
+      ], 
+      "System": "Windows"
+    }, 
+    {
+      "Modules": [
+        "Itunes"
+      ], 
+      "System": "Mac"
+    }
+  ], 
+  "Author": "Mikael Holber & Horia Uifaleanu - 2014", 
+  "Rules": [
+    {
+      "Active": "yes", 
+      "Field2": "%Singer", 
+      "Field1": "%Comment", 
+      "Type": "Set"
+    }, 
+    {
+      "Active": "yes", 
+      "Field2": "is", 
+      "Field1": "%Artist", 
+      "Type": "Cortina", 
+      "Field3": "-- Cortina"
+    }, 
+    {
+      "Active": "yes", 
+      "Field2": "is", 
+      "Field1": "%Genre", 
+      "Type": "Cortina", 
+      "Field3": "cortina"
+    }, 
+    {
+      "Active": "yes", 
+      "Field2": "is not", 
+      "Field1": "%Genre", 
+      "Type": "Cortina", 
+      "Field3": "[Tango, Milonga, Vals]"
+    }, 
+    {
+      "Field2": "-", 
+      "Field3": "%Title", 
+      "Field1": "%Title", 
+      "Field4": "%Singer", 
+      "Active": "yes", 
+      "Type": "Parse"
+    }, 
+    {
+      "Field2": " - ", 
+      "Field3": "%Artist", 
+      "Field1": "%Artist", 
+      "Field4": "%Singer", 
+      "Active": "yes", 
+      "Type": "Parse"
+    }
+  ], 
+  "PlayingStateBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
+  "Module": "", 
+  "DisplayWhenStopped": [
+    {
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "Row": 1, 
+      "Field": "Beam", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        30, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 10
+    }, 
+    {
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "Row": 2, 
+      "Field": "Me Up Scotty", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        50, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 8
+    }
+  ], 
+  "MaxTandaLength": 4, 
+  "Display": [
+    {
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "", 
+      "Field": "%Artist", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        7, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 11
+    }, 
+    {
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "", 
+      "Field": "%Title", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        24, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 11
+    }, 
+    {
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "%Singer", 
+      "Field": "- %Singer -", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        41, 
+        1
+      ], 
+      "Font": "Roman", 
+      "Size": 11
+    }, 
+    {
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "%NextTandaArtist", 
+      "Field": "Next Tanda:", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        68, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 5
+    }, 
+    {
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "HideControl": "%NextTandaArtist", 
+      "Field": "%NextTandaGenre  - %NextTandaArtist", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        76, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 5
+    }, 
+    {
+      "Style": "Italic", 
+      "Center": "no", 
+      "Weight": "Light", 
+      "HideControl": "", 
+      "Field": "%Hour:%Min", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        90, 
+        90
+      ], 
+      "Font": "Roman", 
+      "Size": 4
+    }, 
+    {
+      "Style": "Italic", 
+      "Center": "no", 
+      "Weight": "Light", 
+      "HideControl": "", 
+      "Field": "%LongDate", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        90, 
+        2
+      ], 
+      "Font": "Roman", 
+      "Size": 4
+    }
+  ], 
+  "StoppedStateBackgroundImage": ""
+}
