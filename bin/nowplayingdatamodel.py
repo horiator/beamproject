@@ -55,9 +55,13 @@ class NowPlayingDataModel:
 
         self.PlaybackStatus = ""
         self.PreviousPlaybackStatus = ""
+        self.CurrentMood =""
+        self.PreviousMood = ""
+        self.BackgroundImage = ""
         self.PreviouslyPlayedSong = [ '' for i in range(7) ]
         self.NextTanda = [ '' for i in range(7) ]
         self.DisplayRow = []
+        self.DisplaySettings = {}
 
         self.convDict = dict()
         
@@ -131,6 +135,10 @@ class NowPlayingDataModel:
         self.Singer  = [ "" for i in range(len(self.Artist)) ] # Does not exist in ID3
         self.IsCortina   = [ 0 for i in range(len(self.Artist)) ] # Sets 1 if song is cortina
 
+        #Apply default layout and background, then change it if mood is applied
+        self.CurrentMood = 'Default'
+        MoodVector = [ "" for i in range(len(self.Artist)) ]
+
         #
         # Apply rules, for every song in list
         #
@@ -160,6 +168,11 @@ class NowPlayingDataModel:
                         # Example:
                         # Singer(j) = Comment(j)
                         eval(str(Rule[u'Field2']).replace("%"," self."))[j] = eval(str(Rule[u'Field1']).replace("%"," self."))[j]
+
+                    if Rule[u'Type'] == 'Mood' and Rule[u'Active'] == 'yes':
+                        # Rule only applied all songs and save in vector
+                        if eval(str(Rule[u'Field1']).replace("%"," self."))[j] in str(Rule[u'Field2']) and str(Rule[u'PlayState']) in self.PlaybackStatus:
+                            MoodVector[j] = Rule[u'Name']
                 except:
                     print "Error at Rule:", i,".Type:", Rule[u'Type'], ". First Field", Rule[u'Field1']
                     break
@@ -174,19 +187,42 @@ class NowPlayingDataModel:
             if self.IsCortina[j] and not self.IsCortina[j+1]:
                 self.NextTanda = [self.Artist[j+1], self.Album[j+1], self.Title[j+1], self.Genre[j+1], self.Comment [j+1], self.Composer[j+1], self.Year[j+1]]
                 break
+
+        #
+        # Set Mood - To be improved!
+        #
+        try:
+            if MoodVector[1] == "":
+                self.CurrentMood == 'Default'
+            else:
+                self.CurrentMood = MoodVector[1]
+        except:
+            pass
+
+        if self.CurrentMood == 'Default':
+            #Only for default
+            self.DisplaySettings = currentSettings._DefaultDisplaySettings
+            self.BackgroundImage = currentSettings._DefaultBackground
+            #print "Default Mood applied"
+        else:
+            print self.CurrentMood,"applied"
+            #Only for default
+            self.DisplaySettings = currentSettings._DefaultDisplaySettings
+            self.BackgroundImage = currentSettings._DefaultBackground
+
         #
         # Create Display Strings
         #
 
         # The display lines
-        for i in range(0, len(currentSettings._myDisplaySettings)): self.DisplayRow.append('')
+        for i in range(0, len(self.DisplaySettings)): self.DisplayRow.append('')
         
         #first, update the conversion dictionary
         self.updateConversionDisctionary()
         
         if self.PlaybackStatus in 'Playing':
-            for j in range(0, len(currentSettings._myDisplaySettings)):
-                MyDisplay = currentSettings._myDisplaySettings[j]
+            for j in range(0, len(self.DisplaySettings)):
+                MyDisplay = self.DisplaySettings[j]
                 try:
                     displayValue = str(MyDisplay['Field'])
                 except:

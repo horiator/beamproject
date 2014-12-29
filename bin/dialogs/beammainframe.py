@@ -104,9 +104,8 @@ class beamMainFrame(wx.Frame):
         self.Bind(wx.EVT_SIZE, self.OnSize)
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
-        
 
-        self._currentBackgroundPath = os.path.join(os.getcwd(),'resources','backgrounds','bg1920x1080px.jpg')
+        self._currentBackgroundPath = beamSettings._DefaultBackground
         self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), self._currentBackgroundPath)))
         self.modifiedBitmap = self._currentBackgroundPath
         self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
@@ -117,8 +116,9 @@ class beamMainFrame(wx.Frame):
 
         self.currentDisplayRows = []
         self.currentPlaybackStatus = ""
-        self.previousPlaybackStatus = ""
-                
+        self.previousMood = ""
+        self.currentMood = ""      
+
         #triggers
         self.triggerAdjustBackgroundRGB = True
         self.triggerResizeBackground = True
@@ -154,25 +154,21 @@ class beamMainFrame(wx.Frame):
     def getDataFinished(self, result):
         self.currentDisplayRows = nowPlayingDataModel.DisplayRow
         self.currentPlaybackStatus = nowPlayingDataModel.PlaybackStatus
-        self.previousPlaybackStatus = nowPlayingDataModel.PreviousPlaybackStatus
+        self.currentMood = nowPlayingDataModel.CurrentMood
+        self.previousMood = nowPlayingDataModel.PreviousMood
         self.currentlyUpdating = False
         
-        
-        if self.previousPlaybackStatus != self.currentPlaybackStatus:
-            print "new status:", self.currentPlaybackStatus
-            if (self.currentPlaybackStatus == 'Playing' and 
-                beamSettings._playingStateBackgroundPath != self._currentBackgroundPath and
-                beamSettings._playingStateBackgroundPath != ""):
-                self._currentBackgroundPath = beamSettings._playingStateBackgroundPath
+        if self.previousMood != self.currentMood:
+            print "New mood: ", self.currentMood
+            # If background changed, fade it
+            if (nowPlayingDataModel.BackgroundImage != self._currentBackgroundPath and
+                nowPlayingDataModel.BackgroundImage != ""):
+                self._currentBackgroundPath = nowPlayingDataModel.BackgroundImage
                 self.fadeBackground()
-            if (self.currentPlaybackStatus == 'Stopped' and 
-                beamSettings._stoppedStateBackgroundPath != self._currentBackgroundPath and
-                beamSettings._stoppedStateBackgroundPath !=""):
-                self._currentBackgroundPath = beamSettings._stoppedStateBackgroundPath
-                self.fadeBackground()
+            self.Refresh()
         else:
             self.Refresh()
-
+        nowPlayingDataModel.PreviousMood = self.currentMood
         self.SetStatusText(self.currentPlaybackStatus) 
 
 #####################################################
@@ -234,25 +230,17 @@ class beamMainFrame(wx.Frame):
         cliWidth, cliHeight = self.GetClientSize()
         if not cliWidth or not cliHeight:
             return
-        
-        if self.currentPlaybackStatus in ['Playing', 'Paused']:
-            #Display what is playing
-            DisplayLength = len(beamSettings._myDisplaySettings)
-        else:
-            # Display the stopp-message
-            DisplayLength = len(beamSettings._displayWhenStopped)
-        for j in range(0, DisplayLength):
-            if self.currentPlaybackStatus in ['Playing', 'Paused']:
-                #Display what is playing
-                text = self.currentDisplayRows[j]
-                Settings = beamSettings._myDisplaySettings[j]
-            else:
-                # Display the stopp-message
-                Settings        = beamSettings._displayWhenStopped[j]
-                text            = Settings['Field']
+
+        for j in range(0, len(nowPlayingDataModel.DisplaySettings)):
+
+            #Text and settings
+            text = self.currentDisplayRows[j]
+            Settings = nowPlayingDataModel.DisplaySettings[j]
+
             # Get size and position
             Size = Settings['Size']*cliHeight/100
             HeightPosition = int(Settings['Position'][0]*cliHeight/100)
+
             # Set font from settings
             face = "Great Vibes"
             face = "Liberation Sans"

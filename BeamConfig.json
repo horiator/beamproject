@@ -39,6 +39,70 @@
       "Field1": "%Comment", 
       "Type": "Set"
     }, 
+	{
+      "Active": "yes", 
+      "Field2": "-- Cortina", 
+      "Field1": "%Artist", 
+      "Type": "Mood",
+	  "Name": "Cortina Mood",
+	  "Background": "resources/backgrounds/bg1920x1080px.jpg",
+	  "PlayState": "Playing",
+	  "Display": [
+	  {
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "", 
+      "Field": "Cortina", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        50, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 15
+    }
+	]
+    },
+	{
+      "Active": "yes", 
+      "Field2": "", 
+      "Field1": "%Artist", 
+      "Type": "Mood",
+	  "Name": "Default stopped mood",
+	  "Background": "resources/backgrounds/bg1920x1080px.jpg",
+	  "PlayState": "Stopped",
+	  "Display": [
+	{
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "Row": 1, 
+      "Field": "Beam", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        30, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 10
+    }, 
+    {
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "Row": 2, 
+      "Field": "Me Up Scotty", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        50, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 8
+    }
+	]
+	},
     {
       "Active": "yes", 
       "Field2": "is", 
@@ -77,40 +141,10 @@
       "Type": "Parse"
     }
   ], 
-  "PlayingStateBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
+  "DefaultBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
   "Module": "", 
-  "DisplayWhenStopped": [
-    {
-      "Style": "Italic", 
-      "Center": "yes", 
-      "Weight": "Bold", 
-      "Row": 1, 
-      "Field": "Beam", 
-      "FontColor": "(255,255,255,255)", 
-      "Position": [
-        30, 
-        0
-      ], 
-      "Font": "Roman", 
-      "Size": 10
-    }, 
-    {
-      "Style": "Italic", 
-      "Center": "yes", 
-      "Weight": "Bold", 
-      "Row": 2, 
-      "Field": "Me Up Scotty", 
-      "FontColor": "(255,255,255,255)", 
-      "Position": [
-        50, 
-        0
-      ], 
-      "Font": "Roman", 
-      "Size": 8
-    }
-  ], 
   "MaxTandaLength": 4, 
-  "Display": [
+  "DefaultDisplay": [
     {
       "Style": "Italic", 
       "Center": "yes", 
@@ -209,6 +243,5 @@
       "Font": "Roman", 
       "Size": 4
     }
-  ], 
-  "StoppedStateBackgroundImage": ""
+  ]
 }
