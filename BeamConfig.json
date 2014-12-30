@@ -56,11 +56,39 @@
       "Field": "Cortina", 
       "FontColor": "(255, 255, 255, 255)", 
       "Position": [
-        40, 
+        20, 
         0
       ], 
       "Font": "Roman", 
       "Size": 15
+    },
+	{
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "%NextTandaArtist", 
+      "Field": "Next Tanda:", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        58, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 8
+    }, 
+    {
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "HideControl": "%NextTandaArtist", 
+      "Field": "%NextTandaGenre  - %NextTandaArtist", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        76, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 8
     }
 	]
     },
@@ -69,14 +97,15 @@
       "Field2": "", 
       "Field1": "%Artist", 
       "Type": "Mood",
-	  "Name": "Default stopped mood",
-	  "Background": "resources/backgrounds/bg1920x1080px.jpg",
+	  "Name": "Stopped Mood",
+	  "Background": "resources/backgrounds/bg1920x1080px_darkGreen.jpg",
 	  "PlayState": "Stopped",
 	  "Display": [
 	{
       "Style": "Italic", 
       "Center": "yes", 
-      "Weight": "Bold", 
+      "Weight": "Bold",
+      "HideControl": "", 	  
       "Row": 1, 
       "Field": "Beam", 
       "FontColor": "(255,255,255,255)", 
@@ -93,6 +122,7 @@
       "Weight": "Bold", 
       "Row": 2, 
       "Field": "Me Up Scotty", 
+      "HideControl": "", 
       "FontColor": "(255,255,255,255)", 
       "Position": [
         50, 
