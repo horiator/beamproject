@@ -137,7 +137,8 @@ class NowPlayingDataModel:
 
         #Apply default layout and background, then change it if mood is applied
         self.CurrentMood = 'Default'
-        MoodVector = [ "" for i in range(len(self.Artist)) ]
+        self.DisplaySettings = currentSettings._DefaultDisplaySettings
+        self.BackgroundImage = currentSettings._DefaultBackground
 
         #
         # Apply rules, for every song in list
@@ -169,10 +170,12 @@ class NowPlayingDataModel:
                         # Singer(j) = Comment(j)
                         eval(str(Rule[u'Field2']).replace("%"," self."))[j] = eval(str(Rule[u'Field1']).replace("%"," self."))[j]
 
-                    if Rule[u'Type'] == 'Mood' and Rule[u'Active'] == 'yes':
-                        # Rule only applied all songs and save in vector
+                    if Rule[u'Type'] == 'Mood' and Rule[u'Active'] == 'yes' and j == 1:
+                        # Only apply Mood for current song (j==1)
                         if eval(str(Rule[u'Field1']).replace("%"," self."))[j] in str(Rule[u'Field2']) and str(Rule[u'PlayState']) in self.PlaybackStatus:
-                            MoodVector[j] = Rule[u'Name']
+                            self.CurrentMood = Rule[u'Name']
+                            self.DisplaySettings = Rule[u'Display']
+                            self.BackgroundImage = Rule[u'Background']
                 except:
                     print "Error at Rule:", i,".Type:", Rule[u'Type'], ". First Field", Rule[u'Field1']
                     break
@@ -187,28 +190,6 @@ class NowPlayingDataModel:
             if self.IsCortina[j] and not self.IsCortina[j+1]:
                 self.NextTanda = [self.Artist[j+1], self.Album[j+1], self.Title[j+1], self.Genre[j+1], self.Comment [j+1], self.Composer[j+1], self.Year[j+1]]
                 break
-
-        #
-        # Set Mood - To be improved!
-        #
-        try:
-            if MoodVector[1] == "":
-                self.CurrentMood == 'Default'
-            else:
-                self.CurrentMood = MoodVector[1]
-        except:
-            pass
-
-        if self.CurrentMood == 'Default':
-            #Only for default
-            self.DisplaySettings = currentSettings._DefaultDisplaySettings
-            self.BackgroundImage = currentSettings._DefaultBackground
-            #print "Default Mood applied"
-        else:
-            print self.CurrentMood,"applied"
-            #Only for default
-            self.DisplaySettings = currentSettings._DefaultDisplaySettings
-            self.BackgroundImage = currentSettings._DefaultBackground
 
         #
         # Create Display Strings
