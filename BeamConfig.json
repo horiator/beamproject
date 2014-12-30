@@ -45,7 +45,7 @@
       "Field1": "%Artist", 
       "Type": "Mood",
 	  "Name": "Cortina Mood",
-	  "Background": "resources/backgrounds/bg1920x1080px.jpg",
+	  "Background": "resources/backgrounds/bg1920x1080px_darkBlue.jpg",
 	  "PlayState": "Playing",
 	  "Display": [
 	  {
@@ -56,7 +56,7 @@
       "Field": "Cortina", 
       "FontColor": "(255, 255, 255, 255)", 
       "Position": [
-        50, 
+        40, 
         0
       ], 
       "Font": "Roman", 
