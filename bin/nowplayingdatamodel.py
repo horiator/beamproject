@@ -172,10 +172,16 @@ class NowPlayingDataModel:
 
                     if Rule[u'Type'] == 'Mood' and Rule[u'Active'] == 'yes':
                         # Only apply Mood for current song (j==1)
-                        if eval(str(Rule[u'Field1']).replace("%"," self."))[j] in str(Rule[u'Field2']) and str(Rule[u'PlayState']) in self.PlaybackStatus and j == 1:
-                            self.CurrentMood = Rule[u'Name']
-                            self.DisplaySettings = Rule[u'Display']
-                            self.BackgroundImage = Rule[u'Background']
+                        if Rule[u'Field2'] == 'is':
+                            if eval(str(Rule[u'Field1']).replace("%"," self."))[j] in str(Rule[u'Field3']) and str(Rule[u'PlayState']) in self.PlaybackStatus and j == 1:
+                                self.CurrentMood = Rule[u'Name']
+                                self.DisplaySettings = Rule[u'Display']
+                                self.BackgroundImage = Rule[u'Background']
+                        if Rule[u'Field2'] == 'is not':
+                            if eval(str(Rule[u'Field1']).replace("%"," self."))[j] not in str(Rule[u'Field3']) and str(Rule[u'PlayState']) in self.PlaybackStatus and j == 1:
+                                self.CurrentMood = Rule[u'Name']
+                                self.DisplaySettings = Rule[u'Display']
+                                self.BackgroundImage = Rule[u'Background']								
                         # Only if playback is stopped and we have a mood for this
                         if self.PlaybackStatus == "Stopped":
                             if eval(str(Rule[u'Field1']).replace("%"," self."))[j] in str(Rule[u'Field2']) and str(Rule[u'PlayState']) in self.PlaybackStatus:
