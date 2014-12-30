@@ -152,6 +152,8 @@ class beamMainFrame(wx.Frame):
             wx.lib.delayedresult.startWorker(self.getDataFinished, nowPlayingDataModel.ExtractPlaylistInfo( beamSettings ) )
 
     def getDataFinished(self, result):
+        
+        self.textsAreVisible = False
         self.currentDisplayRows = nowPlayingDataModel.DisplayRow
         self.currentPlaybackStatus = nowPlayingDataModel.PlaybackStatus
         self.currentMood = nowPlayingDataModel.CurrentMood
@@ -165,6 +167,10 @@ class beamMainFrame(wx.Frame):
                 nowPlayingDataModel.BackgroundImage != ""):
                 self._currentBackgroundPath = nowPlayingDataModel.BackgroundImage
                 self.fadeBackground()
+            else:
+                self.textsAreVisible = True
+        else:
+            self.textsAreVisible = True
 
         self.Refresh()
         nowPlayingDataModel.PreviousMood = self.currentMood
