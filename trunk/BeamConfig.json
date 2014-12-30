@@ -37,7 +37,7 @@
       "Active": "yes", 
       "Field2": "%Singer", 
       "Field1": "%Comment", 
-      "Type": "Set"
+      "Type": "Copy"
     }, 
 	{
       "Active": "yes", 
