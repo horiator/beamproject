@@ -190,8 +190,8 @@ class Preferences(wx.Dialog):
         self.RuleRows = []
         for i in range(0, len(beamSettings._rules)):
             rule = beamSettings._rules[i]
-            if rule[u'Type'] == "Set":
-                self.RuleRows.append(str('Copy (Set) '+rule[u'Field1']+' to '+rule[u'Field2']))
+            if rule[u'Type'] == "Copy":
+                self.RuleRows.append(str('Copy '+rule[u'Field1']+' to '+rule[u'Field2']))
             if rule[u'Type'] == "Cortina":
                 if rule[u'Field2'] =="is":
                     self.RuleRows.append(str('Its a Cortina when: '+rule[u'Field1']+' is '+rule[u'Field3']))
@@ -282,7 +282,6 @@ class Preferences(wx.Dialog):
 
     def OnDelRule(self, event):
         RowSelected = self.RuleList.GetSelection()
-        print "test1"
         if RowSelected>-1:
             LineToDelete = self.RuleList.GetString(RowSelected)
             dlg = wx.MessageDialog(self,
@@ -291,9 +290,7 @@ class Preferences(wx.Dialog):
             result = dlg.ShowModal()
             dlg.Destroy()
             if result == wx.ID_OK:
-                print "test2"
                 beamSettings._rules.pop(RowSelected)
-                print "test3"
                 self.BuildRuleList()
 
     def OnCheckRule(self, event):

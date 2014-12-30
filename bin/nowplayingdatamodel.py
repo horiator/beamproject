@@ -164,7 +164,7 @@ class NowPlayingDataModel:
                             if eval(str(Rule[u'Field1']).replace("%"," self."))[j] not in str(Rule[u'Field3']):
                                 self.IsCortina[j] = 1
 
-                    if Rule[u'Type'] == 'Set' and Rule[u'Active'] == 'yes':
+                    if Rule[u'Type'] == 'Copy' and Rule[u'Active'] == 'yes':
                         # Rule[u'Field1'] shall be Rule[u'Field2']
                         # Example:
                         # Singer(j) = Comment(j)

@@ -57,17 +57,18 @@ class EditRuleDialog(wx.Dialog):
             self.Settings   = beamSettings._rules[self.RowSelected]
         else:
             # Create a new default setting
-            self.Settings   = ({"Type": "Set", "Field1": "%Comment","Field2": "%Singer", "Active": "yes"})
+            self.Settings   = ({"Type": "Copy", "Field1": "%Comment","Field2": "%Singer", "Active": "yes"})
 
         # Build the static elements
         self.InputID3Field      = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Field1'], choices=self.InputFields, style=wx.CB_READONLY)
-        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Type'], choices=['Set','Cortina','Parse','Mood'], style=wx.CB_READONLY)
+        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Type'], choices=['Copy','Cortina','Parse','Mood'], style=wx.CB_READONLY)
         self.RuleSelectDropdown.Bind(wx.EVT_COMBOBOX, self.ChangeRuleType)
         self.RuleOrder          = wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected+1))
 
         # Dynamic fields (Changes depending on RuleSelectDropdown)
         self.DynamicFieldLabel1 = wx.StaticText(self.EditRulePanel, label="")
         self.DynamicFieldLabel2 = wx.StaticText(self.EditRulePanel, label="")
+        self.DynamicFieldLabel3 = wx.StaticText(self.EditRulePanel, label="")
         self.TokenLabel         = wx.StaticText(self.EditRulePanel, label="Token")
         self.TokenField         = wx.TextCtrl(self.EditRulePanel, value="")
 
@@ -109,7 +110,7 @@ class EditRuleDialog(wx.Dialog):
     def ChangeRuleType(self, event):
         RuleSelected = self.RuleSelectDropdown.GetValue()
         ###########################################
-        if RuleSelected == 'Set':
+        if RuleSelected == 'Copy':
             self.DynamicFieldLabel1.SetLabel('Output field')
             self.DynamicFieldLabel2.SetLabel('')
             # Remove fields that are not to be shown
@@ -122,7 +123,7 @@ class EditRuleDialog(wx.Dialog):
             self.OutputField1       = wx.ComboBox(self.EditRulePanel, size=(150,-1), value="%Artist", choices=self.OutputFields, style=wx.CB_READONLY)
             self.sizer1.Add(self.OutputField1)
 
-            if self.Settings[u'Type'] == 'Set':
+            if self.Settings[u'Type'] == 'Copy':
                 self.OutputField1.SetStringSelection(self.Settings[u'Field2'])
             else:
                 self.OutputField1.SetStringSelection("%Artist")
@@ -238,7 +239,7 @@ class EditRuleDialog(wx.Dialog):
         NewRule[u'Field1']      = self.InputID3Field.GetValue()
         NewRule[u'Active']      = self.Settings[u'Active']
 
-        if RuleSelected == 'Set':
+        if RuleSelected == 'Copy':
             NewRule[u'Field2']      = self.OutputField1.GetValue()
         if RuleSelected == 'Parse':
             NewRule[u'Field2']      = self.TokenField.GetValue()
