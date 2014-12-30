@@ -61,7 +61,7 @@ class EditRuleDialog(wx.Dialog):
 
         # Build the static elements
         self.InputID3Field      = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Field1'], choices=self.InputFields, style=wx.CB_READONLY)
-        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Type'], choices=['Set','Cortina','Parse'], style=wx.CB_READONLY)
+        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Type'], choices=['Set','Cortina','Parse','Mood'], style=wx.CB_READONLY)
         self.RuleSelectDropdown.Bind(wx.EVT_COMBOBOX, self.ChangeRuleType)
         self.RuleOrder          = wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected+1))
 
@@ -75,12 +75,12 @@ class EditRuleDialog(wx.Dialog):
         self.sizer2 = wx.BoxSizer(wx.HORIZONTAL)
 
         InfoGrid    =   wx.FlexGridSizer(4, 4, 5, 5)
-        InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Input ID3 tag", size=(150,-1)), 0, wx.EXPAND),
-                        (wx.StaticText(self.EditRulePanel, label="Rule type", size=(150,-1)), 0, wx.EXPAND),
+        InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Rule type", size=(150,-1)), 0, wx.EXPAND),
+                        (wx.StaticText(self.EditRulePanel, label="Input ID3 tag", size=(150,-1)), 0, wx.EXPAND),
                         (self.DynamicFieldLabel1, 0, wx.EXPAND),
                         (self.DynamicFieldLabel2, 0, wx.EXPAND),
-                        (self.InputID3Field, 0, wx.EXPAND),
                         (self.RuleSelectDropdown, 0, wx.EXPAND),
+                        (self.InputID3Field, 0, wx.EXPAND),
                         (self.sizer1, 0, wx.EXPAND),
                         (self.sizer2, 0, wx.EXPAND),
                         (wx.StaticText(self.EditRulePanel, label="Rule order"), 0, wx.EXPAND),
@@ -170,6 +170,34 @@ class EditRuleDialog(wx.Dialog):
             self.sizer2.Add(self.OutputField3)
 
             if self.Settings[u'Type'] == 'Cortina':
+                self.IsIsNot.SetStringSelection(self.Settings[u'Field2'])
+                self.OutputField3.SetValue(self.Settings[u'Field3'])
+            else:
+                self.IsIsNot.SetStringSelection("is")
+                self.OutputField3.SetValue("")
+
+        self.vbox.SetSizeHints(self)  
+        self.EditRulePanel.SetSizer(self.vbox)
+        self.EditRulePanel.Layout()
+
+        ##############################################
+        if RuleSelected == 'Mood':
+            self.DynamicFieldLabel1.SetLabel('is / is not')
+            self.DynamicFieldLabel2.SetLabel('Value(s)')
+
+            # Remove fields that are not to be shown
+            self.RemoveDynamicElements()
+
+            self.TokenLabel.Hide()
+            self.TokenField.Hide()
+
+            #Add correct fields
+            self.IsIsNot    = wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"], style=wx.CB_READONLY)
+            self.sizer1.Add(self.IsIsNot)
+            self.OutputField3 = wx.TextCtrl(self.EditRulePanel, value="", size=(165,-1))
+            self.sizer2.Add(self.OutputField3)
+
+            if self.Settings[u'Type'] == 'Mood':
                 self.IsIsNot.SetStringSelection(self.Settings[u'Field2'])
                 self.OutputField3.SetValue(self.Settings[u'Field3'])
             else:
