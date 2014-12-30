@@ -170,12 +170,18 @@ class NowPlayingDataModel:
                         # Singer(j) = Comment(j)
                         eval(str(Rule[u'Field2']).replace("%"," self."))[j] = eval(str(Rule[u'Field1']).replace("%"," self."))[j]
 
-                    if Rule[u'Type'] == 'Mood' and Rule[u'Active'] == 'yes' and j == 1:
+                    if Rule[u'Type'] == 'Mood' and Rule[u'Active'] == 'yes':
                         # Only apply Mood for current song (j==1)
-                        if eval(str(Rule[u'Field1']).replace("%"," self."))[j] in str(Rule[u'Field2']) and str(Rule[u'PlayState']) in self.PlaybackStatus:
+                        if eval(str(Rule[u'Field1']).replace("%"," self."))[j] in str(Rule[u'Field2']) and str(Rule[u'PlayState']) in self.PlaybackStatus and j == 1:
                             self.CurrentMood = Rule[u'Name']
                             self.DisplaySettings = Rule[u'Display']
                             self.BackgroundImage = Rule[u'Background']
+                        # Only if playback is stopped and we have a mood for this
+                        if self.PlaybackStatus == "Stopped":
+                            if eval(str(Rule[u'Field1']).replace("%"," self."))[j] in str(Rule[u'Field2']) and str(Rule[u'PlayState']) in self.PlaybackStatus:
+                                self.CurrentMood = Rule[u'Name']
+                                self.DisplaySettings = Rule[u'Display']
+                                self.BackgroundImage = Rule[u'Background']
                 except:
                     print "Error at Rule:", i,".Type:", Rule[u'Type'], ". First Field", Rule[u'Field1']
                     break
@@ -201,31 +207,30 @@ class NowPlayingDataModel:
         #first, update the conversion dictionary
         self.updateConversionDisctionary()
         
-        if self.PlaybackStatus in 'Playing':
-            for j in range(0, len(self.DisplaySettings)):
-                MyDisplay = self.DisplaySettings[j]
+        for j in range(0, len(self.DisplaySettings)):
+            MyDisplay = self.DisplaySettings[j]
+            try:
+                displayValue = str(MyDisplay['Field'])
+            except:
+                displayValue = unicode(MyDisplay['Field'])
+            for key in self.convDict:
                 try:
-                    displayValue = str(MyDisplay['Field'])
+                    displayValue = displayValue.replace(str(key), str(self.convDict[key]))
                 except:
-                    displayValue = unicode(MyDisplay['Field'])
-                for key in self.convDict:
-                    try:
-                        displayValue = displayValue.replace(str(key), str(self.convDict[key]))
-                    except:
-                       displayValue = displayValue.replace(key.decode('utf-8'), self.convDict[key].decode('utf-8'))
+                    displayValue = displayValue.replace(key.decode('utf-8'), self.convDict[key].decode('utf-8'))
                      
-                if MyDisplay['HideControl']  == "":
+            if MyDisplay['HideControl']  == "":
+                self.DisplayRow[j] = displayValue
+            else:
+               # Hides line if HideControl is empty if there is no next tanda
+                hideControlEval = str(MyDisplay['HideControl'])
+                for key in self.convDict:
+                    hideControlEval = hideControlEval.replace(str(key), str(self.convDict[key]))
+                        
+                if  not hideControlEval == "":
                     self.DisplayRow[j] = displayValue
                 else:
-                    # Hides line if HideControl is empty if there is no next tanda
-                    hideControlEval = str(MyDisplay['HideControl'])
-                    for key in self.convDict:
-                        hideControlEval = hideControlEval.replace(str(key), str(self.convDict[key]))
-                        
-                    if  not hideControlEval == "":
-                        self.DisplayRow[j] = displayValue
-                    else:
-                        self.DisplayRow[j] = ""
+                    self.DisplayRow[j] = ""
         print "...data filtered: ", time.strftime("%H:%M:%S")
         return
     

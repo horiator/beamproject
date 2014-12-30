@@ -159,15 +159,14 @@ class beamMainFrame(wx.Frame):
         self.currentlyUpdating = False
         
         if self.previousMood != self.currentMood:
-            print "New mood: ", self.currentMood
+            print "New mood:", self.currentMood
             # If background changed, fade it
             if (nowPlayingDataModel.BackgroundImage != self._currentBackgroundPath and
                 nowPlayingDataModel.BackgroundImage != ""):
                 self._currentBackgroundPath = nowPlayingDataModel.BackgroundImage
                 self.fadeBackground()
-            self.Refresh()
-        else:
-            self.Refresh()
+
+        self.Refresh()
         nowPlayingDataModel.PreviousMood = self.currentMood
         self.SetStatusText(self.currentPlaybackStatus) 
 
