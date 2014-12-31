@@ -61,7 +61,7 @@ class EditRuleDialog(wx.Dialog):
 
         # Build the static elements
         self.InputID3Field      = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Field1'], choices=self.InputFields, style=wx.CB_READONLY)
-        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Type'], choices=['Copy','Cortina','Parse','Mood'], style=wx.CB_READONLY)
+        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel, size=(100,-1), value=self.Settings[u'Type'], choices=['Copy','Cortina','Parse','Mood'], style=wx.CB_READONLY)
         self.RuleSelectDropdown.Bind(wx.EVT_COMBOBOX, self.ChangeRuleType)
         self.RuleOrder          = wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected+1))
 
@@ -80,8 +80,8 @@ class EditRuleDialog(wx.Dialog):
         self.sizer3 = wx.BoxSizer(wx.HORIZONTAL)
 
         InfoGrid    =   wx.FlexGridSizer(4, 4, 5, 5)
-        InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Rule type", size=(150,-1)), 0, wx.EXPAND),
-                        (wx.StaticText(self.EditRulePanel, label="Input ID3 tag", size=(150,-1)), 0, wx.EXPAND),
+        InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Rule type", size=(100,-1)), 0, wx.EXPAND),
+                        (wx.StaticText(self.EditRulePanel, label="Input ID3 tag", size=(100,-1)), 0, wx.EXPAND),
                         (self.DynamicFieldLabel1, 0, wx.EXPAND),
                         (self.DynamicFieldLabel2, 0, wx.EXPAND),
                         (self.RuleSelectDropdown, 0, wx.EXPAND),
