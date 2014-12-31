@@ -53,9 +53,9 @@ class EditLayoutDialog(wx.Dialog):
         Styles  = ["Italic","Normal","Slant"]
         
         # Check if it is a new line
-        if self.RowSelected<len(beamSettings._myDisplaySettings):
+        if self.RowSelected<len(beamSettings._DefaultDisplaySettings):
             # Get the properties of the selected item
-            self.Settings   = beamSettings._myDisplaySettings[self.RowSelected]
+            self.Settings   = beamSettings._DefaultDisplaySettings[self.RowSelected]
         else:
             # Create a new default setting
             self.Settings   = ({"Field": "%Artist", "Font": "Default","Style": "Normal", "Weight": "Bold", "Size": 20, "FontColor": "(255,255,255,255)", "HideControl": "", "Position": [50,50], "Center": "yes"})
