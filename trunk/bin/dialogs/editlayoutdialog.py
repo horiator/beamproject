@@ -134,10 +134,10 @@ class EditLayoutDialog(wx.Dialog):
             self.Settings[u'Center']    = 'no' 
         
         # Save item into dictionary
-        if self.RowSelected+1 > len(beamSettings._myDisplaySettings):
-            beamSettings._myDisplaySettings.append(self.Settings)
+        if self.RowSelected+1 > len(beamSettings._DefaultDisplaySettings):
+            beamSettings._DefaultDisplaySettings.append(self.Settings)
         else:
-            beamSettings._myDisplaySettings[self.RowSelected] = self.Settings
+            beamSettings._DefaultDisplaySettings[self.RowSelected] = self.Settings
         self.parent.BuildLayoutList()
         self.Destroy()
 
