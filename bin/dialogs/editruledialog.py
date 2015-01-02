@@ -57,45 +57,38 @@ class EditRuleDialog(wx.Dialog):
             self.Settings   = beamSettings._rules[self.RowSelected]
         else:
             # Create a new default setting
-            self.Settings   = ({"Type": "Copy", "Field1": "%Comment","Field2": "%Singer", "Active": "yes"})
+            self.Settings   = ({"Type": "Set", "Field1": "%Comment","Field2": "%Singer", "Active": "yes"})
 
         # Build the static elements
         self.InputID3Field      = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Field1'], choices=self.InputFields, style=wx.CB_READONLY)
-        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel, size=(100,-1), value=self.Settings[u'Type'], choices=['Copy','Cortina','Parse','Mood'], style=wx.CB_READONLY)
+        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Type'], choices=['Set','Cortina','Parse'], style=wx.CB_READONLY)
         self.RuleSelectDropdown.Bind(wx.EVT_COMBOBOX, self.ChangeRuleType)
         self.RuleOrder          = wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected+1))
 
         # Dynamic fields (Changes depending on RuleSelectDropdown)
         self.DynamicFieldLabel1 = wx.StaticText(self.EditRulePanel, label="")
         self.DynamicFieldLabel2 = wx.StaticText(self.EditRulePanel, label="")
-        self.DynamicFieldLabel3 = wx.StaticText(self.EditRulePanel, label="")
-        self.DynamicFieldLabel4 = wx.StaticText(self.EditRulePanel, label="")
-
-        self.EditLayoutButton = wx.Button(self.EditRulePanel, label="Edit layout")
-        self.EditLayoutButton.Bind(wx.EVT_BUTTON, self.OnEditLayout)
-        self.OutputField3 = wx.TextCtrl(self.EditRulePanel, value="", size=(150,-1))
+        self.TokenLabel         = wx.StaticText(self.EditRulePanel, label="Token")
+        self.TokenField         = wx.TextCtrl(self.EditRulePanel, value="")
 
         self.sizer1 = wx.BoxSizer(wx.HORIZONTAL)
         self.sizer2 = wx.BoxSizer(wx.HORIZONTAL)
-        self.sizer3 = wx.BoxSizer(wx.HORIZONTAL)
 
         InfoGrid    =   wx.FlexGridSizer(4, 4, 5, 5)
-        InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Rule type", size=(100,-1)), 0, wx.EXPAND),
-                        (wx.StaticText(self.EditRulePanel, label="Input ID3 tag", size=(100,-1)), 0, wx.EXPAND),
+        InfoGrid.AddMany ( [(wx.StaticText(self.EditRulePanel, label="Input ID3 tag", size=(150,-1)), 0, wx.EXPAND),
+                        (wx.StaticText(self.EditRulePanel, label="Rule type", size=(150,-1)), 0, wx.EXPAND),
                         (self.DynamicFieldLabel1, 0, wx.EXPAND),
                         (self.DynamicFieldLabel2, 0, wx.EXPAND),
-                        (self.RuleSelectDropdown, 0, wx.EXPAND),
                         (self.InputID3Field, 0, wx.EXPAND),
+                        (self.RuleSelectDropdown, 0, wx.EXPAND),
                         (self.sizer1, 0, wx.EXPAND),
                         (self.sizer2, 0, wx.EXPAND),
                         (wx.StaticText(self.EditRulePanel, label="Rule order"), 0, wx.EXPAND),
-                        (self.DynamicFieldLabel3, 0, wx.EXPAND  ),
-                        (self.DynamicFieldLabel4, 0, wx.EXPAND  ),
+                        (self.TokenLabel, 0, wx.EXPAND  ),
+                        (wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
                         (wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
                         (self.RuleOrder, 0, wx.EXPAND),
-                        (self.OutputField3, 0, wx.EXPAND ),
-                        (self.sizer3, 0, wx.EXPAND),
-                        (self.EditLayoutButton, 0, wx.EXPAND)
+                        (self.TokenField, 0, wx.EXPAND )
                         ])
 
         self.vbox = wx.BoxSizer(wx.VERTICAL)
@@ -116,22 +109,20 @@ class EditRuleDialog(wx.Dialog):
     def ChangeRuleType(self, event):
         RuleSelected = self.RuleSelectDropdown.GetValue()
         ###########################################
-        if RuleSelected == 'Copy':
+        if RuleSelected == 'Set':
             self.DynamicFieldLabel1.SetLabel('Output field')
             self.DynamicFieldLabel2.SetLabel('')
-            self.DynamicFieldLabel3.SetLabel('')
-            self.DynamicFieldLabel4.SetLabel('')
             # Remove fields that are not to be shown
             self.RemoveDynamicElements()
 
-            self.DynamicFieldLabel3.Hide()
-            self.OutputField3.Hide()
+            self.TokenLabel.Hide()
+            self.TokenField.Hide()
 
             #Add correct fields
             self.OutputField1       = wx.ComboBox(self.EditRulePanel, size=(150,-1), value="%Artist", choices=self.OutputFields, style=wx.CB_READONLY)
             self.sizer1.Add(self.OutputField1)
 
-            if self.Settings[u'Type'] == 'Copy':
+            if self.Settings[u'Type'] == 'Set':
                 self.OutputField1.SetStringSelection(self.Settings[u'Field2'])
             else:
                 self.OutputField1.SetStringSelection("%Artist")
@@ -140,8 +131,6 @@ class EditRuleDialog(wx.Dialog):
         if RuleSelected == 'Parse':
             self.DynamicFieldLabel1.SetLabel('Output field 1')
             self.DynamicFieldLabel2.SetLabel('Output field 2')
-            self.DynamicFieldLabel3.SetLabel('Token')
-            self.DynamicFieldLabel4.SetLabel('')
             # Remove fields that are not to be shown
             self.RemoveDynamicElements()
 
@@ -154,77 +143,38 @@ class EditRuleDialog(wx.Dialog):
             if self.Settings[u'Type'] == 'Parse':
                 self.OutputField1.SetStringSelection(self.Settings[u'Field3'])
                 self.OutputField2.SetStringSelection(self.Settings[u'Field4'])
-                self.OutputField3.SetValue(self.Settings[u'Field2'])
+                self.TokenField.SetValue(self.Settings[u'Field2'])
             else:
                 self.OutputField1.SetStringSelection("%Artist")
                 self.OutputField2.SetStringSelection("%Title")
-                self.OutputField3.SetValue("-")
+                self.TokenField.SetValue("-")
             # Show Fields
-            self.DynamicFieldLabel3.Show()
-            self.OutputField3.Show()
+            self.TokenLabel.Show()
+            self.TokenField.Show()
 
         ##############################################
         if RuleSelected == 'Cortina':
             self.DynamicFieldLabel1.SetLabel('is / is not')
             self.DynamicFieldLabel2.SetLabel('Value(s)')
-            self.DynamicFieldLabel3.SetLabel('')
-            self.DynamicFieldLabel4.SetLabel('')
 
             # Remove fields that are not to be shown
             self.RemoveDynamicElements()
 
-            self.DynamicFieldLabel3.Hide()
-            self.OutputField3.Hide()
+            self.TokenLabel.Hide()
+            self.TokenField.Hide()
 
             #Add correct fields
             self.IsIsNot    = wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"], style=wx.CB_READONLY)
             self.sizer1.Add(self.IsIsNot)
-            self.OutputField2 = wx.TextCtrl(self.EditRulePanel, value="", size=(165,-1))
-            self.sizer2.Add(self.OutputField2)
-            self.EditLayoutButton.Show()
+            self.OutputField3 = wx.TextCtrl(self.EditRulePanel, value="", size=(165,-1))
+            self.sizer2.Add(self.OutputField3)
 
             if self.Settings[u'Type'] == 'Cortina':
                 self.IsIsNot.SetStringSelection(self.Settings[u'Field2'])
-                self.OutputField2.SetValue(self.Settings[u'Field3'])
+                self.OutputField3.SetValue(self.Settings[u'Field3'])
             else:
                 self.IsIsNot.SetStringSelection("is")
-                self.OutputField2.SetValue("")
-
-        self.vbox.SetSizeHints(self)  
-        self.EditRulePanel.SetSizer(self.vbox)
-        self.EditRulePanel.Layout()
-
-        ##############################################
-        if RuleSelected == 'Mood':
-            self.DynamicFieldLabel1.SetLabel('is / is not')
-            self.DynamicFieldLabel2.SetLabel('Value(s)')
-            self.DynamicFieldLabel3.SetLabel('Name of mood')
-            self.DynamicFieldLabel4.SetLabel('Play state')
-
-            # Remove fields that are not to be shown
-            self.RemoveDynamicElements()
-
-            self.DynamicFieldLabel3.Show()
-            self.OutputField3.Show()
-
-            #Add correct fields
-            self.IsIsNot    = wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"], style=wx.CB_READONLY)
-            self.sizer1.Add(self.IsIsNot)
-            self.OutputField2       = wx.TextCtrl(self.EditRulePanel, value="", size=(165,-1))
-            self.sizer2.Add(self.OutputField2)
-            self.EditLayoutButton.Show()
-
-            if self.Settings[u'Type'] == 'Mood':
-                self.IsIsNot.SetStringSelection(self.Settings[u'Field2'])
-                self.OutputField2.SetValue(self.Settings[u'Field3'])
-                self.OutputField3.SetValue(self.Settings[u'Name'])
-                self.PlayingState = wx.ComboBox(self.EditRulePanel, size=(100,-1), value=self.Settings[u'PlayState'], choices=['Playing','Paused','Stopped'], style=wx.CB_READONLY)
-            else:
-                self.IsIsNot.SetStringSelection("is")
-                self.OutputField3.SetValue("New mood")
-                self.PlayingState = wx.ComboBox(self.EditRulePanel, size=(100,-1), value='Playing', choices=['Playing','Paused','Stopped'], style=wx.CB_READONLY)
- 
-            self.sizer3.Add(self.PlayingState)
+                self.OutputField3.SetValue("")
 
         self.vbox.SetSizeHints(self)  
         self.EditRulePanel.SetSizer(self.vbox)
@@ -248,13 +198,6 @@ class EditRuleDialog(wx.Dialog):
             self.sizer2.Remove(self.OutputField3)
             self.OutputField3.Hide()
         except: pass
-        try:
-            self.sizer3.Remove(self.PlayingState)
-            self.PlayingState.Hide()
-        except: pass
-        try:
-            self.EditLayoutButton.Hide()
-        except: pass
 
 
     def OnSaveRuleItem(self, event):
@@ -267,7 +210,7 @@ class EditRuleDialog(wx.Dialog):
         NewRule[u'Field1']      = self.InputID3Field.GetValue()
         NewRule[u'Active']      = self.Settings[u'Active']
 
-        if RuleSelected == 'Copy':
+        if RuleSelected == 'Set':
             NewRule[u'Field2']      = self.OutputField1.GetValue()
         if RuleSelected == 'Parse':
             NewRule[u'Field2']      = self.TokenField.GetValue()
@@ -275,12 +218,7 @@ class EditRuleDialog(wx.Dialog):
             NewRule[u'Field4']      = self.OutputField2.GetValue()
         if RuleSelected == 'Cortina':
             NewRule[u'Field2']      = self.IsIsNot.GetValue()
-            NewRule[u'Field3']      = self.OutputField2.GetValue()
-        if RuleSelected == 'Mood':
-            NewRule[u'Field2']      = self.IsIsNot.GetValue()
-            NewRule[u'Field3']      = self.OutputField2.GetValue()
-            NewRule[u'Name'] = self.OutputField2.GetValue()
-            NewRule[u'PlayState'] = self.PlayingState.GetValue()
+            NewRule[u'Field3']      = self.OutputField3.GetValue()
 
         NewRule[u'Field1']      = self.InputID3Field.GetValue()
         # Decide where NewRule goes into the vector self.Settings
@@ -300,6 +238,3 @@ class EditRuleDialog(wx.Dialog):
 
     def OnCancelRuleItem(self, event):
         self.Destroy()
-
-    def OnEditLayout(self, event):
-        print "Edit Mood Layout"

@@ -142,8 +142,8 @@ class Preferences(wx.Dialog):
 
     def BuildLayoutList(self):
         self.DisplayRows = []
-        for i in range(0, len(beamSettings._DefaultDisplaySettings)):
-            Settings = beamSettings._DefaultDisplaySettings[i]
+        for i in range(0, len(beamSettings._myDisplaySettings)):
+            Settings = beamSettings._myDisplaySettings[i]
             self.DisplayRows.append(Settings[u'Field'])
         self.LayoutList.Set(self.DisplayRows)
 
@@ -190,8 +190,8 @@ class Preferences(wx.Dialog):
         self.RuleRows = []
         for i in range(0, len(beamSettings._rules)):
             rule = beamSettings._rules[i]
-            if rule[u'Type'] == "Copy":
-                self.RuleRows.append(str('Copy '+rule[u'Field1']+' to '+rule[u'Field2']))
+            if rule[u'Type'] == "Set":
+                self.RuleRows.append(str('Copy (Set) '+rule[u'Field1']+' to '+rule[u'Field2']))
             if rule[u'Type'] == "Cortina":
                 if rule[u'Field2'] =="is":
                     self.RuleRows.append(str('Its a Cortina when: '+rule[u'Field1']+' is '+rule[u'Field3']))
@@ -199,8 +199,6 @@ class Preferences(wx.Dialog):
                     self.RuleRows.append(str('Its a Cortina when: '+rule[u'Field1']+' is not '+rule[u'Field3']))
             if rule[u'Type'] == "Parse":
                 self.RuleRows.append(str('Parse/split '+rule[u'Field1']+' containing '+rule[u'Field2']+' into '+rule[u'Field3']+' and '+rule[u'Field4']))
-            if rule[u'Type'] == "Mood":
-                self.RuleRows.append(str('Mood: '+rule[u'Name']))
         self.RuleList.Set(self.RuleRows)
         # Check the rules
         for i in range(0, len(beamSettings._rules)):
@@ -265,7 +263,7 @@ class Preferences(wx.Dialog):
             result = dlg.ShowModal()
             dlg.Destroy()
             if result == wx.ID_OK:
-                beamSettings._DefaultDisplaySettings.pop(RowSelected)
+                beamSettings._myDisplaySettings.pop(RowSelected)
                 self.BuildLayoutList()
 #
 # RULE BUTTONS
@@ -282,6 +280,7 @@ class Preferences(wx.Dialog):
 
     def OnDelRule(self, event):
         RowSelected = self.RuleList.GetSelection()
+        print "test1"
         if RowSelected>-1:
             LineToDelete = self.RuleList.GetString(RowSelected)
             dlg = wx.MessageDialog(self,
@@ -290,7 +289,9 @@ class Preferences(wx.Dialog):
             result = dlg.ShowModal()
             dlg.Destroy()
             if result == wx.ID_OK:
+                print "test2"
                 beamSettings._rules.pop(RowSelected)
+                print "test3"
                 self.BuildRuleList()
 
     def OnCheckRule(self, event):

@@ -104,8 +104,9 @@ class beamMainFrame(wx.Frame):
         self.Bind(wx.EVT_SIZE, self.OnSize)
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
+        
 
-        self._currentBackgroundPath = beamSettings._DefaultBackground
+        self._currentBackgroundPath = os.path.join(os.getcwd(),'resources','backgrounds','bg1920x1080px.jpg')
         self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), self._currentBackgroundPath)))
         self.modifiedBitmap = self._currentBackgroundPath
         self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
@@ -116,9 +117,8 @@ class beamMainFrame(wx.Frame):
 
         self.currentDisplayRows = []
         self.currentPlaybackStatus = ""
-        self.previousMood = ""
-        self.currentMood = ""      
-
+        self.previousPlaybackStatus = ""
+                
         #triggers
         self.triggerAdjustBackgroundRGB = True
         self.triggerResizeBackground = True
@@ -152,28 +152,27 @@ class beamMainFrame(wx.Frame):
             wx.lib.delayedresult.startWorker(self.getDataFinished, nowPlayingDataModel.ExtractPlaylistInfo( beamSettings ) )
 
     def getDataFinished(self, result):
-        
-        self.textsAreVisible = False
         self.currentDisplayRows = nowPlayingDataModel.DisplayRow
         self.currentPlaybackStatus = nowPlayingDataModel.PlaybackStatus
-        self.currentMood = nowPlayingDataModel.CurrentMood
-        self.previousMood = nowPlayingDataModel.PreviousMood
+        self.previousPlaybackStatus = nowPlayingDataModel.PreviousPlaybackStatus
         self.currentlyUpdating = False
         
-        if self.previousMood != self.currentMood:
-            print "New mood:", self.currentMood
-            # If background changed, fade it
-            if (nowPlayingDataModel.BackgroundImage != self._currentBackgroundPath and
-                nowPlayingDataModel.BackgroundImage != ""):
-                self._currentBackgroundPath = nowPlayingDataModel.BackgroundImage
+        
+        if self.previousPlaybackStatus != self.currentPlaybackStatus:
+            print "new status:", self.currentPlaybackStatus
+            if (self.currentPlaybackStatus == 'Playing' and 
+                beamSettings._playingStateBackgroundPath != self._currentBackgroundPath and
+                beamSettings._playingStateBackgroundPath != ""):
+                self._currentBackgroundPath = beamSettings._playingStateBackgroundPath
                 self.fadeBackground()
-            else:
-                self.textsAreVisible = True
+            if (self.currentPlaybackStatus == 'Stopped' and 
+                beamSettings._stoppedStateBackgroundPath != self._currentBackgroundPath and
+                beamSettings._stoppedStateBackgroundPath !=""):
+                self._currentBackgroundPath = beamSettings._stoppedStateBackgroundPath
+                self.fadeBackground()
         else:
-            self.textsAreVisible = True
+            self.Refresh()
 
-        self.Refresh()
-        nowPlayingDataModel.PreviousMood = self.currentMood
         self.SetStatusText(self.currentPlaybackStatus) 
 
 #####################################################
@@ -235,17 +234,25 @@ class beamMainFrame(wx.Frame):
         cliWidth, cliHeight = self.GetClientSize()
         if not cliWidth or not cliHeight:
             return
-
-        for j in range(0, len(nowPlayingDataModel.DisplaySettings)):
-
-            #Text and settings
-            text = self.currentDisplayRows[j]
-            Settings = nowPlayingDataModel.DisplaySettings[j]
-
+        
+        if self.currentPlaybackStatus in ['Playing', 'Paused']:
+            #Display what is playing
+            DisplayLength = len(beamSettings._myDisplaySettings)
+        else:
+            # Display the stopp-message
+            DisplayLength = len(beamSettings._displayWhenStopped)
+        for j in range(0, DisplayLength):
+            if self.currentPlaybackStatus in ['Playing', 'Paused']:
+                #Display what is playing
+                text = self.currentDisplayRows[j]
+                Settings = beamSettings._myDisplaySettings[j]
+            else:
+                # Display the stopp-message
+                Settings        = beamSettings._displayWhenStopped[j]
+                text            = Settings['Field']
             # Get size and position
             Size = Settings['Size']*cliHeight/100
             HeightPosition = int(Settings['Position'][0]*cliHeight/100)
-
             # Set font from settings
             face = "Great Vibes"
             face = "Liberation Sans"

@@ -55,13 +55,9 @@ class NowPlayingDataModel:
 
         self.PlaybackStatus = ""
         self.PreviousPlaybackStatus = ""
-        self.CurrentMood =""
-        self.PreviousMood = ""
-        self.BackgroundImage = ""
         self.PreviouslyPlayedSong = [ '' for i in range(7) ]
         self.NextTanda = [ '' for i in range(7) ]
         self.DisplayRow = []
-        self.DisplaySettings = {}
 
         self.convDict = dict()
         
@@ -135,11 +131,6 @@ class NowPlayingDataModel:
         self.Singer  = [ "" for i in range(len(self.Artist)) ] # Does not exist in ID3
         self.IsCortina   = [ 0 for i in range(len(self.Artist)) ] # Sets 1 if song is cortina
 
-        #Apply default layout and background, then change it if mood is applied
-        self.CurrentMood = 'Default'
-        self.DisplaySettings = currentSettings._DefaultDisplaySettings
-        self.BackgroundImage = currentSettings._DefaultBackground
-
         #
         # Apply rules, for every song in list
         #
@@ -164,30 +155,11 @@ class NowPlayingDataModel:
                             if eval(str(Rule[u'Field1']).replace("%"," self."))[j] not in str(Rule[u'Field3']):
                                 self.IsCortina[j] = 1
 
-                    if Rule[u'Type'] == 'Copy' and Rule[u'Active'] == 'yes':
+                    if Rule[u'Type'] == 'Set' and Rule[u'Active'] == 'yes':
                         # Rule[u'Field1'] shall be Rule[u'Field2']
                         # Example:
                         # Singer(j) = Comment(j)
                         eval(str(Rule[u'Field2']).replace("%"," self."))[j] = eval(str(Rule[u'Field1']).replace("%"," self."))[j]
-
-                    if Rule[u'Type'] == 'Mood' and Rule[u'Active'] == 'yes':
-                        # Only apply Mood for current song (j==1)
-                        if Rule[u'Field2'] == 'is':
-                            if eval(str(Rule[u'Field1']).replace("%"," self."))[j] in str(Rule[u'Field3']) and str(Rule[u'PlayState']) in self.PlaybackStatus and j == 1:
-                                self.CurrentMood = Rule[u'Name']
-                                self.DisplaySettings = Rule[u'Display']
-                                self.BackgroundImage = Rule[u'Background']
-                        if Rule[u'Field2'] == 'is not':
-                            if eval(str(Rule[u'Field1']).replace("%"," self."))[j] not in str(Rule[u'Field3']) and str(Rule[u'PlayState']) in self.PlaybackStatus and j == 1:
-                                self.CurrentMood = Rule[u'Name']
-                                self.DisplaySettings = Rule[u'Display']
-                                self.BackgroundImage = Rule[u'Background']								
-                        # Only if playback is stopped and we have a mood for this
-                        if self.PlaybackStatus == "Stopped":
-                            if eval(str(Rule[u'Field1']).replace("%"," self."))[j] in str(Rule[u'Field2']) and str(Rule[u'PlayState']) in self.PlaybackStatus:
-                                self.CurrentMood = Rule[u'Name']
-                                self.DisplaySettings = Rule[u'Display']
-                                self.BackgroundImage = Rule[u'Background']
                 except:
                     print "Error at Rule:", i,".Type:", Rule[u'Type'], ". First Field", Rule[u'Field1']
                     break
@@ -202,41 +174,41 @@ class NowPlayingDataModel:
             if self.IsCortina[j] and not self.IsCortina[j+1]:
                 self.NextTanda = [self.Artist[j+1], self.Album[j+1], self.Title[j+1], self.Genre[j+1], self.Comment [j+1], self.Composer[j+1], self.Year[j+1]]
                 break
-
         #
         # Create Display Strings
         #
 
         # The display lines
-        for i in range(0, len(self.DisplaySettings)): self.DisplayRow.append('')
+        for i in range(0, len(currentSettings._myDisplaySettings)): self.DisplayRow.append('')
         
         #first, update the conversion dictionary
         self.updateConversionDisctionary()
         
-        for j in range(0, len(self.DisplaySettings)):
-            MyDisplay = self.DisplaySettings[j]
-            try:
-                displayValue = str(MyDisplay['Field'])
-            except:
-                displayValue = unicode(MyDisplay['Field'])
-            for key in self.convDict:
+        if self.PlaybackStatus in 'Playing':
+            for j in range(0, len(currentSettings._myDisplaySettings)):
+                MyDisplay = currentSettings._myDisplaySettings[j]
                 try:
-                    displayValue = displayValue.replace(str(key), str(self.convDict[key]))
+                    displayValue = str(MyDisplay['Field'])
                 except:
-                    displayValue = displayValue.replace(key.decode('utf-8'), self.convDict[key].decode('utf-8'))
-                     
-            if MyDisplay['HideControl']  == "":
-                self.DisplayRow[j] = displayValue
-            else:
-               # Hides line if HideControl is empty if there is no next tanda
-                hideControlEval = str(MyDisplay['HideControl'])
+                    displayValue = unicode(MyDisplay['Field'])
                 for key in self.convDict:
-                    hideControlEval = hideControlEval.replace(str(key), str(self.convDict[key]))
-                        
-                if  not hideControlEval == "":
+                    try:
+                        displayValue = displayValue.replace(str(key), str(self.convDict[key]))
+                    except:
+                       displayValue = displayValue.replace(key.decode('utf-8'), self.convDict[key].decode('utf-8'))
+                     
+                if MyDisplay['HideControl']  == "":
                     self.DisplayRow[j] = displayValue
                 else:
-                    self.DisplayRow[j] = ""
+                    # Hides line if HideControl is empty if there is no next tanda
+                    hideControlEval = str(MyDisplay['HideControl'])
+                    for key in self.convDict:
+                        hideControlEval = hideControlEval.replace(str(key), str(self.convDict[key]))
+                        
+                    if  not hideControlEval == "":
+                        self.DisplayRow[j] = displayValue
+                    else:
+                        self.DisplayRow[j] = ""
         print "...data filtered: ", time.strftime("%H:%M:%S")
         return
     

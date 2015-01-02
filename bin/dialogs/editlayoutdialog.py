@@ -53,9 +53,9 @@ class EditLayoutDialog(wx.Dialog):
         Styles  = ["Italic","Normal","Slant"]
         
         # Check if it is a new line
-        if self.RowSelected<len(beamSettings._DefaultDisplaySettings):
+        if self.RowSelected<len(beamSettings._myDisplaySettings):
             # Get the properties of the selected item
-            self.Settings   = beamSettings._DefaultDisplaySettings[self.RowSelected]
+            self.Settings   = beamSettings._myDisplaySettings[self.RowSelected]
         else:
             # Create a new default setting
             self.Settings   = ({"Field": "%Artist", "Font": "Default","Style": "Normal", "Weight": "Bold", "Size": 20, "FontColor": "(255,255,255,255)", "HideControl": "", "Position": [50,50], "Center": "yes"})
@@ -134,10 +134,10 @@ class EditLayoutDialog(wx.Dialog):
             self.Settings[u'Center']    = 'no' 
         
         # Save item into dictionary
-        if self.RowSelected+1 > len(beamSettings._DefaultDisplaySettings):
-            beamSettings._DefaultDisplaySettings.append(self.Settings)
+        if self.RowSelected+1 > len(beamSettings._myDisplaySettings):
+            beamSettings._myDisplaySettings.append(self.Settings)
         else:
-            beamSettings._DefaultDisplaySettings[self.RowSelected] = self.Settings
+            beamSettings._myDisplaySettings[self.RowSelected] = self.Settings
         self.parent.BuildLayoutList()
         self.Destroy()
 

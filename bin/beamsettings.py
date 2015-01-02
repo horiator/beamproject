@@ -31,8 +31,8 @@ import io, os, sys
 
 class BeamSettings:
     # Define Dictionaries
-    # these are static class variables
-    FontTypeDictionary = {"Decorative":wx.DECORATIVE, 
+    # these are static class vriables
+    FontTypeDictionary = {"Decorative":wx.DECORATIVE, # A decorative font
                     "Default":wx.FONTFAMILY_DEFAULT,
                     "Modern":wx.FONTFAMILY_MODERN,
                     "Roman":wx.FONTFAMILY_ROMAN,
@@ -66,10 +66,11 @@ class BeamSettings:
         self._moduleSelected    = ''
         self._maxTandaLength    = ''
         self._updateTimer       = ''
-        self._DefaultBackground    = ''
+        self._BackgroundPath    = ''
 
         self._allModulesSettings    = ''
-        self._DefaultDisplaySettings     = ''
+        self._myDisplaySettings     = ''
+        self._displayWhenStopped    = ''
         self._rules                 = ''
 
     def LoadConfig(self, inputConfigFile):
@@ -87,11 +88,13 @@ class BeamSettings:
         self._moduleSelected        = ConfigData[u'Module']         # Player to read from
         self._maxTandaLength        = ConfigData[u'MaxTandaLength'] # Longest tandas, optimize for performance
         self._updateTimer           = ConfigData[u'Updtime']        # mSec between reading
-        self._DefaultBackground   = ConfigData[u'DefaultBackgroundImage']# Relative path to PlahyingStateBackground, use 1920x1080 for best performance
+        self._stoppedStateBackgroundPath   = ConfigData[u'StoppedStateBackgroundImage'] # Relative path to StoppedStateBackground, use 1920x1080 for best performance
+        self._playingStateBackgroundPath   = ConfigData[u'PlayingStateBackgroundImage']# Relative path to PlahyingStateBackground, use 1920x1080 for best performance
 
         # Dictionaries
         self._allModulesSettings    = ConfigData[u'AllModules']
-        self._DefaultDisplaySettings     = ConfigData[u'DefaultDisplay']
+        self._myDisplaySettings     = ConfigData[u'Display']
+        self._displayWhenStopped    = ConfigData[u'DisplayWhenStopped']
         self._rules                 = ConfigData[u'Rules']
 
         # Set modules for operating system
@@ -114,16 +117,18 @@ class BeamSettings:
         output = {}
 
         output[u'Configname']       = "Default Configuration"
-        output[u'Comment']          = "This configuration works with version 0.3 of Beam"
+        output[u'Comment']          = "This configuration works with version 0.2 of Beam"
         output[u'Author']           = "Mikael Holber & Horia Uifaleanu - 2014"
         output[u'Module']           = self._moduleSelected
         output[u'MaxTandaLength']   = self._maxTandaLength
         output[u'Updtime']          = self._updateTimer
-        output[u'DefaultBackgroundImage']    = self._DefaultBackground
+        output[u'StoppedStateBackgroundImage']    = self._stoppedStateBackgroundPath
+        output[u'PlayingStateBackgroundImage']    = self._playingStateBackgroundPath
 
         # Dictionaries
         output[u'AllModules']           = self._allModulesSettings
-        output[u'DefaultDisplay']              = self._DefaultDisplaySettings
+        output[u'Display']              = self._myDisplaySettings
+        output[u'DisplayWhenStopped']   = self._displayWhenStopped
         output[u'Rules']                = self._rules
 
         # Write config file

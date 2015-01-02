@@ -37,104 +37,8 @@
       "Active": "yes", 
       "Field2": "%Singer", 
       "Field1": "%Comment", 
-      "Type": "Copy"
+      "Type": "Set"
     }, 
-	{
-      "Active": "yes", 
-      "Field3": "-- Cortina",
-      "Field2": "is", 
-      "Field1": "%Artist", 
-      "Type": "Mood",
-	  "Name": "Cortina Mood",
-	  "Background": "resources/backgrounds/bg1920x1080px_darkBlue.jpg",
-	  "PlayState": "Playing",
-	  "Display": [
-	  {
-      "Style": "Italic", 
-      "Center": "yes", 
-      "Weight": "Normal", 
-      "HideControl": "", 
-      "Field": "Cortina", 
-      "FontColor": "(255, 255, 255, 255)", 
-      "Position": [
-        20, 
-        0
-      ], 
-      "Font": "Roman", 
-      "Size": 15
-    },
-	{
-      "Style": "Italic", 
-      "Center": "yes", 
-      "Weight": "Normal", 
-      "HideControl": "%NextTandaArtist", 
-      "Field": "Next Tanda:", 
-      "FontColor": "(255, 255, 255, 255)", 
-      "Position": [
-        58, 
-        0
-      ], 
-      "Font": "Roman", 
-      "Size": 8
-    }, 
-    {
-      "Style": "Italic", 
-      "Center": "yes", 
-      "Weight": "Bold", 
-      "HideControl": "%NextTandaArtist", 
-      "Field": "%NextTandaGenre  - %NextTandaArtist", 
-      "FontColor": "(255, 255, 255, 255)", 
-      "Position": [
-        76, 
-        0
-      ], 
-      "Font": "Roman", 
-      "Size": 8
-    }
-	]
-    },
-	{
-      "Active": "yes",
-      "Field3": "", 
-      "Field2": "is", 
-      "Field1": "%Artist", 
-      "Type": "Mood",
-	  "Name": "Stopped Mood",
-	  "Background": "resources/backgrounds/bg1920x1080px_darkGreen.jpg",
-	  "PlayState": "Stopped",
-	  "Display": [
-	{
-      "Style": "Italic", 
-      "Center": "yes", 
-      "Weight": "Bold",
-      "HideControl": "", 	  
-      "Row": 1, 
-      "Field": "Beam", 
-      "FontColor": "(255,255,255,255)", 
-      "Position": [
-        30, 
-        0
-      ], 
-      "Font": "Roman", 
-      "Size": 10
-    }, 
-    {
-      "Style": "Italic", 
-      "Center": "yes", 
-      "Weight": "Bold", 
-      "Row": 2, 
-      "Field": "Me Up Scotty", 
-      "HideControl": "", 
-      "FontColor": "(255,255,255,255)", 
-      "Position": [
-        50, 
-        0
-      ], 
-      "Font": "Roman", 
-      "Size": 8
-    }
-	]
-	},
     {
       "Active": "yes", 
       "Field2": "is", 
@@ -173,10 +77,40 @@
       "Type": "Parse"
     }
   ], 
-  "DefaultBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
+  "PlayingStateBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
   "Module": "", 
+  "DisplayWhenStopped": [
+    {
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "Row": 1, 
+      "Field": "Beam", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        30, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 10
+    }, 
+    {
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "Row": 2, 
+      "Field": "Me Up Scotty", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        50, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 8
+    }
+  ], 
   "MaxTandaLength": 4, 
-  "DefaultDisplay": [
+  "Display": [
     {
       "Style": "Italic", 
       "Center": "yes", 
@@ -275,5 +209,6 @@
       "Font": "Roman", 
       "Size": 4
     }
-  ]
+  ], 
+  "StoppedStateBackgroundImage": ""
 }
