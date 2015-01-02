@@ -265,7 +265,7 @@ class Preferences(wx.Dialog):
             result = dlg.ShowModal()
             dlg.Destroy()
             if result == wx.ID_OK:
-                beamSettings._myDisplaySettings.pop(RowSelected)
+                beamSettings._DefaultDisplaySettings.pop(RowSelected)
                 self.BuildLayoutList()
 #
 # RULE BUTTONS

@@ -275,7 +275,12 @@ class EditRuleDialog(wx.Dialog):
             NewRule[u'Field4']      = self.OutputField2.GetValue()
         if RuleSelected == 'Cortina':
             NewRule[u'Field2']      = self.IsIsNot.GetValue()
-            NewRule[u'Field3']      = self.OutputField3.GetValue()
+            NewRule[u'Field3']      = self.OutputField2.GetValue()
+        if RuleSelected == 'Mood':
+            NewRule[u'Field2']      = self.IsIsNot.GetValue()
+            NewRule[u'Field3']      = self.OutputField2.GetValue()
+            NewRule[u'Name'] = self.OutputField2.GetValue()
+            NewRule[u'PlayState'] = self.PlayingState.GetValue()
 
         NewRule[u'Field1']      = self.InputID3Field.GetValue()
         # Decide where NewRule goes into the vector self.Settings
