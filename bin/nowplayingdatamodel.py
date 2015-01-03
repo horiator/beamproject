@@ -92,7 +92,7 @@ class NowPlayingDataModel:
         if currentSettings._moduleSelected == 'iTunes':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = itunesWindowsModule.run(currentSettings._maxTandaLength)
         if currentSettings._moduleSelected == 'Clementine':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = clementineModule.run(currentSettings._maxTandaLength)
+            self.currentPlaylist, self.PlaybackStatus = clementineModule.run(currentSettings._maxTandaLength)
         if currentSettings._moduleSelected == 'Banshee':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = bansheeModule.run(currentSettings._maxTandaLength)
         if currentSettings._moduleSelected == 'Spotify' and platform.system() == 'Linux':
@@ -176,12 +176,12 @@ class NowPlayingDataModel:
         #
         # Create NextTanda
         #
+        self.nextTandaSong = None
         for i in range(1, len(self.currentPlaylist)-1):
             # Check if song is cortina
             if self.currentPlaylist[i].IsCortina and not self.currentPlaylist[i+1].IsCortina:
                 self.nextTandaSong = deepcopy(self.currentPlaylist[i+1])
                 break
-        print self.nextTandaSong.Title
         #
         # Create Display Strings
         #

@@ -30,20 +30,8 @@ import subprocess, sys
 
 def run(MaxTandaLength):
 
-    
-
-    # Variable declaration
-    
     playlist = []
     
-    Artist      = []
-    Album       = []
-    Title           = []
-    Genre       = []
-    Comment     = []
-    Composer        = []
-    Year            = []
-
     try:
         check = subprocess.check_output(["audtool", "--current-song"]).rstrip('\n')
     except:
@@ -71,7 +59,7 @@ def run(MaxTandaLength):
     playlistlength  = int(subprocess.check_output(["audtool", "--playlist-length"]).rstrip('\n'))
     searchsong = currentsong # Start on the current song
 
-    while searchsong < playlistlength+1 and searchsong < currentsong+MaxTandaLength+2:
+    while searchsong < playlistlength-1 and searchsong < currentsong+MaxTandaLength+2:
         playlist.append(getSongAt( searchsong))
         searchsong = searchsong+1
     return playlist, playbackStatus
@@ -85,10 +73,10 @@ def getSongAt(songPosition = 1):
     retSong.Comment     = subprocess.check_output( ["audtool", "--playlist-tuple-data", "comment",  str(songPosition)]).rstrip('\n')
     retSong.Composer    = subprocess.check_output( ["audtool", "--playlist-tuple-data", "composer", str(songPosition)]).rstrip('\n')
     retSong.Year        = subprocess.check_output( ["audtool", "--playlist-tuple-data", "year",     str(songPosition)]).rstrip('\n')
-    #retSong._singer      
+    #retSong._Singer      
     retSong.AlbumArtist = subprocess.check_output( ["audtool", "--playlist-tuple-data", "albumartist", str(songPosition)]).rstrip('\n')
     retSong.Performer   = subprocess.check_output( ["audtool", "--playlist-tuple-data", "performer",   str(songPosition)]).rstrip('\n')
-    #retSong._isCortina
+    #retSong.IsCortina
    
     
     return retSong
