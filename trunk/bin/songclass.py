@@ -83,30 +83,23 @@ class SongObject(object):
                     # split currentRule[u'Field1'] and save into Rule[u'Field3 and 4]
                     if str(currentRule[u'Field2'].replace("%"," self.")) in eval(str(currentRule[u'Field1'].replace("%"," self."))):
                         splitStrings = eval(str(currentRule[u'Field1']).replace("%"," self.")).split(str(currentRule[u'Field2']))
-
-                        eval(str(currentRule[u'Field3']).replace("%"," self.")) = "1"
-                        print eval(str(currentRule[u'Field3']).replace("%"," self."))
-
-                        print str(currentRule[u'Field3']).replace("%"," self."), "=" , splitStrings[0]
-                        print str(currentRule[u'Field4']).replace("%"," self."), "=" , splitStrings[1]
-
+                        setattr(self, currentRule[u'Field3'].replace("%",""), splitStrings[0])
+                        setattr(self, currentRule[u'Field4'].replace("%",""), splitStrings[1])
                 if currentRule[u'Type'] == 'Cortina' and currentRule[u'Active'] == 'yes':
                     # Rule[u'Field2'] == is: IsCortina[j] shall be 1 if Rule[u'Field1'] is Rule[u'Field3']
-                    if Rule[u'Field2'] == 'is':
-                        if eval(str(currentRule[u'Field1']).replace("%"," self.")) in str(currentRule[u'Field3']):
+                    if currentRule[u'Field2'] == 'is':
+                        if getattr(self, currentRule[u'Field1'].replace("%","")) in str(currentRule[u'Field3']):
                             self.IsCortina = 1
                     # Rule[u'Field2'] == is not: IsCortina[j] shall be 1 if Rule[u'Field1'] not in Rule[u'Field3']
-                    if Rule[u'Field2'] == 'is not':
-                        if eval(str(currentRule[u'Field1']).replace("%"," self.")) not in str(currentRule[u'Field3']):
+                    if currentRule[u'Field2'] == 'is not':
+                        if getattr(self, currentRule[u'Field1'].replace("%","")) not in str(currentRule[u'Field3']):
                             self.IsCortina = 1
 
                 if currentRule[u'Type'] == 'Copy' and currentRule[u'Active'] == 'yes':
                     # Rule[u'Field1'] shall be Rule[u'Field2']
                     # Example:
                     # Singer(j) = Comment(j)
-                    print str(currentRule[u'Field2']).replace("%","self.")
-                    #eval(str(currentRule[u'Field2']).replace("%","self.")) = eval(str(currentRule[u'Field1']).replace("%"," self."))
-
+                    setattr(self, currentRule[u'Field2'].replace("%",""), getattr(self, currentRule[u'Field1'].replace("%","")) )
             except:
                 print "Error at Rule:", i,".Type:", currentRule[u'Type'], ". First Field", currentRule[u'Field1']
                 break

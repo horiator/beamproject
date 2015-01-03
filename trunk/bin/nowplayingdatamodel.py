@@ -149,7 +149,8 @@ class NowPlayingDataModel:
             currentSong = self.currentPlaylist[0]
         except:
             currentSong = SongObject()
-            
+        
+        print currentSong.Title
         for i in range(0, len(currentSettings._rules)):
             currentRule = currentSettings._rules[i]
             if currentRule[u'Type'] == 'Mood' and currentRule[u'Active'] == 'yes':
@@ -177,10 +178,10 @@ class NowPlayingDataModel:
         #
         for i in range(1, len(self.currentPlaylist)-1):
             # Check if song is cortina
-            if self.currentPlaylist[i] and not self.currentPlaylist[i+1]:
-                self.nextTandaSong = self.currentPlaylist[i+1]
+            if self.currentPlaylist[i].IsCortina and not self.currentPlaylist[i+1].IsCortina:
+                self.nextTandaSong = deepcopy(self.currentPlaylist[i+1])
                 break
-
+        print self.nextTandaSong.Title
         #
         # Create Display Strings
         #
@@ -222,17 +223,17 @@ class NowPlayingDataModel:
         self.convDict = dict()
         #CurrentSong
         try:
-            self.convDict['%Artist']        = self.currentPlaylist[0]._artist
-            self.convDict['%Album']         = self.currentPlaylist[0]._album
-            self.convDict['%Title']         = self.currentPlaylist[0]._title
-            self.convDict['%Genre']         = self.currentPlaylist[0]._genre
-            self.convDict['%Comment']       = self.currentPlaylist[0]._comment
-            self.convDict['%Composer']      = self.currentPlaylist[0]._composer
-            self.convDict['%Year']          = self.currentPlaylist[0]._year
-            self.convDict['%Singer']        = self.currentPlaylist[0]._singer
-            self.convDict['%AlbumArtist']   = self.currentPlaylist[0]._albumArtist
-            self.convDict['%Performer']     = self.currentPlaylist[0]._performer
-            self.convDict['%IsCortina']     = self.currentPlaylist[0]._isCortina
+            self.convDict['%Artist']        = self.currentPlaylist[0].Artist
+            self.convDict['%Album']         = self.currentPlaylist[0].Album
+            self.convDict['%Title']         = self.currentPlaylist[0].Title
+            self.convDict['%Genre']         = self.currentPlaylist[0].Genre
+            self.convDict['%Comment']       = self.currentPlaylist[0].Comment
+            self.convDict['%Composer']      = self.currentPlaylist[0].Composer
+            self.convDict['%Year']          = self.currentPlaylist[0].Year
+            self.convDict['%Singer']        = self.currentPlaylist[0].Singer
+            self.convDict['%AlbumArtist']   = self.currentPlaylist[0].AlbumArtist
+            self.convDict['%Performer']     = self.currentPlaylist[0].Performer
+            self.convDict['%IsCortina']     = self.currentPlaylist[0].IsCortina
         except:
             self.convDict['%Artist']        = u""
             self.convDict['%Album']         = u""
