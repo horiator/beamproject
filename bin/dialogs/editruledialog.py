@@ -51,6 +51,7 @@ class EditRuleDialog(wx.Dialog):
         self.InputFields    = ["%Artist","%Album","%Title","%Genre","%Comment","%Composer","%Year", "%AlbumArtist", "%Performer"]
         self.OutputFields   = ["%Artist","%Album","%Title","%Genre","%Comment","%Composer","%Year", "%AlbumArtist", "%Performer", "%Singer"]
 
+
     # Check if it is a new line
         if self.RowSelected<len(beamSettings._rules):
             # Get the properties of the selected item

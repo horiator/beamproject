@@ -27,7 +27,6 @@
 
 import platform, os, sys
 
-
 class SongObject(object):
 
     def __init__(self, p_artist=u"", p_album=u"", p_title=u"", p_genre=u"",

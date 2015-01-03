@@ -327,7 +327,6 @@ class NowPlayingDataModel:
             self.convDict['%NextTandaPerformer']     = u""
             self.convDict['%NextTandaIsCortina']     = u""        
 
-            
         #date and time
         
         self.convDict['%Hour']      = time.strftime("%H")
