@@ -25,6 +25,7 @@
 #
 # This Python file uses the following encoding: utf-8
 
+from bin.songclass import SongObject
 
 import imp
 try:
@@ -37,13 +38,7 @@ from ID3 import *
 
 def run(MaxTandaLength):
 
-    Artist      = []
-    Album       = []
-    Title           = []
-    Genre       = []
-    Comment     = []
-    Composer        = []
-    Year            = []
+    playlist = []
     playbackStatus  = ''
     
     try:
@@ -51,8 +46,8 @@ def run(MaxTandaLength):
         player = bus.get_object('org.mpris.clementine', '/Player')
         tracklist = bus.get_object('org.mpris.clementine', '/TrackList')
     except:
-        playbackStatus  = 'Media player not running'
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+        playbackStatus  = 'PlayerNotRunning'
+        return playlist, playbackStatus
     
     # Playstatus: 0 = Playing, 1 = Paused, 2 = Stopped
     Status = player.GetStatus()[0] 
@@ -60,49 +55,72 @@ def run(MaxTandaLength):
     if Status == 0:
         playbackStatus = 'Playing'
         
-        #Declare our position
+        #Extract the playlist songs
         currentsong = tracklist.GetCurrentTrack()
-        listlength      = tracklist.GetLength()
-        searchsong = currentsong 
+        playlistlength = tracklist.GetLength()
+        iterator_song = currentsong 
             
-        while searchsong < currentsong+MaxTandaLength+2 and listlength-1:
-                Track = tracklist.GetMetadata(searchsong)
-                try:
-                    Artist.append((Track[u'artist']).encode('utf-8'))
-                except:
-                    Artist.append("")
-                try:
-                    Album.append((Track[u'album']).encode('utf-8'))
-                except:
-                     Album.append("")
-                try:
-                    Title.append((Track[u'title']).encode('utf-8'))
-                except:
-                     Title.append("")
-                try:
-                     Genre.append((Track[u'genre']).encode('utf-8'))
-                except:
-                    Genre.append("")
-                try:
-                    Comment.append((Track[u'comment']).encode('utf-8'))
-                except:
-                     Comment.append("")
-                try:
-                     Composer.append((Track[u'composer']).encode('utf-8'))
-                except:
-                     Composer.append("")
-                try:            
-                     Year.append(Track[u'year'])
-                except:
-                     Year.append("")
-                searchsong = searchsong+1
-                    
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-    
+        while iterator_song < currentsong+MaxTandaLength+2 and iterator_song < playlistlength-1:
+            playlist.append(getSongObjectFromTrack(tracklist.GetMetadata(iterator_song)))
+            iterator_song = iterator_song+1
+            
     if Status == 1:
         playbackStatus = 'Paused'
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-        
     if Status == 2:
         playbackStatus = 'Stopped'
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+
+    return playlist, playbackStatus
+
+
+def getSongObjectFromTrack(Track):
+    retSong = SongObject()
+    
+    try:
+        retSong.Artist      = (Track[u'artist']).encode('utf-8')
+    except:
+        pass
+        
+    try:
+        retSong.Album       = (Track[u'album']).encode('utf-8')
+    except:
+        pass
+    
+    try:
+        retSong.Title       = (Track[u'title']).encode('utf-8')
+    except:
+        pass
+        
+    try:
+        retSong.Genre       = (Track[u'genre']).encode('utf-8')
+    except:
+        pass
+        
+    try:
+        retSong.Comment     = (Track[u'comment']).encode('utf-8')
+    except:
+        pass
+        
+    try:
+        retSong.Composer    = (Track[u'composer']).encode('utf-8')
+    except:
+        pass
+        
+    try:
+        retSong.Year        = (Track[u'year'])
+    except:
+        pass
+        
+    #retSong.Singer
+    
+    try:
+        retSong.AlbumArtist = (Track[u'album artist']).encode('utf-8')
+    except:
+        pass
+        
+    try:
+        retSong.Performer   = (Track[u'performer']).encode('utf-8')
+    except:
+         pass
+     #retSong.IsCortina
+     
+    return retSong
