@@ -49,8 +49,8 @@ class EditRuleDialog(wx.Dialog):
         self.ButtonCancelRule   = wx.Button(self.EditRulePanel, label="Cancel")
         self.ButtonSaveRule.Bind(wx.EVT_BUTTON, self.OnSaveRuleItem)
         self.ButtonCancelRule.Bind(wx.EVT_BUTTON, self.OnCancelRuleItem)
-        self.InputFields    = ["%Artist","%Album","%Title","%Genre","%Comment","%Composer","%Year"]
-        self.OutputFields   = ["%Artist","%Album","%Title","%Genre","%Comment","%Composer","%Year", "%Singer"]
+        self.InputFields    = ["%Artist","%Album","%Title","%Genre","%Comment","%Composer","%Year", "%AlbumArtist", "%Performer"]
+        self.OutputFields   = ["%Artist","%Album","%Title","%Genre","%Comment","%Composer","%Year", "%AlbumArtist", "%Performer", "%Singer"]
 
     # Check if it is a new line
         if self.RowSelected<len(beamSettings._rules):
