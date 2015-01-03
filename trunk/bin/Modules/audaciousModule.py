@@ -25,12 +25,16 @@
 #
 # This Python file uses the following encoding: utf-8
 
+from bin.songclass import SongObject
+import subprocess, sys
 
 def run(MaxTandaLength):
 
-    import subprocess, sys
+    
 
     # Variable declaration
+    
+    playlist = []
     
     Artist      = []
     Album       = []
@@ -41,23 +45,23 @@ def run(MaxTandaLength):
     Year            = []
 
     try:
-        check       = subprocess.check_output(["audtool", "--current-song"]).rstrip('\n')
+        check = subprocess.check_output(["audtool", "--current-song"]).rstrip('\n')
     except:
-        playbackStatus = 'Mediaplayer is not running'
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+        playbackStatus = 'PlayerNotRunning'
+        return playlist, playbackStatus
 
     playbackStatus  = subprocess.check_output(["audtool", "--playback-status"]).rstrip('\n')
     
     # Break and return empty if nothing is playing
     if check in 'No song playing.': 
         playbackStatus = 'Stopped'
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+        return playlist, playbackStatus
     elif playbackStatus in 'stopped': 
         playbackStatus = 'Stopped'
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+        return playlist, playbackStatus
     elif playbackStatus in 'paused': 
         playbackStatus = 'Paused'
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+        return playlist, playbackStatus
     elif playbackStatus in 'playing':
     #   print "Lets get some info!"
         playbackStatus = 'Playing'
@@ -68,14 +72,22 @@ def run(MaxTandaLength):
     searchsong = currentsong # Start on the current song
 
     while searchsong < playlistlength+1 and searchsong < currentsong+MaxTandaLength+2:
-        Artist.append(subprocess.check_output(  ["audtool", "--playlist-tuple-data", "artist",   str(searchsong)]).rstrip('\n'))
-        Album.append(subprocess.check_output(   ["audtool", "--playlist-tuple-data", "album",    str(searchsong)]).rstrip('\n'))
-        Title.append(subprocess.check_output(   ["audtool", "--playlist-tuple-data", "title",    str(searchsong)]).rstrip('\n'))
-        Genre.append(subprocess.check_output(   ["audtool", "--playlist-tuple-data", "genre",    str(searchsong)]).rstrip('\n'))
-        Comment.append(subprocess.check_output( ["audtool", "--playlist-tuple-data", "comment",  str(searchsong)]).rstrip('\n'))
-        Composer.append(subprocess.check_output(["audtool", "--playlist-tuple-data", "composer", str(searchsong)]).rstrip('\n'))
-        Year.append(subprocess.check_output(    ["audtool", "--playlist-tuple-data", "year",     str(searchsong)]).rstrip('\n'))
+        playlist.append(getSongAt( searchsong))
         searchsong = searchsong+1
+    return playlist, playbackStatus
 
-    return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-
+def getSongAt(songPosition = 1):
+    retSong = SongObject()
+    retSong.Artist      = subprocess.check_output( ["audtool", "--playlist-tuple-data", "artist",   str(songPosition)]).rstrip('\n')
+    retSong.Album       = subprocess.check_output( ["audtool", "--playlist-tuple-data", "album",    str(songPosition)]).rstrip('\n')
+    retSong.Title       = subprocess.check_output( ["audtool", "--playlist-tuple-data", "title",    str(songPosition)]).rstrip('\n')
+    retSong.Genre       = subprocess.check_output( ["audtool", "--playlist-tuple-data", "genre",    str(songPosition)]).rstrip('\n')
+    retSong.Comment     = subprocess.check_output( ["audtool", "--playlist-tuple-data", "comment",  str(songPosition)]).rstrip('\n')
+    retSong.Composer    = subprocess.check_output( ["audtool", "--playlist-tuple-data", "composer", str(songPosition)]).rstrip('\n')
+    retSong.Year        = subprocess.check_output( ["audtool", "--playlist-tuple-data", "year",     str(songPosition)]).rstrip('\n')
+    #retSong._singer      
+    retSong.AlbumArtist = subprocess.check_output( ["audtool", "--playlist-tuple-data", "albumartist", str(songPosition)]).rstrip('\n')
+    retSong.Performer   = subprocess.check_output( ["audtool", "--playlist-tuple-data", "performer",   str(songPosition)]).rstrip('\n')
+    #retSong._isCortina
+    
+    return retSong
