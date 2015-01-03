@@ -31,6 +31,7 @@ import wx, wx.html
 import os
 
 from bin.beamsettings import *
+from bin.dialogs.EditMoodLayoutDialog import EditMoodLayout
 
 #
 # Edit Rule class
@@ -302,4 +303,5 @@ class EditRuleDialog(wx.Dialog):
         self.Destroy()
 
     def OnEditLayout(self, event):
-        print "Edit Mood Layout"
+        self.EditMoodLayout = EditMoodLayout(self, self.Settings)
+        self.EditMoodLayout.Show()
