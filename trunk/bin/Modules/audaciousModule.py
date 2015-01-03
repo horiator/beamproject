@@ -89,5 +89,6 @@ def getSongAt(songPosition = 1):
     retSong.AlbumArtist = subprocess.check_output( ["audtool", "--playlist-tuple-data", "albumartist", str(songPosition)]).rstrip('\n')
     retSong.Performer   = subprocess.check_output( ["audtool", "--playlist-tuple-data", "performer",   str(songPosition)]).rstrip('\n')
     #retSong._isCortina
+   
     
     return retSong
