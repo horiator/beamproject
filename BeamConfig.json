@@ -41,9 +41,9 @@
     }, 
 	{
       "Active": "yes", 
-      "Field3": "1",
+      "Field3": "-- Cortina",
       "Field2": "is", 
-      "Field1": "%IsCortina", 
+      "Field1": "%Artist", 
       "Type": "Mood",
 	  "Name": "Cortina Mood",
 	  "Background": "resources/backgrounds/bg1920x1080px_darkBlue.jpg",
