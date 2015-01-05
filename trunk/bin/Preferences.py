@@ -121,9 +121,10 @@ class Preferences(wx.Dialog):
         sizerbuttons.Add(self.EditLayout, flag=wx.RIGHT | wx.TOP, border=10)
 
 
-        self.LayoutList = wx.ListBox(panel,-1, size=wx.DefaultSize, choices=[], style= wx.LB_NEEDED_SB)
+        self.LayoutList = wx.CheckListBox(panel,-1, size=wx.DefaultSize, choices=[], style= wx.LB_NEEDED_SB)
         self.LayoutList.SetBackgroundColour(wx.Colour(255, 255, 255))
         self.LayoutList.Bind(wx.EVT_LISTBOX_DCLICK, self.OnEditLayout)
+        self.LayoutList.Bind(wx.EVT_CHECKLISTBOX, self.OnCheckLayout)
 
         # Load data into table
         self.BuildLayoutList()
@@ -146,7 +147,12 @@ class Preferences(wx.Dialog):
             Settings = beamSettings._DefaultDisplaySettings[i]
             self.DisplayRows.append(Settings[u'Field'])
         self.LayoutList.Set(self.DisplayRows)
-
+        for i in range(0, len(beamSettings._DefaultDisplaySettings)):
+            Settings = beamSettings._DefaultDisplaySettings[i]
+            if Settings['Active'] == "yes":
+                self.LayoutList.Check(i, check=True)
+            else:
+                self.LayoutList.Check(i, check=False)
 #
 # Third tab - Rules
 #
@@ -300,3 +306,13 @@ class Preferences(wx.Dialog):
                 rule[u'Active'] = "yes"
             else:
                 rule[u'Active'] = "no"
+        self.BuildRuleList()
+
+    def OnCheckLayout(self, event):
+        for i in range(0, len(beamSettings._DefaultDisplaySettings)):
+            layout = beamSettings._DefaultDisplaySettings[i]
+            if self.LayoutList.IsChecked(i):
+                layout[u'Active'] = "yes"
+            else:
+                layout[u'Active'] = "no"
+        self.BuildLayoutList()

@@ -50,6 +50,7 @@
 	  "PlayState": "Playing",
 	  "Display": [
 	  {
+      "Active": "yes",
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
@@ -64,6 +65,7 @@
       "Size": 15
     },
 	{
+      "Active": "yes",
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
@@ -78,6 +80,7 @@
       "Size": 8
     }, 
     {
+      "Active": "yes",
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Bold", 
@@ -104,6 +107,7 @@
 	  "PlayState": "Stopped",
 	  "Display": [
 	{
+      "Active": "yes",
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Bold",
@@ -119,6 +123,7 @@
       "Size": 10
     }, 
     {
+      "Active": "yes",
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Bold", 
@@ -178,6 +183,7 @@
   "MaxTandaLength": 4, 
   "DefaultDisplay": [
     {
+      "Active": "yes",
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
@@ -192,6 +198,7 @@
       "Size": 11
     }, 
     {
+      "Active": "yes",
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
@@ -206,6 +213,7 @@
       "Size": 11
     }, 
     {
+      "Active": "yes",
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
@@ -220,6 +228,7 @@
       "Size": 11
     }, 
     {
+      "Active": "yes",
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Normal", 
@@ -234,6 +243,7 @@
       "Size": 5
     }, 
     {
+      "Active": "yes",
       "Style": "Italic", 
       "Center": "yes", 
       "Weight": "Bold", 
@@ -248,6 +258,7 @@
       "Size": 5
     }, 
     {
+      "Active": "yes",
       "Style": "Italic", 
       "Center": "no", 
       "Weight": "Light", 
@@ -262,6 +273,7 @@
       "Size": 4
     }, 
     {
+      "Active": "yes",
       "Style": "Italic", 
       "Center": "no", 
       "Weight": "Light", 
