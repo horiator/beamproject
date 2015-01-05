@@ -204,7 +204,7 @@ class NowPlayingDataModel:
                 except:
                     displayValue = displayValue.replace(key.decode('utf-8'), self.convDict[key].decode('utf-8'))
                      
-            if MyDisplay['HideControl']  == "":
+            if MyDisplay['HideControl']  == "" and MyDisplay['Active'] == "yes":
                 self.DisplayRow[j] = displayValue
             else:
                # Hides line if HideControl is empty if there is no next tanda
@@ -212,7 +212,7 @@ class NowPlayingDataModel:
                 for key in self.convDict:
                     hideControlEval = hideControlEval.replace(str(key), str(self.convDict[key]))
                         
-                if  not hideControlEval == "":
+                if  not hideControlEval == ""  and MyDisplay['Active'] == "yes":
                     self.DisplayRow[j] = displayValue
                 else:
                     self.DisplayRow[j] = ""
