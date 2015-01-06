@@ -42,6 +42,7 @@ class EditLayoutDialog(wx.Dialog):
         self.EditLayoutPanel    = wx.Panel(self)
         self.parent             = parent
         self.RowSelected        = RowSelected
+        self.mode = mode
 
         self.ButtonSaveLayout   = wx.Button(self.EditLayoutPanel, label="Save")
         self.ButtonCancelLayout     = wx.Button(self.EditLayoutPanel, label="Cancel")
@@ -133,12 +134,27 @@ class EditLayoutDialog(wx.Dialog):
             self.Settings[u'Center']    = 'yes'
         else:
             self.Settings[u'Center']    = 'no' 
-        
+
+        # Remove old item from dictionary
+        if self.mode == "Edit layout item":
+            beamSettings._DefaultDisplaySettings.pop(self.RowSelected)
+
         # Save item into dictionary
-        if self.RowSelected+1 > len(beamSettings._DefaultDisplaySettings):
-            beamSettings._DefaultDisplaySettings.append(self.Settings)
-        else:
-            beamSettings._DefaultDisplaySettings[self.RowSelected] = self.Settings
+        xpos = self.Settings['Position']
+        for i in range(0, len(beamSettings._DefaultDisplaySettings)):
+            pos = beamSettings._DefaultDisplaySettings[i]['Position']
+            if xpos[0] < pos[0]:
+                newposition = i
+                break
+
+        # Decide where Layout goes into the vector self.Settings
+        if self.mode == "Add layout item":
+            if  newposition < len(beamSettings._DefaultDisplaySettings):
+                beamSettings._DefaultDisplaySettings.insert(newposition, self.Settings) #Insert in at position
+            else:
+                beamSettings._DefaultDisplaySettings.append(self.Settings) # Append in the end
+        else: #Edit layout
+                beamSettings._DefaultDisplaySettings.insert(newposition, self.Settings)
         self.parent.BuildLayoutList()
         self.Destroy()
 

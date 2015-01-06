@@ -258,7 +258,7 @@ class Preferences(wx.Dialog):
     def OnEditLayout(self, event):
         RowSelected = self.LayoutList.GetSelection()
         if RowSelected>-1:
-            self.EditLayout = EditLayoutDialog(self, RowSelected, "Add layout item")
+            self.EditLayout = EditLayoutDialog(self, RowSelected, "Edit layout item")
             self.EditLayout.Show()
 
     def OnDelLayout(self, event):
