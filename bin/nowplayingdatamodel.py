@@ -177,9 +177,9 @@ class NowPlayingDataModel:
         # Create NextTanda
         #
         self.nextTandaSong = None
-        for i in range(1, len(self.currentPlaylist)-1):
+        for i in range(0, len(self.currentPlaylist)-1):
             # Check if song is cortina
-            if self.currentPlaylist[i].IsCortina and not self.currentPlaylist[i+1].IsCortina:
+            if self.currentPlaylist[i].IsCortina == "yes" and not self.currentPlaylist[i+1].IsCortina == "yes":
                 self.nextTandaSong = deepcopy(self.currentPlaylist[i+1])
                 break
         #
