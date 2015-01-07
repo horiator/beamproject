@@ -129,7 +129,10 @@ def run(MaxTandaLength):
     searchsong = currentsong # Start on the current song
 
     while searchsong < playlistlength-1 and searchsong < currentsong+MaxTandaLength+2:
-        playlist.append(getSongAt( searchsong))
+        try:
+            playlist.append(getSongAt( searchsong))
+        except:
+            break
         searchsong = searchsong+1
     return playlist, playbackStatus
 
