@@ -35,6 +35,8 @@ if platform.system() == 'Linux':
     from Modules import audaciousModule, rhythmboxModule, clementineModule, bansheeModule, spotifyLinuxModule
 if platform.system() == 'Windows':
     from Modules import itunesWindowsModule, winampWindowsModule, MediaMonkeyModule, JRMCWindowsModule, spotifyWindowsModule, foobarWindowsModule
+if platform.system() == 'Darwin':
+    from Modules import itunesMacModule
 
 class NowPlayingDataModel:
 
@@ -89,8 +91,10 @@ class NowPlayingDataModel:
             self.currentPlaylist, self.PlaybackStatus = audaciousModule.run(currentSettings._maxTandaLength)
         if currentSettings._moduleSelected == 'Rhythmbox':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = rhythmboxModule.run(currentSettings._maxTandaLength)
-        if currentSettings._moduleSelected == 'iTunes':
+        if currentSettings._moduleSelected == 'iTunes' and platform.system() == 'Windows':
             self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = itunesWindowsModule.run(currentSettings._maxTandaLength)
+        if currentSettings._moduleSelected == 'iTunes' and platform.system() == 'Darwin':
+            self.currentPlaylist, self.PlaybackStatus  = itunesMacModule.run(currentSettings._maxTandaLength)
         if currentSettings._moduleSelected == 'Clementine':
             self.currentPlaylist, self.PlaybackStatus = clementineModule.run(currentSettings._maxTandaLength)
         if currentSettings._moduleSelected == 'Banshee':
@@ -149,12 +153,12 @@ class NowPlayingDataModel:
             currentSong = self.currentPlaylist[0]
         except:
             currentSong = SongObject()
-        
-        print currentSong.Title
+
         for i in range(0, len(currentSettings._rules)):
             currentRule = currentSettings._rules[i]
             if currentRule[u'Type'] == 'Mood' and currentRule[u'Active'] == 'yes':
                 # Only apply Mood for current song (j==1)
+                print eval(str(currentRule[u'Field1']).replace("%"," currentSong."))
                 if currentRule[u'Field2'] == 'is':
                     if eval(str(currentRule[u'Field1']).replace("%"," currentSong.")) in str(currentRule[u'Field3']) and str(currentRule[u'PlayState']) in self.PlaybackStatus:
                         self.CurrentMood = currentRule[u'Name']
