@@ -31,7 +31,7 @@ class SongObject(object):
 
     def __init__(self, p_artist=u"", p_album=u"", p_title=u"", p_genre=u"",
                  p_comment=u"", p_composer=u"", p_year=u"", p_singer=u"",
-                 p_albumArtist=u"", p_performer = u"", p_isCortina = 0):
+                 p_albumArtist=u"", p_performer = u"", p_isCortina = u"no"):
         self.Artist      = p_artist
         self.Album       = p_album
         self.Title       = p_title
