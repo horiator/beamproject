@@ -87,11 +87,11 @@ class SongObject(object):
                 if currentRule[u'Type'] == 'Cortina' and currentRule[u'Active'] == 'yes':
                     # Rule[u'Field2'] == is: IsCortina[j] shall be 1 if Rule[u'Field1'] is Rule[u'Field3']
                     if currentRule[u'Field2'] == 'is':
-                        if getattr(self, currentRule[u'Field1'].replace("%","")) in str(currentRule[u'Field3']):
+                        if getattr(self, currentRule[u'Field1'].replace("%","")) in str("["+currentRule[u'Field3']+"]"):
                             self.IsCortina = "yes"
                     # Rule[u'Field2'] == is not: IsCortina[j] shall be 1 if Rule[u'Field1'] not in Rule[u'Field3']
                     if currentRule[u'Field2'] == 'is not':
-                        if getattr(self, currentRule[u'Field1'].replace("%","")) not in str(currentRule[u'Field3']):
+                        if getattr(self, currentRule[u'Field1'].replace("%","")) not in str("["+currentRule[u'Field3']+"]"):
                             self.IsCortina = "yes"
 
                 if currentRule[u'Type'] == 'Copy' and currentRule[u'Active'] == 'yes':
