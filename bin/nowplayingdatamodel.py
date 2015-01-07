@@ -160,12 +160,12 @@ class NowPlayingDataModel:
                 # Only apply Mood for current song (j==1)
                 print eval(str(currentRule[u'Field1']).replace("%"," currentSong."))
                 if currentRule[u'Field2'] == 'is':
-                    if eval(str(currentRule[u'Field1']).replace("%"," currentSong.")) in str(currentRule[u'Field3']) and str(currentRule[u'PlayState']) in self.PlaybackStatus:
+                    if eval(str(currentRule[u'Field1']).replace("%"," currentSong.")) in str("["+currentRule[u'Field3']+"]") and str(currentRule[u'PlayState']) in self.PlaybackStatus:
                         self.CurrentMood = currentRule[u'Name']
                         self.DisplaySettings = currentRule[u'Display']
                         self.BackgroundImage = currentRule[u'Background']
                 if currentRule[u'Field2'] == 'is not':
-                    if eval(str(currentRule[u'Field1']).replace("%"," currentSong.")) not in str(currentRule[u'Field3']) and str(currentRule[u'PlayState']) in self.PlaybackStatus:
+                    if eval(str(currentRule[u'Field1']).replace("%"," currentSong.")) not in str("["+currentRule[u'Field3']+"]") and str(currentRule[u'PlayState']) in self.PlaybackStatus:
                         self.CurrentMood = currentRule[u'Name']
                         self.DisplaySettings = currentRule[u'Display']
                         self.BackgroundImage = currentRule[u'Background']                              
