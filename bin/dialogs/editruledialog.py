@@ -31,6 +31,7 @@ import wx, wx.html
 import os
 
 from bin.beamsettings import *
+from editmoodlayoutdialog import EditMoodLayout
 
 #
 # Edit Rule class
@@ -176,13 +177,13 @@ class EditRuleDialog(wx.Dialog):
 
             self.DynamicFieldLabel3.Hide()
             self.OutputField3.Hide()
+            self.EditLayoutButton.Hide()
 
             #Add correct fields
             self.IsIsNot    = wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"], style=wx.CB_READONLY)
             self.sizer1.Add(self.IsIsNot)
             self.OutputField2 = wx.TextCtrl(self.EditRulePanel, value="", size=(165,-1))
             self.sizer2.Add(self.OutputField2)
-            self.EditLayoutButton.Show()
 
             if self.Settings[u'Type'] == 'Cortina':
                 self.IsIsNot.SetStringSelection(self.Settings[u'Field2'])
@@ -219,11 +220,11 @@ class EditRuleDialog(wx.Dialog):
                 self.IsIsNot.SetStringSelection(self.Settings[u'Field2'])
                 self.OutputField2.SetValue(self.Settings[u'Field3'])
                 self.OutputField3.SetValue(self.Settings[u'Name'])
-                self.PlayingState = wx.ComboBox(self.EditRulePanel, size=(100,-1), value=self.Settings[u'PlayState'], choices=['Playing','Paused','Stopped'], style=wx.CB_READONLY)
+                self.PlayingState = wx.ComboBox(self.EditRulePanel, size=(100,-1), value=self.Settings[u'PlayState'], choices=['Playing','Paused','Stopped','PlayerNotRunning'], style=wx.CB_READONLY)
             else:
                 self.IsIsNot.SetStringSelection("is")
                 self.OutputField3.SetValue("New mood")
-                self.PlayingState = wx.ComboBox(self.EditRulePanel, size=(100,-1), value='Playing', choices=['Playing','Paused','Stopped'], style=wx.CB_READONLY)
+                self.PlayingState = wx.ComboBox(self.EditRulePanel, size=(100,-1), value='Playing', choices=['Playing','Paused','Stopped','PlayerNotRunning'], style=wx.CB_READONLY)
  
             self.sizer3.Add(self.PlayingState)
 
@@ -303,4 +304,5 @@ class EditRuleDialog(wx.Dialog):
         self.Destroy()
 
     def OnEditLayout(self, event):
-        print "Edit Mood Layout"
+        self.EditMoodLayout = EditMoodLayout(self)
+        self.EditMoodLayout.Show()
