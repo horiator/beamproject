@@ -36,7 +36,7 @@ if platform.system() == 'Linux':
 if platform.system() == 'Windows':
     from Modules import itunesWindowsModule, winampWindowsModule, MediaMonkeyModule, JRMCWindowsModule, spotifyWindowsModule, foobarWindowsModule
 if platform.system() == 'Darwin':
-    from Modules import itunesMacModule
+    from Modules import itunesMacModule, DecibelModule
 
 class NowPlayingDataModel:
 
@@ -87,33 +87,44 @@ class NowPlayingDataModel:
             LastRead = SongObject()
 
         # Extract data using the player module
-        if currentSettings._moduleSelected == 'Audacious':
-            self.currentPlaylist, self.PlaybackStatus = audaciousModule.run(currentSettings._maxTandaLength)
-        if currentSettings._moduleSelected == 'Rhythmbox':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = rhythmboxModule.run(currentSettings._maxTandaLength)
-        if currentSettings._moduleSelected == 'iTunes' and platform.system() == 'Windows':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = itunesWindowsModule.run(currentSettings._maxTandaLength)
-        if currentSettings._moduleSelected == 'iTunes' and platform.system() == 'Darwin':
-            self.currentPlaylist, self.PlaybackStatus  = itunesMacModule.run(currentSettings._maxTandaLength)
-        if currentSettings._moduleSelected == 'Clementine':
-            self.currentPlaylist, self.PlaybackStatus = clementineModule.run(currentSettings._maxTandaLength)
-        if currentSettings._moduleSelected == 'Banshee':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = bansheeModule.run(currentSettings._maxTandaLength)
-        if currentSettings._moduleSelected == 'Spotify' and platform.system() == 'Linux':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = spotifyLinuxModule.run(currentSettings._maxTandaLength)
-        try: #required due to loaded modules
-            if currentSettings._moduleSelected == 'Winamp':
-                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = winampWindowsModule.run(currentSettings._maxTandaLength)
-        except:
-            pass
-        if currentSettings._moduleSelected == 'MediaMonkey':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = MediaMonkeyModule.run(currentSettings._maxTandaLength)
-        if currentSettings._moduleSelected == 'JRiver Media Center':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =JRMCWindowsModule.run(currentSettings._maxTandaLength)
-        if currentSettings._moduleSelected == 'Spotify' and platform.system() == 'Windows':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =spotifyWindowsModule.run(currentSettings._maxTandaLength)
-        if currentSettings._moduleSelected == 'Foobar2000':
-            self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =foobarWindowsModule.run(currentSettings._maxTandaLength)
+        
+        # WINDOWS
+        if platform.system() == 'Windows':
+            if currentSettings._moduleSelected == 'iTunes':
+                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = itunesWindowsModule.run(currentSettings._maxTandaLength)
+            if currentSettings._moduleSelected == 'MediaMonkey':
+                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = MediaMonkeyModule.run(currentSettings._maxTandaLength)
+            if currentSettings._moduleSelected == 'JRiver Media Center':
+                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =JRMCWindowsModule.run(currentSettings._maxTandaLength)
+            if currentSettings._moduleSelected == 'Spotify':
+                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =spotifyWindowsModule.run(currentSettings._maxTandaLength)
+            if currentSettings._moduleSelected == 'Foobar2000':
+                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =foobarWindowsModule.run(currentSettings._maxTandaLength)
+            try: #required due to loaded modules
+                if currentSettings._moduleSelected == 'Winamp':
+                    self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = winampWindowsModule.run(currentSettings._maxTandaLength)
+            except:
+                pass
+
+        # LINUX
+        if platform.system() == 'Linux':
+            if currentSettings._moduleSelected == 'Audacious':
+                self.currentPlaylist, self.PlaybackStatus = audaciousModule.run(currentSettings._maxTandaLength)
+            if currentSettings._moduleSelected == 'Rhythmbox':
+                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = rhythmboxModule.run(currentSettings._maxTandaLength)
+            if currentSettings._moduleSelected == 'Clementine':
+                self.currentPlaylist, self.PlaybackStatus = clementineModule.run(currentSettings._maxTandaLengt)
+            if currentSettings._moduleSelected == 'Banshee':
+                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = bansheeModule.run(currentSettings._maxTandaLength)
+            if currentSettings._moduleSelected == 'Spotify':
+                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = spotifyLinuxModule.run(currentSettings._maxTandaLength)
+
+        # Mac OS X
+        if platform.system() == 'Darwin':
+            if currentSettings._moduleSelected == 'iTunes':
+                self.currentPlaylist, self.PlaybackStatus  = itunesMacModule.run(currentSettings._maxTandaLength)
+            if currentSettings._moduleSelected == 'Decibel':
+                self.currentPlaylist, self.PlaybackStatus  = DecibelModule.run(currentSettings._maxTandaLength)
 
         #
         # Previous song analysis
@@ -158,7 +169,6 @@ class NowPlayingDataModel:
             currentRule = currentSettings._rules[i]
             if currentRule[u'Type'] == 'Mood' and currentRule[u'Active'] == 'yes':
                 # Only apply Mood for current song (j==1)
-                print eval(str(currentRule[u'Field1']).replace("%"," currentSong."))
                 if currentRule[u'Field2'] == 'is':
                     if eval(str(currentRule[u'Field1']).replace("%"," currentSong.")) in str("["+currentRule[u'Field3']+"]") and str(currentRule[u'PlayState']) in self.PlaybackStatus:
                         self.CurrentMood = currentRule[u'Name']
