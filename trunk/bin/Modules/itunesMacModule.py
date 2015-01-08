@@ -101,11 +101,20 @@ GetSongs    = '''on run argv
                     return {artistname, trackname, albumname, albumartist, trackyear, comm, trackgenre, trackcomposer}
                  end run'''
 
+CheckRunning = '''tell application "System Events"
+                    count (every process whose name is "iTunes")
+                  end tell'''
+
 
 def run(MaxTandaLength):
 
     playlist = []
     
+    #Check if iTunes is running
+    if int(AppleScript(CheckRunning, []).strip()) == 0:
+        playbackStatus = 'PlayerNotRunning'
+        return playlist, playbackStatus
+
     try:
         playbackStatus = AppleScript(GetStatus, []).rstrip('\n')
     except:
