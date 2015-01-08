@@ -26,7 +26,11 @@
     }, 
     {
       "Modules": [
-        "iTunes"
+        "iTunes",
+        "Decibel",
+        "Vox",
+        "Cog",
+        "Spotify"
       ], 
       "System": "Mac"
     }
@@ -102,9 +106,97 @@
       "Field2": "is", 
       "Field1": "%Artist", 
       "Type": "Mood",
+	  "Name": "Not running Mood",
+	  "Background": "resources/backgrounds/bg1920x1080px_darkGreen.jpg",
+	  "PlayState": "PlayerNotRunning",
+	  "Display": [
+	{
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold",
+      "HideControl": "", 	  
+      "Row": 1, 
+      "Field": "Beam", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        30, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 10
+    }, 
+    {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "Row": 2, 
+      "Field": "Me Up Scotty", 
+      "HideControl": "", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        50, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 8
+    }
+	]
+	},
+	{
+      "Active": "yes",
+      "Field3": "", 
+      "Field2": "is", 
+      "Field1": "%Artist", 
+      "Type": "Mood",
 	  "Name": "Stopped Mood",
 	  "Background": "resources/backgrounds/bg1920x1080px_darkGreen.jpg",
 	  "PlayState": "Stopped",
+	  "Display": [
+	{
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold",
+      "HideControl": "", 	  
+      "Row": 1, 
+      "Field": "Beam", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        30, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 10
+    }, 
+    {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "Row": 2, 
+      "Field": "Me Up Scotty", 
+      "HideControl": "", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        50, 
+        0
+      ], 
+      "Font": "Roman", 
+      "Size": 8
+    }
+	]
+	},
+	{
+      "Active": "yes",
+      "Field3": "", 
+      "Field2": "is", 
+      "Field1": "%Artist", 
+      "Type": "Mood",
+	  "Name": "Paused Mood",
+	  "Background": "resources/backgrounds/bg1920x1080px_darkGreen.jpg",
+	  "PlayState": "Paused",
 	  "Display": [
 	{
       "Active": "yes",
