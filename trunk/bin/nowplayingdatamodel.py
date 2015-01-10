@@ -31,12 +31,20 @@ from bin.beamsettings import *
 from bin.songclass import SongObject
 from copy import deepcopy
 
+#
+# LOAD MEDIA PLAYER MODULES
+#
+
 if platform.system() == 'Linux':
     from Modules import audaciousModule, rhythmboxModule, clementineModule, bansheeModule, spotifyLinuxModule
 if platform.system() == 'Windows':
     from Modules import itunesWindowsModule, winampWindowsModule, MediaMonkeyModule, JRMCWindowsModule, spotifyWindowsModule, foobarWindowsModule
 if platform.system() == 'Darwin':
-    from Modules import itunesMacModule, DecibelModule
+    from Modules import itunesMacModule, DecibelModule, spotifyMacModule, VoxModule, CogModule
+
+#
+# INIT
+#
 
 class NowPlayingDataModel:
 
@@ -86,8 +94,10 @@ class NowPlayingDataModel:
         except:
             LastRead = SongObject()
 
-        # Extract data using the player module
-        
+##########################################################
+#
+# Extract data using the player module
+#
         # WINDOWS
         if platform.system() == 'Windows':
             if currentSettings._moduleSelected == 'iTunes':
@@ -125,10 +135,17 @@ class NowPlayingDataModel:
                 self.currentPlaylist, self.PlaybackStatus  = itunesMacModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Decibel':
                 self.currentPlaylist, self.PlaybackStatus  = DecibelModule.run(currentSettings._maxTandaLength)
+            if currentSettings._moduleSelected == 'Spotify':
+                self.currentPlaylist, self.PlaybackStatus  = spotifyMacModule.run(currentSettings._maxTandaLength)
+            if currentSettings._moduleSelected == 'Vox':
+                    self.currentPlaylist, self.PlaybackStatus  = VoxModule.run(currentSettings._maxTandaLength)
+            if currentSettings._moduleSelected == 'Cog':
+                    self.currentPlaylist, self.PlaybackStatus  = CogModule.run(currentSettings._maxTandaLength)
 
-        #
-        # Previous song analysis
-        # 
+##################################################################
+#
+# Previous song analysis
+#
         try:
             if LastRead == self.currentPlaylist[0]:
                 #print "Same song, do nothing"
@@ -145,21 +162,21 @@ class NowPlayingDataModel:
         #if it's first update
         if self.PreviousPlaybackStatus == "":
             self.PreviousPlaybackStatus = self.PlaybackStatus
-        
-        #Apply default layout and background, then change it if mood is applied
+
+# Apply default layout and background, then change it if mood is applied
         self.CurrentMood = 'Default'
         self.DisplaySettings = currentSettings._DefaultDisplaySettings
         self.BackgroundImage = currentSettings._DefaultBackground
 
-        #
-        # Apply rules, for every song in list
-        #
+#
+# Apply rules, for every song in list
+#
         for i in range(0, len(self.currentPlaylist)):
             self.currentPlaylist[i].applySongRules(currentSettings._rules)
 
-        #
-        # MOOD RULES - apply only to current song
-        #
+#
+# MOOD RULES - apply only to current song
+#
         try:
             currentSong = self.currentPlaylist[0]
         except:
@@ -187,18 +204,18 @@ class NowPlayingDataModel:
                         self.BackgroundImage = currentRule[u'Background']
 
 
-        #
-        # Create NextTanda
-        #
+#
+# Create NextTanda
+#
         self.nextTandaSong = None
         for i in range(0, len(self.currentPlaylist)-1):
             # Check if song is cortina
             if self.currentPlaylist[i].IsCortina == "yes" and not self.currentPlaylist[i+1].IsCortina == "yes":
                 self.nextTandaSong = deepcopy(self.currentPlaylist[i+1])
                 break
-        #
-        # Create Display Strings
-        #
+#
+# Create Display Strings
+#
 
         # The display lines
         for i in range(0, len(self.DisplaySettings)): self.DisplayRow.append('')
