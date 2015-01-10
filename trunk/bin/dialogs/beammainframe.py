@@ -355,7 +355,14 @@ class beamMainFrame(wx.Frame):
 # FULLSCREEN
 #
     def fullScreen(self, event):
+        # Needed for Mac
+        if platform.system() == 'Darwin':
+            if self.IsFullScreen():
+                self.statusbar.Show()
+            else:
+                self.statusbar.Hide()
         self.ShowFullScreen(not self.IsFullScreen())
+
 #
 # Show 'Close dialog
 #
@@ -374,8 +381,10 @@ class beamMainFrame(wx.Frame):
         res = help_dialog.ShowModal()
         help_dialog.Destroy()
 
-    # -----------------------------------------------------------------------------------
-
+####################################################
+#
+# FADE BACKGROND
+#
 
     def fadeBackground(self, fadeSpeed = 5):
         print "FadeNewBackground"
@@ -417,7 +426,7 @@ class beamMainFrame(wx.Frame):
             self.timer2.Start(self.fadeSpeed)
 
 
-    # -----------------------------------------------------------------------------------
+# -----------------------------------------------------------------------------------
     def FadeinNewImage(self, event):
 
         self.red += self.delta
