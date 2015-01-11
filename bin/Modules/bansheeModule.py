@@ -1,6 +1,6 @@
-#!/usr/bin/python
-# -*- coding: <<encoding>> -*-
-#    Copyright (C) 2014 Mikael Holber http://mywebsite.com
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#    Copyright (C) 2014 Mikael Holber http://http://www.beam-project.com
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,18 +17,16 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #    or download it from http://www.gnu.org/licenses/gpl.txt
 #
-#    Usage as function:
-#       Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus = audaciousModule(MaxTandaLength)
-#
-#    Example:
-#       Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus = audaciousModule.run(4)
-#
 #
 #    Revision History:
 #
-#    18/10/2014 Version 1.0
-#    	- Initial release
+#    XX/XX/2014 Version 1.0
+#       - Initial release
 #
+# This Python file uses the following encoding: utf-8
+
+from bin.songclass import SongObject
+
 import imp
 try:
     imp.find_module('dbus') #doesn't exist in Windows
@@ -36,63 +34,85 @@ try:
 except ImportError:
     found = False
     
+from ID3 import *
+
 def run(MaxTandaLength):
 
-	Artist 		= []
-	Album 		= []
-	Title	 		= []
-	Genre	 	= []
-	Comment		= []
-	Composer		= []
-	Year			= []
-	playbackStatus  = ''
-	
-	#try:
-	bus = dbus.SessionBus()
-	banshee = bus.get_object("org.bansheeproject.Banshee", "/org/bansheeproject/Banshee/PlayerEngine")
-	BansheeState = banshee.GetCurrentState()
-	if BansheeState == 'playing':
-		playbackStatus = 'Playing'
-	elif BansheeState == 'paused':
-		playbackStatus = 'Paused'
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-	else:
-		playbackStatus = 'Stopped'
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-	#except:
-	   # playbackStatus  = 'Media player not running'
-	    #return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-	    
-	# Retrieve current song
-	if playbackStatus == 'Playing':
-		currentTrack = banshee.GetCurrentTrack()
-		try:
-			Artist.append(currentTrack[u'artist'].encode('utf-8'))
-		except:
-			Artist.append('')
-		try:
-			Title.append(currentTrack[u'name'].encode('utf-8'))
-		except:
-			Title.append('')
-		try:
-			Album.append(currentTrack[u'album'].encode('utf-8'))
-		except:
-			Album.append('')
-		try:
-			Genre.append(currentTrack[u'genre'].encode('utf-8'))
-		except:
-			Genre.append('')
-		try:
-			Comment.append(currentTrack[u'comment'].encode('utf-8'))
-		except:
-			Comment.append('')
-		try:
-			Composer.append(currentTrack[u'composer'].encode('utf-8'))
-		except:
-			Composer.append('')
-		try:
-			Year.append(currentTrack[u'year'])
-		except:
-			Year.append('')
-				
-	return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+    playlist = []
+    playbackStatus  = ''
+    BansheeState = ''
+    
+    try:
+        bus = dbus.SessionBus()
+        banshee = bus.get_object("org.bansheeproject.Banshee", "/org/bansheeproject/Banshee/PlayerEngine")
+        BansheeState = banshee.GetCurrentState()
+    except:
+        playbackStatus  = 'PlayerNotRunning'
+        return playlist, playbackStatus
+   
+    if BansheeState == 'playing':
+        playbackStatus = 'Playing'
+        # Retrieve current song
+        currentTrack = banshee.GetCurrentTrack()
+        playlist.append(getSongObjectFromTrack(currentTrack))
+    if BansheeState == 'paused':
+        playbackStatus = 'Paused'
+    if BansheeState == 'stopped':
+        playbackStatus = 'Stopped'
+
+    return playlist, playbackStatus
+
+
+def getSongObjectFromTrack(Track):
+    retSong = SongObject()
+    
+    try:
+        retSong.Artist      = (Track[u'artist']).encode('utf-8')
+    except:
+        pass
+        
+    try:
+        retSong.Album       = (Track[u'album']).encode('utf-8')
+    except:
+        pass
+    
+    try:
+        retSong.Title       = (Track[u'title']).encode('utf-8')
+    except:
+        pass
+        
+    try:
+        retSong.Genre       = (Track[u'genre']).encode('utf-8')
+    except:
+        pass
+        
+    try:
+        retSong.Comment     = (Track[u'comment']).encode('utf-8')
+    except:
+        pass
+        
+    try:
+        retSong.Composer    = (Track[u'composer']).encode('utf-8')
+    except:
+        pass
+        
+    try:
+        retSong.Year        = (Track[u'year'])
+    except:
+        pass
+        
+    #retSong.Singer
+    
+    try:
+        retSong.AlbumArtist = (Track[u'album artist']).encode('utf-8')
+    except:
+        pass
+        
+    try:
+        retSong.Performer   = (Track[u'performer']).encode('utf-8')
+    except:
+         pass
+     #retSong.IsCortina
+     
+    return retSong
+
