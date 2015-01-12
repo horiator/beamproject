@@ -123,9 +123,9 @@ class NowPlayingDataModel:
             if currentSettings._moduleSelected == 'Rhythmbox':
                 self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = rhythmboxModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Clementine':
-                self.currentPlaylist, self.PlaybackStatus = clementineModule.run(currentSettings._maxTandaLengt)
+                self.currentPlaylist, self.PlaybackStatus = clementineModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Banshee':
-                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = bansheeModule.run(currentSettings._maxTandaLength)
+                self.currentPlaylist, self.PlaybackStatus = bansheeModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Spotify':
                 self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = spotifyLinuxModule.run(currentSettings._maxTandaLength)
 
