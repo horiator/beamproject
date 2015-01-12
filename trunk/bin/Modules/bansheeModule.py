@@ -77,7 +77,7 @@ def getSongObjectFromTrack(Track):
         pass
     
     try:
-        retSong.Title       = (Track[u'title']).encode('utf-8')
+        retSong.Title       = (Track[u'name']).encode('utf-8')
     except:
         pass
         
@@ -113,6 +113,6 @@ def getSongObjectFromTrack(Track):
     except:
          pass
      #retSong.IsCortina
-     
+    
     return retSong
 

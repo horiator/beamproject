@@ -75,6 +75,7 @@ class SongObject(object):
 
     def buildFromUrl(self, url):
         #use mutagen here
+        return
               
     def applySongRules(self, rulesArray):
         for i in range(0, len(rulesArray)):
