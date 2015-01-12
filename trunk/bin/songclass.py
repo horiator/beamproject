@@ -26,6 +26,7 @@
 # This Python file uses the following encoding: utf-8
 
 import platform, os, sys
+from mutagen.easyid3 import EasyID3
 
 class SongObject(object):
 
@@ -74,8 +75,9 @@ class SongObject(object):
             return false 
 
     def buildFromUrl(self, url):
-        #use mutagen here
-        return
+        # Read data from url with Mutagen
+        audio = EasyID3(url)
+        return audio
               
     def applySongRules(self, rulesArray):
         for i in range(0, len(rulesArray)):
