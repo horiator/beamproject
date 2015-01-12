@@ -32,7 +32,7 @@ class SongObject(object):
 
     def __init__(self, p_artist=u"", p_album=u"", p_title=u"", p_genre=u"",
                  p_comment=u"", p_composer=u"", p_year=u"", p_singer=u"",
-                 p_albumArtist=u"", p_performer = u"", p_isCortina = u"no"):
+                 p_albumArtist=u"", p_performer = u"", p_isCortina = u"no", p_fileUrl=u""):
         self.Artist      = p_artist
         self.Album       = p_album
         self.Title       = p_title
@@ -44,6 +44,7 @@ class SongObject(object):
         self.AlbumArtist = p_albumArtist
         self.Performer   = p_performer
         self.IsCortina   = p_isCortina
+        self.fileUrl     = p_fileUrl
         
     def __eq__(self, other):
         if isinstance(other, SongObject):
@@ -77,7 +78,56 @@ class SongObject(object):
     def buildFromUrl(self, url):
         # Read data from url with Mutagen
         audio = EasyID3(url)
-        return audio
+        try:
+            self.Artist     = audio.artist
+        except:
+            self.Artist     = u""
+        
+        try:    
+            self.Album      = audio["album"]
+        except:
+            self.Album      = u""
+        
+        try:
+            self.Title      = audio["title"]
+        except:
+            self.Title      = u""
+            
+        try:
+            self.Genre      = audio["genre"]
+        except:
+            self.Genre      = u""
+        
+        try:
+            self.Comment    = audio["comment"]
+        except:
+            self.Comment    = u""
+        
+        try:
+            self.Composer   = audio["composer"]
+        except:
+            self.Composer   = u""
+            
+        try:
+            self.Year       = audio["date"]
+        except:
+            self.Year       = u""
+        
+        self.Singer      = u""
+        
+        try:    
+            self.AlbumArtist    = audio["albumartist"]
+        except:
+            self.AlbumArtist    = u""
+        
+        try:
+            self.Performer  = audio["performer"]
+        except:
+            self.Performer  = u""
+            
+        self.IsCortina   = u"no"
+        self.fileUrl     = url
+        return
               
     def applySongRules(self, rulesArray):
         for i in range(0, len(rulesArray)):
