@@ -72,6 +72,9 @@ class SongObject(object):
                     self.Performer != other.Performer)
         else:
             return false 
+
+    def buildFromUrl(self, url):
+        #use mutagen here
               
     def applySongRules(self, rulesArray):
         for i in range(0, len(rulesArray)):
