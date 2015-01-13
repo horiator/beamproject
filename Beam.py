@@ -41,7 +41,7 @@ app = wx.App(False)             # Error messages go to terminal, for debugging p
 # Load Settings (global object)
 ########################################################
 beamSettings.LoadConfig(beamSettings.defaultConfigFileName)
-if platform.system() == 'Windows': #Send error-log to file for Windows
+if platform.system() == 'Windows' or platform.system() == 'Darwin': #Send error-log to file
     sys.stderr = open(os.path.join(os.path.expanduser("~"),"Beam-log.txt"),"w")
 print beamSettings.mainFrameTitle
 

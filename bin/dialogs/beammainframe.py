@@ -30,12 +30,11 @@ import wx, wx.html
 import os, sys
 import wx.lib.delayedresult
 
-
 from bin.beamsettings import *
 from bin.nowplayingdatamodel import *
 
-
 from bin.Preferences import Preferences
+from bin.dialogs.Moods import Moods
 
 from bin.dialogs.helpdialog import HelpDialog
 from bin.dialogs import aboutdialog
@@ -73,6 +72,7 @@ class beamMainFrame(wx.Frame):
         self.filemenu    = wx.Menu()
         self.Aboutmenu   = wx.Menu()
         self.menuPreferences = self.filemenu.Append(wx.ID_ANY, "&Preferences\tCtrl+P"," Configuration tool")
+        self.menuMoods       = self.filemenu.Append(wx.ID_ANY, "&Moods\tCtrl+M", "Configure mood")
         self.menuFullScreen  = self.filemenu.Append(wx.ID_ANY, "&Fullscreen\tF11", "Set fullscreen")
         self.menuExit    = self.filemenu.Append(wx.ID_EXIT,"E&xit"," Terminate the program")
         self.menuAbout   = self.Aboutmenu.Append(wx.ID_ABOUT, "&About"," Information about this program")
@@ -83,9 +83,10 @@ class beamMainFrame(wx.Frame):
         self.menuBar.Append(self.filemenu,"&File")    # Adding the "file menu" to the MenuBar
         self.menuBar.Append(self.Aboutmenu,"&About")  # Adding the "About menu" to the MenuBar
         self.SetMenuBar(self.menuBar)  # Adding the MenuBar to the Frame content.
-
+        
         # Events.
         self.Bind(wx.EVT_MENU, self.OnPreferences, self.menuPreferences)
+        self.Bind(wx.EVT_MENU, self.OnMoods, self.menuMoods)
         self.Bind(wx.EVT_MENU, self.OnClose, self.menuExit)
         self.Bind(wx.EVT_MENU, self.OnAbout, self.menuAbout)
         self.Bind(wx.EVT_MENU, self.OnHelp, self.menuHelp)
@@ -350,6 +351,14 @@ class beamMainFrame(wx.Frame):
     def OnPreferences(self, event):
         PreferencesDialog = Preferences(self)
         PrefDiag = PreferencesDialog.Show()
+
+#
+# MOODS SETTINGS
+#
+    def OnMoods(self, event):
+        MoodsDialog = Moods(self)
+        MoodsDiag = MoodsDialog.Show()
+
 
 #
 # FULLSCREEN

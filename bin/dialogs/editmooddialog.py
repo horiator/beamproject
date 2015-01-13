@@ -29,13 +29,12 @@ import wx
 import os
 
 from bin.beamsettings import *
-from bin.dialogs.editlayoutdialog import EditLayoutDialog
 
 #
 # Build Mood Layout Window
 #
 
-class EditMoodLayout(wx.Dialog):
+class EditMood(wx.Dialog):
     def __init__(self, parent):
         self.MainWindowParent = parent
         wx.Dialog.__init__(self, parent, title="Edit mood layout", size=(400,400))

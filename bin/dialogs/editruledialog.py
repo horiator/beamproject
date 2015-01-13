@@ -31,7 +31,6 @@ import wx, wx.html
 import os
 
 from bin.beamsettings import *
-from editmoodlayoutdialog import EditMoodLayout
 
 #
 # Edit Rule class
@@ -63,7 +62,7 @@ class EditRuleDialog(wx.Dialog):
 
         # Build the static elements
         self.InputID3Field      = wx.ComboBox(self.EditRulePanel, size=(150,-1), value=self.Settings[u'Field1'], choices=self.InputFields, style=wx.CB_READONLY)
-        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel, size=(100,-1), value=self.Settings[u'Type'], choices=['Copy','Cortina','Parse','Mood'], style=wx.CB_READONLY)
+        self.RuleSelectDropdown     = wx.ComboBox(self.EditRulePanel, size=(100,-1), value=self.Settings[u'Type'], choices=['Copy','Cortina','Parse'], style=wx.CB_READONLY)
         self.RuleSelectDropdown.Bind(wx.EVT_COMBOBOX, self.ChangeRuleType)
         self.RuleOrder          = wx.TextCtrl(self.EditRulePanel, value=str(self.RowSelected+1))
 
@@ -73,8 +72,6 @@ class EditRuleDialog(wx.Dialog):
         self.DynamicFieldLabel3 = wx.StaticText(self.EditRulePanel, label="")
         self.DynamicFieldLabel4 = wx.StaticText(self.EditRulePanel, label="")
 
-        self.EditLayoutButton = wx.Button(self.EditRulePanel, label="Edit layout")
-        self.EditLayoutButton.Bind(wx.EVT_BUTTON, self.OnEditLayout)
         self.OutputField3 = wx.TextCtrl(self.EditRulePanel, value="", size=(150,-1))
 
         self.sizer1 = wx.BoxSizer(wx.HORIZONTAL)
@@ -96,8 +93,7 @@ class EditRuleDialog(wx.Dialog):
                         (wx.StaticText(self.EditRulePanel, label=""), 0, wx.EXPAND),
                         (self.RuleOrder, 0, wx.EXPAND),
                         (self.OutputField3, 0, wx.EXPAND ),
-                        (self.sizer3, 0, wx.EXPAND),
-                        (self.EditLayoutButton, 0, wx.EXPAND)
+                        (self.sizer3, 0, wx.EXPAND)
                         ])
 
         self.vbox = wx.BoxSizer(wx.VERTICAL)
@@ -177,7 +173,6 @@ class EditRuleDialog(wx.Dialog):
 
             self.DynamicFieldLabel3.Hide()
             self.OutputField3.Hide()
-            self.EditLayoutButton.Hide()
 
             #Add correct fields
             self.IsIsNot    = wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"], style=wx.CB_READONLY)
@@ -191,42 +186,6 @@ class EditRuleDialog(wx.Dialog):
             else:
                 self.IsIsNot.SetStringSelection("is")
                 self.OutputField2.SetValue("")
-
-        self.vbox.SetSizeHints(self)  
-        self.EditRulePanel.SetSizer(self.vbox)
-        self.EditRulePanel.Layout()
-
-        ##############################################
-        if RuleSelected == 'Mood':
-            self.DynamicFieldLabel1.SetLabel('is / is not')
-            self.DynamicFieldLabel2.SetLabel('Value(s)')
-            self.DynamicFieldLabel3.SetLabel('Name of mood')
-            self.DynamicFieldLabel4.SetLabel('Play state')
-
-            # Remove fields that are not to be shown
-            self.RemoveDynamicElements()
-
-            self.DynamicFieldLabel3.Show()
-            self.OutputField3.Show()
-
-            #Add correct fields
-            self.IsIsNot    = wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"], style=wx.CB_READONLY)
-            self.sizer1.Add(self.IsIsNot)
-            self.OutputField2       = wx.TextCtrl(self.EditRulePanel, value="", size=(165,-1))
-            self.sizer2.Add(self.OutputField2)
-            self.EditLayoutButton.Show()
-
-            if self.Settings[u'Type'] == 'Mood':
-                self.IsIsNot.SetStringSelection(self.Settings[u'Field2'])
-                self.OutputField2.SetValue(self.Settings[u'Field3'])
-                self.OutputField3.SetValue(self.Settings[u'Name'])
-                self.PlayingState = wx.ComboBox(self.EditRulePanel, size=(100,-1), value=self.Settings[u'PlayState'], choices=['Playing','Paused','Stopped','PlayerNotRunning'], style=wx.CB_READONLY)
-            else:
-                self.IsIsNot.SetStringSelection("is")
-                self.OutputField3.SetValue("New mood")
-                self.PlayingState = wx.ComboBox(self.EditRulePanel, size=(100,-1), value='Playing', choices=['Playing','Paused','Stopped','PlayerNotRunning'], style=wx.CB_READONLY)
- 
-            self.sizer3.Add(self.PlayingState)
 
         self.vbox.SetSizeHints(self)  
         self.EditRulePanel.SetSizer(self.vbox)
@@ -254,9 +213,7 @@ class EditRuleDialog(wx.Dialog):
             self.sizer3.Remove(self.PlayingState)
             self.PlayingState.Hide()
         except: pass
-        try:
-            self.EditLayoutButton.Hide()
-        except: pass
+
 
 
     def OnSaveRuleItem(self, event):
@@ -272,17 +229,12 @@ class EditRuleDialog(wx.Dialog):
         if RuleSelected == 'Copy':
             NewRule[u'Field2']      = self.OutputField1.GetValue()
         if RuleSelected == 'Parse':
-            NewRule[u'Field2']      = self.TokenField.GetValue()
+            NewRule[u'Field2']      = self.OutputField3.GetValue()
             NewRule[u'Field3']      = self.OutputField1.GetValue()
             NewRule[u'Field4']      = self.OutputField2.GetValue()
         if RuleSelected == 'Cortina':
             NewRule[u'Field2']      = self.IsIsNot.GetValue()
             NewRule[u'Field3']      = self.OutputField2.GetValue()
-        if RuleSelected == 'Mood':
-            NewRule[u'Field2']      = self.IsIsNot.GetValue()
-            NewRule[u'Field3']      = self.OutputField2.GetValue()
-            NewRule[u'Name'] = self.OutputField2.GetValue()
-            NewRule[u'PlayState'] = self.PlayingState.GetValue()
 
         NewRule[u'Field1']      = self.InputID3Field.GetValue()
         # Decide where NewRule goes into the vector self.Settings
@@ -297,12 +249,9 @@ class EditRuleDialog(wx.Dialog):
             else:
                 beamSettings._rules.pop(self.RowSelected) #Move up and down in list
                 beamSettings._rules.insert(RuleOrderBox, NewRule)
-        self.parent.BuildRuleList()
         self.Destroy()
+        self.parent.BuildRuleList()
 
     def OnCancelRuleItem(self, event):
         self.Destroy()
 
-    def OnEditLayout(self, event):
-        self.EditMoodLayout = EditMoodLayout(self)
-        self.EditMoodLayout.Show()
