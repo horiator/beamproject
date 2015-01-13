@@ -36,14 +36,8 @@
     }
   ], 
   "Author": "Mikael Holber & Horia Uifaleanu - 2014", 
-  "Rules": [
-    {
-      "Active": "yes", 
-      "Field2": "%Singer", 
-      "Field1": "%Comment", 
-      "Type": "Copy"
-    }, 
-	{
+  "Moods": [
+      {
       "Active": "yes", 
       "Field3": "yes",
       "Field2": "is", 
@@ -231,7 +225,15 @@
       "Size": 8
     }
 	]
-	},
+	}
+  ],
+  "Rules": [
+    {
+      "Active": "yes", 
+      "Field2": "%Singer", 
+      "Field1": "%Comment", 
+      "Type": "Copy"
+    }, 
     {
       "Active": "yes", 
       "Field2": "is", 

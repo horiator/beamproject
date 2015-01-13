@@ -182,8 +182,8 @@ class NowPlayingDataModel:
         except:
             currentSong = SongObject()
 
-        for i in range(0, len(currentSettings._rules)):
-            currentRule = currentSettings._rules[i]
+        for i in range(0, len(currentSettings._moods)):
+            currentRule = currentSettings._moods[i]
             if currentRule[u'Type'] == 'Mood' and currentRule[u'Active'] == 'yes':
                 # Only apply Mood for current song (j==1)
                 if currentRule[u'Field2'] == 'is':

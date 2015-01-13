@@ -93,6 +93,7 @@ class BeamSettings:
         self._allModulesSettings    = ConfigData[u'AllModules']
         self._DefaultDisplaySettings     = ConfigData[u'DefaultDisplay']
         self._rules                 = ConfigData[u'Rules']
+        self._moods                 = ConfigData[u'Moods']
 
         # Set modules for operating system
         if platform.system() == 'Linux':
@@ -125,6 +126,7 @@ class BeamSettings:
         output[u'AllModules']           = self._allModulesSettings
         output[u'DefaultDisplay']              = self._DefaultDisplaySettings
         output[u'Rules']                = self._rules
+        output[u'Moods']                = self._moods
 
         # Write config file
         self.WriteSetting(os.path.join(os.path.expanduser("~"),outputConfigFile), output) #Write setting in home-dir
