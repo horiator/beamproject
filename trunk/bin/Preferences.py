@@ -205,8 +205,6 @@ class Preferences(wx.Dialog):
                     self.RuleRows.append(str('Its a Cortina when: '+rule[u'Field1']+' is not '+rule[u'Field3']))
             if rule[u'Type'] == "Parse":
                 self.RuleRows.append(str('Parse/split '+rule[u'Field1']+' containing '+rule[u'Field2']+' into '+rule[u'Field3']+' and '+rule[u'Field4']))
-            if rule[u'Type'] == "Mood":
-                self.RuleRows.append(str('Mood: '+rule[u'Name']))
         self.RuleList.Set(self.RuleRows)
         # Check the rules
         for i in range(0, len(beamSettings._rules)):
