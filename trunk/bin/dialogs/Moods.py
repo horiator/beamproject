@@ -44,7 +44,8 @@ class Moods(wx.Dialog):
         self.panel = wx.Panel(self)
         self.vbox = wx.BoxSizer(wx.VERTICAL)
         self.hbox = wx.BoxSizer(wx.HORIZONTAL)
-
+        
+        # Save/Cancel buttons
         self.button_ok = wx.Button(self.panel, label="Apply")
         self.button_cancel = wx.Button(self.panel, label="Close")
         self.button_ok.Bind(wx.EVT_BUTTON, self.onApply)
@@ -52,7 +53,7 @@ class Moods(wx.Dialog):
 
         self.MoodRows = []
 
-        # Add buttons
+        # Mood buttons
         self.AddMood    = wx.Button(self.panel, label="Add")
         self.DelMood    = wx.Button(self.panel, label="Delete")
         self.EditMood   = wx.Button(self.panel, label="Edit")
@@ -78,7 +79,7 @@ class Moods(wx.Dialog):
         self.hbox.Add(self.button_cancel, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
         self.vbox.Add(self.hbox)
 
-        self.panel.SetSizerAndFit(self.vbox) #Makes my screen flicker
+        #self.panel.SetSizerAndFit(self.vbox) #Makes my screen flicker
         self.panel.SetSizer(self.vbox)
         
         # Load data in table
