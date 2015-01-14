@@ -139,7 +139,7 @@ class Preferences(wx.Dialog):
         panel.SetSizer(sizer)
 
         return panel
-
+    
 
     def BuildLayoutList(self):
         self.DisplayRows = []
@@ -271,6 +271,14 @@ class Preferences(wx.Dialog):
             if result == wx.ID_OK:
                 beamSettings._DefaultDisplaySettings.pop(RowSelected)
                 self.BuildLayoutList()
+    def OnCheckLayout(self, event):
+        for i in range(0, len(beamSettings._DefaultDisplaySettings)):
+            layout = beamSettings._DefaultDisplaySettings[i]
+            if self.LayoutList.IsChecked(i):
+                layout[u'Active'] = "yes"
+            else:
+                layout[u'Active'] = "no"
+        self.BuildLayoutList()
 #
 # RULE BUTTONS
 #
@@ -305,12 +313,3 @@ class Preferences(wx.Dialog):
             else:
                 rule[u'Active'] = "no"
         self.BuildRuleList()
-
-    def OnCheckLayout(self, event):
-        for i in range(0, len(beamSettings._DefaultDisplaySettings)):
-            layout = beamSettings._DefaultDisplaySettings[i]
-            if self.LayoutList.IsChecked(i):
-                layout[u'Active'] = "yes"
-            else:
-                layout[u'Active'] = "no"
-        self.BuildLayoutList()

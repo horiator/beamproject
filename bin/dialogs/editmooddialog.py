@@ -35,50 +35,124 @@ from bin.beamsettings import *
 #
 
 class EditMood(wx.Dialog):
-    def __init__(self, parent):
+    def __init__(self, parent, RowSelected, mode):
         self.MainWindowParent = parent
-        wx.Dialog.__init__(self, parent, title="Edit mood layout", size=(400,400))
+        wx.Dialog.__init__(self, parent, title=mode, size=(400,500))
+        self.RowSelected = RowSelected
+        self.Settings = {}
+        
+        # Define choices
+        self.Fields   = ["%Artist","%Album","%Title","%Genre","%Comment","%Composer","%Year", "%AlbumArtist", "%Performer", "%Singer","%IsCortina"]
+        # Get item
+        if self.RowSelected<len(beamSettings._moods):
+            # Get the properties of the selected item
+            self.Settings   = beamSettings._moods[self.RowSelected]
+        else:
+            # Create a new default setting
+            self.Settings   = ({"Active": "yes", "Field3": "","Field2": "is","Field1": "%Artist",
+                               "Type": "Mood", "Name": "Not running Mood",
+                               "Background": "resources/backgrounds/bg1920x1080px_darkGreen.jpg",
+                               "PlayState": "PlayerNotRunning",
+                               "Display": [{"Active": "yes", "Style": "Italic","Center": "yes",
+                                           "Weight": "Bold", "HideControl": "", "Row": 1,
+                                           "Field": "Beam", "FontColor": "(255,255,255,255)",
+                                           "Position": [30,0],"Font": "Roman","Size": 10},
+                                           {"Active": "yes","Style": "Italic","Center": "yes",
+                                           "Weight": "Bold","Row": 2,"Field": "Me Up Scotty",
+                                           "HideControl": "", "FontColor": "(255,255,255,255)",
+                                           "Position": [50,0],"Font": "Roman","Size": 8}]})
 
         # Build the panel
         self.panel = wx.Panel(self)
         self.vbox = wx.BoxSizer(wx.VERTICAL)
         self.hbox = wx.BoxSizer(wx.HORIZONTAL)
 
+        # Save/Close-buttons
         self.button_ok = wx.Button(self.panel, label="Save")
         self.button_cancel = wx.Button(self.panel, label="Close")
         self.button_ok.Bind(wx.EVT_BUTTON, self.onSave)
         self.button_cancel.Bind(wx.EVT_BUTTON, self.onClose)
-
-
-        self.vbox.Add(self.LayoutSettings(), 1, wx.ALL | wx.EXPAND)
         self.hbox.Add((200, -1), 1, flag=wx.EXPAND | wx.ALIGN_RIGHT)
         self.hbox.Add(self.button_ok, flag=wx.LEFT | wx.BOTTOM | wx.TOP, border=10)
         self.hbox.Add(self.button_cancel, flag=wx.LEFT | wx.BOTTOM | wx.TOP | wx.RIGHT, border=10)
+        
+        # Description Settings
+        PropertiesText = wx.StaticText(self.panel, -1, "Properties")
+        font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD)
+        PropertiesText.SetFont(font)
+        self.vbox.Add(PropertiesText, border=10)
+        
+        # Add settings
+        self.vbox.Add(self.MoodSettings(), 1, wx.ALL | wx.EXPAND, border=10)
+
+        # Description Layout and background
+        LayoutText = wx.StaticText(self.panel, -1, "Layout")
+        font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD)
+        LayoutText.SetFont(font)
+        
+        BackgroundText = wx.StaticText(self.panel, -1, "Select background image (1920x1080 recommended)", (20,110))
+        self.MoodBackground = wx.Button(self.panel, label="Browse")
+        descriptionSizer = wx.BoxSizer(wx.VERTICAL)
+        descriptionSizer.Add(LayoutText)
+        descriptionSizer.Add(BackgroundText)
+        descriptionSizer.Add(self.MoodBackground)
+        self.vbox.Add(descriptionSizer, border=10)
+
+        # Add Layout
+        self.vbox.Add(self.LayoutSettings(), 1, wx.ALL | wx.EXPAND)
+
+        # Set sizers
         self.vbox.Add(self.hbox)
-
         self.panel.SetSizerAndFit(self.vbox)
+    
+    
+#
+# Mood settings
+#
+    def MoodSettings(self):
 
+        # Create the fields
+        
+        self.InputID3Field = wx.ComboBox(self.panel, size=(120,-1), value=self.Settings[u'Field1'], choices=self.Fields, style=wx.CB_READONLY)
+        self.IsIsNot       = wx.ComboBox(self.panel,value="is", choices=["is", "is not"], style=wx.CB_READONLY)
+        self.MoodOrder     = wx.TextCtrl(self.panel, value=str(self.RowSelected+1))
+        self.OutputField   = wx.TextCtrl(self.panel, value="", size=(130,-1))
+        self.MoodNameField = wx.TextCtrl(self.panel, value="", size=(120,-1))
+        self.MoodState     = wx.ComboBox(self.panel,value="", choices=["Playing", "Paused","Stopped","PlayerNotRunning"], size=(120,-1), style=wx.CB_READONLY)
 
+        InfoGrid    =   wx.FlexGridSizer(6, 3, 5, 5)
+        InfoGrid.AddMany ( [(wx.StaticText(self.panel, label="Name"), 0, wx.EXPAND),
+                        (wx.StaticText(self.panel, label="Mood state"), 0, wx.EXPAND),
+                        (wx.StaticText(self.panel, label="Mood order"), 0, wx.EXPAND),
+                        (self.MoodNameField, 0, wx.EXPAND),
+                        (self.MoodState, 0, wx.EXPAND),
+                        (self.MoodOrder, 0, wx.EXPAND),
+                        (wx.StaticText(self.panel, label="Input field"), 0, wx.EXPAND),
+                        (wx.StaticText(self.panel, label="is/is not"), 0, wx.EXPAND),
+                        (wx.StaticText(self.panel, label="Output field"), 0, wx.EXPAND),
+                        (self.InputID3Field, 0, wx.EXPAND),
+                        (self.IsIsNot, 0, wx.EXPAND),
+                        (self.OutputField, 0, wx.EXPAND)
+                        ])
+        
+        return InfoGrid
+
+#
+# Mood layout
+#
     def LayoutSettings(self):
 
         panel = wx.Panel(self)
         self.DisplayRows = []
-        LayoutText = wx.StaticText(panel, -1, "Mood layout")
-        font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD)
-        LayoutText.SetFont(font)
-
-        BackgroundHeader = wx.StaticText(panel, -1, "Mood Background")
-        BackgroundHeader.SetFont(font)
 
         self.AddLayout  = wx.Button(panel, label="Add")
         self.DelLayout  = wx.Button(panel, label="Delete")
         self.EditLayout = wx.Button(panel, label="Edit")
-        self.MoodBackground = wx.Button(panel, label="Browse")
+
         sizerbuttons    = wx.BoxSizer(wx.HORIZONTAL)
         sizerbuttons.Add(self.AddLayout, flag=wx.RIGHT | wx.TOP, border=10)
         sizerbuttons.Add(self.DelLayout, flag=wx.RIGHT | wx.TOP, border=10)
         sizerbuttons.Add(self.EditLayout, flag=wx.RIGHT | wx.TOP, border=10)
-
 
         self.LayoutList = wx.CheckListBox(panel,-1, size=wx.DefaultSize, choices=[], style= wx.LB_NEEDED_SB)
         self.LayoutList.SetBackgroundColour(wx.Colour(255, 255, 255))
@@ -94,7 +168,6 @@ class EditMood(wx.Dialog):
         self.MoodBackground.Bind(wx.EVT_BUTTON, self.BrowseMoodBackground)
 
         sizer = wx.BoxSizer(wx.VERTICAL)
-        sizer.Add(LayoutText, flag=wx.LEFT | wx.TOP, border=5)
         sizer.Add(self.LayoutList, proportion=1, flag=wx.EXPAND | wx.LEFT | wx.RIGHT | wx.TOP, border=10)
         sizer.Add(sizerbuttons, flag=wx.LEFT | wx.BOTTOM | wx.TOP, border=10)
         panel.SetSizer(sizer)
