@@ -37,12 +37,13 @@ from bin.beamsettings import *
 #
 #
 class EditLayoutDialog(wx.Dialog):
-    def __init__(self, parent, RowSelected, mode):
+    def __init__(self, parent, RowSelected, mode, LayoutList):
         self.EditLayoutDialog   = wx.Dialog.__init__(self, parent, title=mode)
         self.EditLayoutPanel    = wx.Panel(self)
         self.parent             = parent
         self.RowSelected        = RowSelected
-        self.mode = mode
+        self.mode               = mode
+        self.LayoutList         = LayoutList
 
         self.ButtonSaveLayout   = wx.Button(self.EditLayoutPanel, label="Save")
         self.ButtonCancelLayout     = wx.Button(self.EditLayoutPanel, label="Cancel")
@@ -54,9 +55,9 @@ class EditLayoutDialog(wx.Dialog):
         Styles  = ["Italic","Normal","Slant"]
         
         # Check if it is a new line
-        if self.RowSelected<len(beamSettings._DefaultDisplaySettings):
+        if self.RowSelected<len(self.LayoutList):
             # Get the properties of the selected item
-            self.Settings   = beamSettings._DefaultDisplaySettings[self.RowSelected]
+            self.Settings   = LayoutList[self.RowSelected]
         else:
             # Create a new default setting
             self.Settings   = ({"Field": "%Artist", "Font": "Default","Style": "Normal", "Weight": "Bold", "Size": 20, "FontColor": "(255,255,255,255)", "HideControl": "", "Position": [50,50], "Center": "yes", "Active": "yes"})
@@ -119,7 +120,10 @@ class EditLayoutDialog(wx.Dialog):
         
     def DisableHorizontalBox(self, event):
         self.HorizontalPos.Enable(not self.CenterCheck.GetValue())
-        
+
+#
+# SAVE
+#
     def OnSaveLayoutItem(self, event):
         self.Settings[u'Field']         = self.LabelText.GetValue()
         self.Settings[u'Font']      = self.FontDropdown.GetValue()  
@@ -137,27 +141,32 @@ class EditLayoutDialog(wx.Dialog):
 
         # Remove old item from dictionary
         if self.mode == "Edit layout item":
-            beamSettings._DefaultDisplaySettings.pop(self.RowSelected)
+            self.LayoutList.pop(self.RowSelected)
 
         # Save item into dictionary
         xpos = self.Settings['Position']
-        for i in range(0, len(beamSettings._DefaultDisplaySettings)):
-            pos = beamSettings._DefaultDisplaySettings[i]['Position']
+        newposition = len(self.LayoutList)
+
+        for i in range(0, len(self.LayoutList)):
+            pos = self.LayoutList[i]['Position']
             if xpos[0] < pos[0]:
                 newposition = i
                 break
-
+        
         # Decide where Layout goes into the vector self.Settings
         if self.mode == "Add layout item":
-            if  newposition < len(beamSettings._DefaultDisplaySettings):
-                beamSettings._DefaultDisplaySettings.insert(newposition, self.Settings) #Insert in at position
+            if  newposition < len(self.LayoutList):
+                self.LayoutList.insert(newposition, self.Settings) #Insert in at position
             else:
-                beamSettings._DefaultDisplaySettings.append(self.Settings) # Append in the end
+                self.LayoutList.append(self.Settings) # Append in the end
         else: #Edit layout
-                beamSettings._DefaultDisplaySettings.insert(newposition, self.Settings)
+                self.LayoutList.insert(newposition, self.Settings)
         self.parent.BuildLayoutList()
         self.Destroy()
 
+#
+# CANCEL
+#
     def OnCancelLayoutItem(self, event):
         self.Destroy()
 
