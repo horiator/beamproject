@@ -250,13 +250,13 @@ class Preferences(wx.Dialog):
 #
 #
     def OnAddLayout(self, event):
-        self.EditLayout = EditLayoutDialog(self, len(self.DisplayRows), "Add layout item")
+        self.EditLayout = EditLayoutDialog(self, len(self.DisplayRows), "Add layout item", beamSettings._DefaultDisplaySettings)
         self.EditLayout.Show()
 
     def OnEditLayout(self, event):
         RowSelected = self.LayoutList.GetSelection()
         if RowSelected>-1:
-            self.EditLayout = EditLayoutDialog(self, RowSelected, "Edit layout item")
+            self.EditLayout = EditLayoutDialog(self, RowSelected, "Edit layout item", beamSettings._DefaultDisplaySettings)
             self.EditLayout.Show()
 
     def OnDelLayout(self, event):

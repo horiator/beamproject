@@ -112,7 +112,7 @@ class EditMood(wx.Dialog):
     
     
 #
-# Mood settings
+# MOOD MAIN SETTINGS
 #
     def MoodSettings(self):
 
@@ -143,7 +143,7 @@ class EditMood(wx.Dialog):
         return InfoGrid
 
 #
-# Mood layout
+# MOOD LAYOUT LIST
 #
     def LayoutSettings(self):
 
@@ -171,12 +171,11 @@ class EditMood(wx.Dialog):
         self.DelLayout.Bind(wx.EVT_BUTTON, self.OnDelLayout)
         self.MoodBackground.Bind(wx.EVT_BUTTON, self.BrowseMoodBackground)
 
-#LayoutSizer = wx.BoxSizer(wx.VERTICAL)
-#       LayoutSizer.Add(self.LayoutList, proportion=1, flag=wx.EXPAND)
-#       LayoutSizer.Add(sizerbuttons, flag=wx.LEFT | wx.BOTTOM | wx.TOP, border=10)
+        return
 
-        return #LayoutSizer
-
+#
+# BUILD LIST AND CHECK
+#
     def BuildLayoutList(self):
         self.DisplayRows = []
         MoodLayout = self.Settings[u'Display']
@@ -191,18 +190,27 @@ class EditMood(wx.Dialog):
             else:
                 self.LayoutList.Check(i, check=False)
 
+    def OnCheckLayout(self, event):
+        MoodLayout = self.Settings[u'Display']
+        for i in range(0, len(MoodLayout)):
+            layout = MoodLayout[i]
+            if self.LayoutList.IsChecked(i):
+                layout[u'Active'] = "yes"
+            else:
+                layout[u'Active'] = "no"
+        self.BuildLayoutList()
+
 #
 # LAYOUT BUTTONS
 #
-#
     def OnAddLayout(self, event):
-        self.EditLayout = EditLayoutDialog(self, len(self.DisplayRows), "Add layout item")
+        self.EditLayout = EditLayoutDialog(self, len(self.DisplayRows), "Add layout item", self.Settings[u'Display'])
         self.EditLayout.Show()
 
     def OnEditLayout(self, event):
         RowSelected = self.LayoutList.GetSelection()
         if RowSelected>-1:
-            self.EditLayout = EditLayoutDialog(self, RowSelected, "Add layout item")
+            self.EditLayout = EditLayoutDialog(self, RowSelected, "Edit layout item", self.Settings[u'Display'])
             self.EditLayout.Show()
 
     def OnDelLayout(self, event):
@@ -215,7 +223,7 @@ class EditMood(wx.Dialog):
             result = dlg.ShowModal()
             dlg.Destroy()
             if result == wx.ID_OK:
-                beamSettings._DefaultDisplaySettings.pop(RowSelected)
+                self.Settings[u'Display'].pop(RowSelected)
                 self.BuildLayoutList()
 
 #
@@ -227,6 +235,7 @@ class EditMood(wx.Dialog):
         #beamSettings._updateTimer        = int(self.TimerText.GetValue())
         #beamSettings._maxTandaLength     =  int(self.TandaLength.GetValue())
         #beamSettings.SaveConfig(beamSettings.defaultConfigFileName)
+        beamSettings._moods
         self.Destroy()
 
 #
@@ -235,15 +244,13 @@ class EditMood(wx.Dialog):
     def onClose(self, e):
         self.Destroy()
 
-    def OnCheckLayout(self, event):
-        MoodLayout = self.Settings[u'Display']
-        for i in range(0, len(MoodLayout)):
-            layout = MoodLayout[i]
-            if self.LayoutList.IsChecked(i):
-                layout[u'Active'] = "yes"
-            else:
-                layout[u'Active'] = "no"
-        self.BuildLayoutList()
-
     def BrowseMoodBackground(self, event):
-        print "Browse for Mood Background"
+        openFileDialog = wx.FileDialog(self, "Set new background image for mood",
+                                       os.path.join(os.getcwd(), 'resources', 'backgrounds'), "",
+                                       "Image files(*.png,*.jpg)|*.png;*.jpg",
+                                       wx.FD_OPEN | wx.FD_FILE_MUST_EXIST)
+        if openFileDialog.ShowModal() == wx.ID_OK:
+            print self.Settings[u'Background']
+            self.Settings[u'Background'] = openFileDialog.GetPath()
+            print self.Settings[u'Background']
+            openFileDialog.Destroy()
