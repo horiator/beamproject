@@ -65,14 +65,14 @@ class EditLayoutDialog(wx.Dialog):
         
         # Define fields
         self.LabelText          = wx.TextCtrl(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Field'])
-        self.FontDropdown       = wx.ComboBox(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Font'], choices=Fonts, style=wx.CB_READONLY)
-        self.StyleDropdown      = wx.ComboBox(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Style'], choices=Styles, style=wx.CB_READONLY)
-        self.WeightDropdown     = wx.ComboBox(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Weight'], choices=Weights, style=wx.CB_READONLY)
-        self.SizeText           = wx.TextCtrl(self.EditLayoutPanel, value=str(self.Settings[u'Size']))
-        self.ColorField         = wx.ColourPickerCtrl(self.EditLayoutPanel)
-        self.HideText           = wx.TextCtrl(self.EditLayoutPanel, value=self.Settings[u'HideControl'])
-        self.VerticalPos        = wx.TextCtrl(self.EditLayoutPanel, value=str(self.Settings[u'Position'][0]))
-        self.HorizontalPos      = wx.TextCtrl(self.EditLayoutPanel, value=str(self.Settings[u'Position'][1]))
+        self.FontDropdown       = wx.ComboBox(self.EditLayoutPanel, size=(80,-1), value=self.Settings[u'Font'], choices=Fonts, style=wx.CB_READONLY)
+        self.StyleDropdown      = wx.ComboBox(self.EditLayoutPanel, size=(80,-1), value=self.Settings[u'Style'], choices=Styles, style=wx.CB_READONLY)
+        self.WeightDropdown     = wx.ComboBox(self.EditLayoutPanel, size=(80,-1), value=self.Settings[u'Weight'], choices=Weights, style=wx.CB_READONLY)
+        self.SizeText           = wx.TextCtrl(self.EditLayoutPanel, size=(80,-1), value=str(self.Settings[u'Size']))
+        self.ColorField         = wx.ColourPickerCtrl(self.EditLayoutPanel, size=(80,-1))
+        self.HideText           = wx.TextCtrl(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'HideControl'])
+        self.VerticalPos        = wx.TextCtrl(self.EditLayoutPanel, size=(80,-1), value=str(self.Settings[u'Position'][0]))
+        self.HorizontalPos      = wx.TextCtrl(self.EditLayoutPanel, size=(80,-1), value=str(self.Settings[u'Position'][1]))
         #Checkbox
         self.CenterCheck        = wx.CheckBox(self.EditLayoutPanel, label="Center")
         self.CenterCheck.Bind(wx.EVT_CHECKBOX, self.DisableHorizontalBox)
@@ -89,21 +89,21 @@ class EditLayoutDialog(wx.Dialog):
                         (wx.StaticText(self.EditLayoutPanel, label="Style"), 0, wx.EXPAND),
                         (wx.StaticText(self.EditLayoutPanel, label="Weight"), 0, wx.EXPAND),
                         (wx.StaticText(self.EditLayoutPanel, label="Size"), 0,wx.EXPAND),
-                        (self.LabelText, 0, wx.EXPAND ),
-                        (self.FontDropdown, 0, wx.EXPAND),
-                        (self.StyleDropdown, 0, wx.EXPAND),
-                        (self.WeightDropdown, 0, wx.EXPAND),
+                        (self.LabelText, 0),
+                        (self.FontDropdown, 0),
+                        (self.StyleDropdown, 0),
+                        (self.WeightDropdown, 0),
                         (self.SizeText, 0, wx.EXPAND),
                         (wx.StaticText(self.EditLayoutPanel, label="Hide/Show"), 0, wx.EXPAND),
                         (wx.StaticText(self.EditLayoutPanel, label="Color"), 0, wx.EXPAND),
                         (wx.StaticText(self.EditLayoutPanel, label="Vertical"), 0, wx.EXPAND),
                         (wx.StaticText(self.EditLayoutPanel, label="Horizontal"), 0, wx.EXPAND),
                         (wx.StaticText(self.EditLayoutPanel, label=""), 0, wx.EXPAND),
-                        (self.HideText, 0, wx.EXPAND),
-                        (self.ColorField, 0, wx.EXPAND),
-                        (self.VerticalPos, 0, wx.EXPAND),
-                        (self.HorizontalPos, 0, wx.EXPAND),
-                        (self.CenterCheck, 0, wx.EXPAND)
+                        (self.HideText, 0),
+                        (self.ColorField, 0),
+                        (self.VerticalPos, 0),
+                        (self.HorizontalPos, 0),
+                        (self.CenterCheck, 0)
                         ])
 
         self.vboxLayout = wx.BoxSizer(wx.VERTICAL)
