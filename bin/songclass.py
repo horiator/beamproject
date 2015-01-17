@@ -128,11 +128,17 @@ class SongObject(object):
         self.IsCortina   = u"no"
         self.fileUrl     = url
         return
-              
+
+#
+# SONG RULES
+#
     def applySongRules(self, rulesArray):
         for i in range(0, len(rulesArray)):
             currentRule = rulesArray[i]
             try:
+                #
+                # PARSE
+                #
                 if currentRule[u'Type'] == 'Parse' and currentRule[u'Active'] == 'yes':
                     # Find currentRule[u'Field2'] in currentRule[u'Field1'],
                     # split currentRule[u'Field1'] and save into Rule[u'Field3 and 4]
@@ -140,6 +146,9 @@ class SongObject(object):
                         splitStrings = eval(str(currentRule[u'Field1']).replace("%"," self.")).split(str(currentRule[u'Field2']))
                         setattr(self, currentRule[u'Field3'].replace("%",""), splitStrings[0])
                         setattr(self, currentRule[u'Field4'].replace("%",""), splitStrings[1])
+                #
+                # CORTINA
+                #
                 if currentRule[u'Type'] == 'Cortina' and currentRule[u'Active'] == 'yes':
                     # Rule[u'Field2'] == is: IsCortina[j] shall be 1 if Rule[u'Field1'] is Rule[u'Field3']
                     if currentRule[u'Field2'] == 'is':
@@ -149,7 +158,13 @@ class SongObject(object):
                     if currentRule[u'Field2'] == 'is not':
                         if getattr(self, currentRule[u'Field1'].replace("%","")) not in str("["+currentRule[u'Field3']+"]"):
                             self.IsCortina = "yes"
-
+                    # Rule[u'Field2'] == contains: IsCortina[j] shall be 1 if Rule[u'Field1'] contains any of Rule[u'Field3']
+                    if currentRule[u'Field2'] == 'contains':
+                        if str(currentRule[u'Field3']) in getattr(self, currentRule[u'Field1'].replace("%","")):
+                            self.IsCortina = "yes"
+                #
+                # COPY
+                #
                 if currentRule[u'Type'] == 'Copy' and currentRule[u'Active'] == 'yes':
                     # Rule[u'Field1'] shall be Rule[u'Field2']
                     # Example:
