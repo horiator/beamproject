@@ -196,13 +196,11 @@ class NowPlayingDataModel:
                         self.CurrentMood = currentRule[u'Name']
                         self.DisplaySettings = currentRule[u'Display']
                         self.BackgroundImage = currentRule[u'Background']                              
-                # Only if playback is stopped and we have a mood for this
-                if self.PlaybackStatus == "Stopped":
-                    if eval(str(currentRule[u'Field1']).replace("%"," currentSong.")) in str(currentRule[u'Field2']) and str(currentRule[u'PlayState']) in self.PlaybackStatus:
+                if currentRule[u'Field2'] == 'contains':
+                    if str(currentRule[u'Field3']) in eval(str(currentRule[u'Field1']).replace("%"," currentSong.")) and str(currentRule[u'PlayState']) in self.PlaybackStatus:
                         self.CurrentMood = currentRule[u'Name']
                         self.DisplaySettings = currentRule[u'Display']
                         self.BackgroundImage = currentRule[u'Background']
-
 
 #
 # Create NextTanda

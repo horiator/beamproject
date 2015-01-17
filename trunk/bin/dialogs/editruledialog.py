@@ -109,11 +109,13 @@ class EditRuleDialog(wx.Dialog):
         self.EditRulePanel.SetSizer(self.vbox)
         self.vbox.SetSizeHints(self)  
         
-
+#
+# RULE TYPES
+#
 
     def ChangeRuleType(self, event):
         RuleSelected = self.RuleSelectDropdown.GetValue()
-        ###########################################
+###########################################
         if RuleSelected == 'Copy':
             self.DynamicFieldLabel1.SetLabel('Output field')
             self.DynamicFieldLabel2.SetLabel('')
@@ -134,7 +136,7 @@ class EditRuleDialog(wx.Dialog):
             else:
                 self.OutputField1.SetStringSelection("%Artist")
 
-        ########################################
+########################################
         if RuleSelected == 'Parse':
             self.DynamicFieldLabel1.SetLabel('Output field 1')
             self.DynamicFieldLabel2.SetLabel('Output field 2')
@@ -161,9 +163,9 @@ class EditRuleDialog(wx.Dialog):
             self.DynamicFieldLabel3.Show()
             self.OutputField3.Show()
 
-        ##############################################
+##############################################
         if RuleSelected == 'Cortina':
-            self.DynamicFieldLabel1.SetLabel('is / is not')
+            self.DynamicFieldLabel1.SetLabel('')
             self.DynamicFieldLabel2.SetLabel('Value(s)')
             self.DynamicFieldLabel3.SetLabel('')
             self.DynamicFieldLabel4.SetLabel('')
@@ -175,7 +177,7 @@ class EditRuleDialog(wx.Dialog):
             self.OutputField3.Hide()
 
             #Add correct fields
-            self.IsIsNot    = wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not"], style=wx.CB_READONLY)
+            self.IsIsNot    = wx.ComboBox(self.EditRulePanel,value="is", choices=["is", "is not","contains"], style=wx.CB_READONLY)
             self.sizer1.Add(self.IsIsNot)
             self.OutputField2 = wx.TextCtrl(self.EditRulePanel, value="", size=(165,-1))
             self.sizer2.Add(self.OutputField2)
@@ -191,7 +193,9 @@ class EditRuleDialog(wx.Dialog):
         self.EditRulePanel.SetSizer(self.vbox)
         self.EditRulePanel.Layout()
 
-        
+#
+# GUI REMOVE ELEMENTS
+#
     def RemoveDynamicElements(self):
         try:
             self.sizer1.Remove(self.OutputField1)
@@ -214,8 +218,9 @@ class EditRuleDialog(wx.Dialog):
             self.PlayingState.Hide()
         except: pass
 
-
-
+#
+# SAVE
+#
     def OnSaveRuleItem(self, event):
         RuleOrderBox = int(self.RuleOrder.GetValue())-1
         RuleSelected = self.RuleSelectDropdown.GetValue()
@@ -251,7 +256,9 @@ class EditRuleDialog(wx.Dialog):
                 beamSettings._rules.insert(RuleOrderBox, NewRule)
         self.Destroy()
         self.parent.BuildRuleList()
-
+#
+# CANCEL
+#
     def OnCancelRuleItem(self, event):
         self.Destroy()
 

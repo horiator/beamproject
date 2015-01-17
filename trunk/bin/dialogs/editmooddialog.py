@@ -119,7 +119,7 @@ class EditMood(wx.Dialog):
         # Create the fields
         
         self.InputID3Field = wx.ComboBox(self.panel, size=(120,-1), value=self.Settings[u'Field1'], choices=self.Fields, style=wx.CB_READONLY)
-        self.IsIsNot       = wx.ComboBox(self.panel,value=self.Settings[u'Field2'], choices=["is", "is not"], style=wx.CB_READONLY)
+        self.IsIsNot       = wx.ComboBox(self.panel,value=self.Settings[u'Field2'], choices=["is", "is not", "contains"], style=wx.CB_READONLY)
         self.MoodOrder     = wx.TextCtrl(self.panel, value=str(self.RowSelected+1))
         self.OutputField   = wx.TextCtrl(self.panel, value=self.Settings[u'Field3'], size=(120,-1))
         self.MoodNameField = wx.TextCtrl(self.panel, value=self.Settings[u'Name'], size=(120,-1))
@@ -133,7 +133,7 @@ class EditMood(wx.Dialog):
                         (self.MoodState, 0, wx.EXPAND),
                         (self.MoodOrder, 0, wx.EXPAND),
                         (wx.StaticText(self.panel, label="Input field"), 0, wx.EXPAND),
-                        (wx.StaticText(self.panel, label="is/is not"), 0, wx.EXPAND),
+                        (wx.StaticText(self.panel, label=""), 0, wx.EXPAND),
                         (wx.StaticText(self.panel, label="Output field"), 0, wx.EXPAND),
                         (self.InputID3Field, 0, wx.EXPAND),
                         (self.IsIsNot, 0, wx.EXPAND),
