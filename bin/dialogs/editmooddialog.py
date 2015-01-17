@@ -40,6 +40,7 @@ class EditMood(wx.Dialog):
         self.MainWindowParent = parent
         wx.Dialog.__init__(self, parent, title=mode, size=(400,500))
         self.RowSelected = RowSelected
+        self.mode = mode
         self.Settings = {}
         
         # Define choices
@@ -48,7 +49,6 @@ class EditMood(wx.Dialog):
         if self.RowSelected<len(beamSettings._moods):
             # Get the properties of the selected item
             self.Settings   = beamSettings._moods[self.RowSelected]
-            print self.RowSelected
         else:
             # Create a new default setting
             self.Settings   = ({"Active": "yes", "Field3": "","Field2": "is","Field1": "%Artist",
@@ -63,7 +63,6 @@ class EditMood(wx.Dialog):
                                            "Weight": "Bold","Row": 2,"Field": "Me Up Scotty",
                                            "HideControl": "", "FontColor": "(255,255,255,255)",
                                            "Position": [50,0],"Font": "Roman","Size": 8}]})
-            print "new row"
 
         # Build the panel
         self.panel = wx.Panel(self)
@@ -231,11 +230,28 @@ class EditMood(wx.Dialog):
 #
     def onSave(self, e):
         # Get Settings
-        #beamSettings._moduleSelected     = self.Dropdown.GetValue()
-        #beamSettings._updateTimer        = int(self.TimerText.GetValue())
-        #beamSettings._maxTandaLength     =  int(self.TandaLength.GetValue())
-        #beamSettings.SaveConfig(beamSettings.defaultConfigFileName)
-        beamSettings._moods
+        self.Settings[u'Name'] = self.MoodNameField.GetValue()
+        self.Settings[u'PlayState'] = self.MoodState.GetValue()
+        self.Settings[u'Field1'] = self.InputID3Field.GetValue()
+        self.Settings[u'Field2'] = self.IsIsNot.GetValue()
+        self.Settings[u'Field3'] = self.OutputField.GetValue()
+        MoodOrderBox = int(self.MoodOrder.GetValue())
+        print MoodOrderBox
+        print self.RowSelected
+        print len(beamSettings._moods)
+        # Place settings in moods
+        if self.mode == "Add mood":
+            if MoodOrderBox < self.RowSelected:
+                beamSettings._moods.insert(MoodOrderBox, self.Settings) #Insert in at position
+            else:
+                beamSettings._moods.append(self.Settings) # Append in the end
+        else: #Edit mood
+            if MoodOrderBox == self.RowSelected:
+                beamSettings._moods[MoodOrderBox] = self.Settings # Overwrite
+            else:
+                beamSettings._moods.pop(self.RowSelected) #Move up and down in list
+                beamSettings._moods.insert(MoodOrderBox, self.Settings)
+        self.MainWindowParent.BuildMoodList()
         self.Destroy()
 
 #
