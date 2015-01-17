@@ -102,6 +102,18 @@ class Moods(wx.Dialog):
                 self.MoodList.Check(i, check=True)
             else:
                 self.MoodList.Check(i, check=False)
+
+#
+# CHECK BOXES
+#
+    def OnCheckMood(self, event):
+        for i in range(0, len(beamSettings._moods)):
+            mood = beamSettings._moods[i]
+            if self.MoodList.IsChecked(i):
+                mood[u'Active'] = "yes"
+            else:
+                mood[u'Active'] = "no"
+        self.BuildMoodList()
 #
 # Apply preferences
 #
@@ -139,13 +151,6 @@ class Moods(wx.Dialog):
             dlg.Destroy()
             if result == wx.ID_OK:
                 beamSettings._moods.pop(RowSelected)
-                self.BuildMoodsList()
+            self.BuildMoodList()
 
-    def OnCheckMood(self, event):
-        for i in range(0, len(beamSettings._moods)):
-            mood = beamSettings._moods[i]
-            if self.MoodList.IsChecked(i):
-                mood[u'Active'] = "yes"
-            else:
-                mood[u'Active'] = "no"
-        self.BuildMoodList()
+
