@@ -34,7 +34,7 @@ from bin.beamsettings import *
 from bin.nowplayingdatamodel import *
 
 from bin.Preferences import Preferences
-from bin.dialogs.Moods import Moods
+from bin.Moods import Moods
 
 from bin.dialogs.helpdialog import HelpDialog
 from bin.dialogs import aboutdialog
