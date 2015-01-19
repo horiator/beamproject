@@ -36,11 +36,11 @@ from copy import deepcopy
 #
 
 if platform.system() == 'Linux':
-    from Modules import audaciousModule, rhythmboxModule, clementineModule, bansheeModule, spotifyLinuxModule
+    from Modules.Lin import audaciousModule, rhythmboxModule, clementineModule, bansheeModule, spotifyLinuxModule
 if platform.system() == 'Windows':
-    from Modules import itunesWindowsModule, winampWindowsModule, MediaMonkeyModule, JRMCWindowsModule, spotifyWindowsModule, foobarWindowsModule
+    from Modules.Win import itunesWindowsModule, winampWindowsModule, medianonkeyModule, jrmcWindowsModule, spotifyWindowsModule, foobar2kWindowsModule
 if platform.system() == 'Darwin':
-    from Modules import itunesMacModule, DecibelModule, spotifyMacModule, VoxModule, CogModule
+    from Modules.Mac import itunesMacModule, decibelModule, spotifyMacModule, voxModule, cogModule
 
 #
 # INIT
@@ -94,6 +94,7 @@ class NowPlayingDataModel:
         except:
             LastRead = SongObject()
 
+
 ##########################################################
 #
 # Extract data using the player module
@@ -103,13 +104,13 @@ class NowPlayingDataModel:
             if currentSettings._moduleSelected == 'iTunes':
                 self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = itunesWindowsModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'MediaMonkey':
-                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = MediaMonkeyModule.run(currentSettings._maxTandaLength)
+                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = mediamonkeyModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'JRiver Media Center':
-                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =JRMCWindowsModule.run(currentSettings._maxTandaLength)
+                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =jrmcWindowsModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Spotify':
                 self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =spotifyWindowsModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Foobar2000':
-                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =foobarWindowsModule.run(currentSettings._maxTandaLength)
+                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =foobar2kWindowsModule.run(currentSettings._maxTandaLength)
             try: #required due to loaded modules
                 if currentSettings._moduleSelected == 'Winamp':
                     self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = winampWindowsModule.run(currentSettings._maxTandaLength)
@@ -134,13 +135,13 @@ class NowPlayingDataModel:
             if currentSettings._moduleSelected == 'iTunes':
                 self.currentPlaylist, self.PlaybackStatus  = itunesMacModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Decibel':
-                self.currentPlaylist, self.PlaybackStatus  = DecibelModule.run(currentSettings._maxTandaLength)
+                self.currentPlaylist, self.PlaybackStatus  = decibelModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Spotify':
                 self.currentPlaylist, self.PlaybackStatus  = spotifyMacModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Vox':
-                    self.currentPlaylist, self.PlaybackStatus  = VoxModule.run(currentSettings._maxTandaLength)
+                    self.currentPlaylist, self.PlaybackStatus  = voxModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Cog':
-                    self.currentPlaylist, self.PlaybackStatus  = CogModule.run(currentSettings._maxTandaLength)
+                    self.currentPlaylist, self.PlaybackStatus  = cogModule.run(currentSettings._maxTandaLength)
 
 ##################################################################
 #
