@@ -87,7 +87,7 @@ GetComposer   = '''on run argv
                     end tell
                     return var1
                 end run'''
-GetSongs    = '''on run argv
+GetAllInfo    = '''on run argv
                     tell application "iTunes"
                        set artistname to artist of track argv of current playlist
                        set trackname to name of track argv of current playlist
@@ -101,12 +101,29 @@ GetSongs    = '''on run argv
                     return {artistname, trackname, albumname, albumartist, trackyear, comm, trackgenre, trackcomposer}
                  end run'''
 
+QuickRead     =  '''on run {argv, argw}
+                        set the artistlist to {}
+                        set the titlelist to {}
+                        set startvalue to argv
+                        set stopvalue to argw
+                        tell application "iTunes"
+                            repeat with trackx from startvalue to stopvalue
+                                set the end of the artistlist to artist of track trackx of current playlist
+                                set the end of the titlelist to name of track trackx of current playlist
+                            end repeat
+                        end tell
+                        return {artistlist, titlelist}
+                    end run'''
+
 CheckRunning = '''tell application "System Events"
                     count (every process whose name is "iTunes")
                   end tell'''
 
+#
+# MAIN FUNCTION
+#
 
-def run(MaxTandaLength):
+def run(MaxTandaLength, LastPlaylist):
 
     playlist = []
     
@@ -134,10 +151,19 @@ def run(MaxTandaLength):
 
     #Declare our position
     currentsong     = int(AppleScript(GetPosition, []))
-    playlistlength  = currentsong+7 #FIX!
+    playlistlength  = currentsong+MaxTandaLength+2 # Not available for iTunes
     searchsong = currentsong # Start on the current song
 
-    while searchsong < playlistlength-1 and searchsong < currentsong+MaxTandaLength+2:
+    # Quick read to see if we have new data
+    if quickRead(currentsong, LastPlaylist):
+        #print "Quick-read"
+        playlist = LastPlaylist
+        return playlist, playbackStatus
+
+
+    # Full read
+    #print "Full-read"
+    while searchsong < playlistlength and searchsong < currentsong+MaxTandaLength+2:
         try:
             playlist.append(getSongAt( searchsong))
         except:
@@ -145,12 +171,43 @@ def run(MaxTandaLength):
         searchsong = searchsong+1
     return playlist, playbackStatus
 
+#
+# Quick read - Player specific
+#
+
+def quickRead(songPosition = 1, LastRead = []):
+    # Read Artists and Titles, returned in the same vector
+    var      = AppleScript(QuickRead, [str(songPosition), str(songPosition+len(LastRead)-1)]).rstrip('\n')
+    ArtistsAndTitles =  var.split(', ')
+    Last = []
+    try:
+        for i in range(0,len(LastRead)):
+            Song = LastRead[i]
+            Last.append(str(Song.Artist))
+        for i in range(0,len(LastRead)):
+            Song = LastRead[i]
+            Last.append(str(Song.Title))
+    except:
+        pass
+
+    # Do comparison
+    if Last == ArtistsAndTitles:
+        #print "Same!"
+        return True
+
+    #print "New!"
+    return False
+
+#
+# Full read - Player specific
+#
+
 def getSongAt(songPosition = 1):
     retSong = SongObject()
     try:
         # FASTER!
         # If there are no "," then this method works
-        var = AppleScript(GetSongs, [str(songPosition)]).rstrip('\n')
+        var = AppleScript(GetAllInfo, [str(songPosition)]).rstrip('\n')
         retSong.Artist, retSong.Title, retSong.Album, retSong.AlbumArtist, retSong.Year, retSong.Comment, retSong.Genre, retSong.Composer = var.split(', ')
     except:
         # SLOW!
@@ -169,6 +226,9 @@ def getSongAt(songPosition = 1):
     
     return retSong
 
+#
+# AppleScript-function - MAC-specific
+#
 def AppleScript(scpt, args=[]):
      p = Popen(['osascript', '-'] + args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
      stdout, stderr = p.communicate(scpt)
