@@ -90,7 +90,7 @@ class NowPlayingDataModel:
         
         # Save previous state
         try:
-            LastRead = deepcopy(self.currentPlaylist[0])
+            LastRead = deepcopy(self.currentPlaylist)
         except:
             LastRead = SongObject()
 
@@ -133,7 +133,7 @@ class NowPlayingDataModel:
         # Mac OS X
         if platform.system() == 'Darwin':
             if currentSettings._moduleSelected == 'iTunes':
-                self.currentPlaylist, self.PlaybackStatus  = itunesMacModule.run(currentSettings._maxTandaLength)
+                self.currentPlaylist, self.PlaybackStatus  = itunesMacModule.run(currentSettings._maxTandaLength, LastRead)
             if currentSettings._moduleSelected == 'Decibel':
                 self.currentPlaylist, self.PlaybackStatus  = decibelModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Spotify':
@@ -148,11 +148,11 @@ class NowPlayingDataModel:
 # Previous song analysis
 #
         try:
-            if LastRead == self.currentPlaylist[0]:
+            if LastRead[0] == self.currentPlaylist[0]:
                 #print "Same song, do nothing"
                 pass 
             else:
-                self.prevPlayedSong = LastRead
+                self.prevPlayedSong = LastRead[0]
                 #print "Different song, copy"
         except:
              #print "Empty"
@@ -170,7 +170,8 @@ class NowPlayingDataModel:
         self.BackgroundImage = currentSettings._DefaultBackground
 
 #
-# Apply rules, for every song in list
+# Apply rules, for every song in list.
+# Rules can change without changing song so run this every time!
 #
         for i in range(0, len(self.currentPlaylist)):
             self.currentPlaylist[i].applySongRules(currentSettings._rules)
