@@ -26,7 +26,7 @@
 # This Python file uses the following encoding: utf-8
 
 from bin.songclass import SongObject
-import sys
+import sys, time
 from subprocess import Popen, PIPE
 
 # Define operations
@@ -127,77 +127,96 @@ def run(MaxTandaLength, LastPlaylist):
 
     playlist = []
     
-    #Check if iTunes is running
+    #
+    # Player Status
+    #
     if int(AppleScript(CheckRunning, []).strip()) == 0:
         playbackStatus = 'PlayerNotRunning'
         return playlist, playbackStatus
 
+    #
+    # Playback Status
+    #
     try:
         playbackStatus = AppleScript(GetStatus, []).rstrip('\n')
     except:
         playbackStatus = 'PlayerNotRunning'
         return playlist, playbackStatus
 
-    # Break and return empty if nothing is playing
     if playbackStatus in 'stopped': 
         playbackStatus = 'Stopped'
         return playlist, playbackStatus
     elif playbackStatus in 'paused': 
         playbackStatus = 'Paused'
         return playlist, playbackStatus
+    #
+    # Playback = Playing
+    #
     elif playbackStatus in 'playing':
-    #   print "Lets get some info!"
         playbackStatus = 'Playing'
 
-    #Declare our position
+    # Declare our position
     currentsong     = int(AppleScript(GetPosition, []))
     playlistlength  = currentsong+MaxTandaLength+2 # Not available for iTunes
-    searchsong = currentsong # Start on the current song
+    searchsong = currentsong
 
-    # Quick read to see if we have new data
+    #
+    # Quick-read
+    #
     if quickRead(currentsong, LastPlaylist):
-        #print "Quick-read"
+        print "Quick-read"
+        #ts = time.time()
         playlist = LastPlaylist
+        #print "read-time",time.time()-ts
         return playlist, playbackStatus
 
-
-    # Full read
-    #print "Full-read"
+    #
+    # Full-read
+    #
+    print "Full-read"
+    #ts = time.time()
     while searchsong < playlistlength and searchsong < currentsong+MaxTandaLength+2:
         try:
             playlist.append(getSongAt( searchsong))
         except:
             break
         searchsong = searchsong+1
+    #print "read-time",time.time()-ts
     return playlist, playbackStatus
 
+############################################################
 #
 # Quick read - Player specific
 #
 
 def quickRead(songPosition = 1, LastRead = []):
     # Read Artists and Titles, returned in the same vector
-    var      = AppleScript(QuickRead, [str(songPosition), str(songPosition+len(LastRead)-1)]).rstrip('\n')
-    ArtistsAndTitles =  var.split(', ')
-    Last = []
     try:
-        for i in range(0,len(LastRead)):
-            Song = LastRead[i]
-            Last.append(str(Song.Artist))
-        for i in range(0,len(LastRead)):
-            Song = LastRead[i]
-            Last.append(str(Song.Title))
+        var      = AppleScript(QuickRead, [str(songPosition), str(songPosition+len(LastRead)-1)]).rstrip('\n')
+        ArtistsAndTitles =  var.split(', ')
+        #print "Quick:",ArtistsAndTitles
+        Last = []
+        try:
+            for i in range(0,len(LastRead)):
+                Song = LastRead[i]
+                Last.append(str(Song.Artist))
+            for i in range(0,len(LastRead)):
+                Song = LastRead[i]
+                Last.append(str(Song.Title))
+        except:
+            pass
+        #print "Previous:",Last
+        # Do comparison
+        if Last == ArtistsAndTitles:
+            #print "Same!"
+            return True
     except:
         pass
-
-    # Do comparison
-    if Last == ArtistsAndTitles:
-        #print "Same!"
-        return True
 
     #print "New!"
     return False
 
+############################################################
 #
 # Full read - Player specific
 #
@@ -226,6 +245,7 @@ def getSongAt(songPosition = 1):
     
     return retSong
 
+############################################################
 #
 # AppleScript-function - MAC-specific
 #
