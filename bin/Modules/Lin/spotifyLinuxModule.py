@@ -34,8 +34,6 @@ try:
     import dbus
 except ImportError:
     found = False
-    
-from ID3 import *
 
 def run(MaxTandaLength):
 
