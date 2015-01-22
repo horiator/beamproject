@@ -55,6 +55,7 @@ class NowPlayingDataModel:
         numberOfRequestedSongs = eval(self.maxTandaLength + '2')
         
         self.currentPlaylist = []
+        self.rawPlaylist = []
         for i in range(0, numberOfRequestedSongs-1) :
             self.currentPlaylist.append(SongObject())
         
@@ -134,7 +135,7 @@ class NowPlayingDataModel:
         # Mac OS X
         if platform.system() == 'Darwin':
             if currentSettings._moduleSelected == 'iTunes':
-                self.currentPlaylist, self.PlaybackStatus  = itunesMacModule.run(currentSettings._maxTandaLength, LastRead)
+                self.currentPlaylist, self.PlaybackStatus  = itunesMacModule.run(currentSettings._maxTandaLength, self.rawPlaylist)
             if currentSettings._moduleSelected == 'Decibel':
                 self.currentPlaylist, self.PlaybackStatus  = decibelModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Spotify':
@@ -143,6 +144,11 @@ class NowPlayingDataModel:
                     self.currentPlaylist, self.PlaybackStatus  = voxModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Cog':
                     self.currentPlaylist, self.PlaybackStatus  = cogModule.run(currentSettings._maxTandaLength)
+
+#
+# Save the reading
+#
+        self.rawPlaylist = deepcopy(self.currentPlaylist)
 
 ##################################################################
 #
