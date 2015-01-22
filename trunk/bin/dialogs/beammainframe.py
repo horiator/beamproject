@@ -219,12 +219,14 @@ class beamMainFrame(wx.Frame):
                 self.modifiedBitmap = wx.BitmapFromImage(Image)
             except:
                 self.modifiedBitmap = self.backgroundImage
+
             
         # Position the image and draw it
         resizedWidth, resizedHeight = self.modifiedBitmap.GetSize()
         self.xPosResized = (cliWidth - resizedWidth)/2
         self.yPosResized = (cliHeight - resizedHeight)/2
         dc.DrawBitmap(self.modifiedBitmap, self.xPosResized, self.yPosResized)
+        self.Refresh()
 
     # DRAW TEXT
     #
@@ -417,6 +419,7 @@ class beamMainFrame(wx.Frame):
         if self.red >= 0 and self.red <= 1:
             # refire the OnPaint event using self.Refresh
             self.triggerAdjustBackgroundRGB = True
+            self.triggerResizeBackground = True
             self.Refresh()
         else:
             #stop the fadeout timer
@@ -446,6 +449,7 @@ class beamMainFrame(wx.Frame):
 
         if self.red >= 0 and self.red <= 1:
             self.triggerAdjustBackgroundRGB = True
+            self.triggerResizeBackground = True
         else:
             self.timer2.Stop()
         
