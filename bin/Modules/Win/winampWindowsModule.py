@@ -30,7 +30,6 @@
 #
 
 import Winamp
-from ID3 import *
 	
 def run(MaxTandaLength):
 
@@ -67,7 +66,7 @@ def run(MaxTandaLength):
 		while searchsong < currentsong+MaxTandaLength+2 and searchsong < listlength:
 			#try:
 				TrackURL = winamp.getPlaylistFile(searchsong)
-				id3info = ID3(TrackURL)
+                #id3info = ID3(TrackURL)
 				Artist.append(id3info.artist)
 				Album.append(id3info.album)
 				Title.append(id3info.title)
