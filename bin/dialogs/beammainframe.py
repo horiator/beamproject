@@ -256,6 +256,8 @@ class beamMainFrame(wx.Frame):
             dc.SetTextForeground(eval(Settings['FontColor']))
 
             # Check if the text fits, cut it and add ...
+            if platform.system() == 'Darwin':
+                text = text.decode('utf-8')
             TextWidth, TextHeight   = dc.GetTextExtent(text)
 
             # Find length and position of text
