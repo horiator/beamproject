@@ -38,7 +38,7 @@ from copy import deepcopy
 if platform.system() == 'Linux':
     from Modules.Lin import audaciousModule, rhythmboxModule, clementineModule, bansheeModule, spotifyLinuxModule
 if platform.system() == 'Windows':
-    from Modules.Win import itunesWindowsModule, winampWindowsModule, medianonkeyModule, jrmcWindowsModule, spotifyWindowsModule, foobar2kWindowsModule
+    from Modules.Win import itunesWindowsModule, winampWindowsModule, mediamonkeyModule, jrmcWindowsModule, spotifyWindowsModule, foobar2kWindowsModule
 if platform.system() == 'Darwin':
     from Modules.Mac import itunesMacModule, decibelModule, spotifyMacModule, voxModule, cogModule
 
@@ -60,6 +60,7 @@ class NowPlayingDataModel:
         
         self.prevPlayedSong = SongObject()
         self.nextTandaSong = SongObject()
+        self.prevReading = SongObject()
         
         
         self.Artist      = [ '' for i in range(numberOfRequestedSongs) ]
