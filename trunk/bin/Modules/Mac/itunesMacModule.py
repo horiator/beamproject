@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#    Copyright (C) 2014 Mikael Holber http://http://www.beam-project.com
+#    Copyright (C) 2015 Mikael Holber http://http://www.beam-project.com
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 #
 #    Revision History:
 #
-#    XX/XX/2014 Version 1.0
+#    Version 1.0
 #       - Initial release
 #
 # This Python file uses the following encoding: utf-8
@@ -29,7 +29,11 @@ from bin.songclass import SongObject
 import sys, time
 from subprocess import Popen, PIPE
 
+###############################################################
+#
 # Define operations
+#
+###############################################################
 
 GetPosition = '''tell application "iTunes" 
                  set pos to index of current track
@@ -108,20 +112,28 @@ QuickRead     =  '''on run {argv, argw}
                         set stopvalue to argw
                         tell application "iTunes"
                             repeat with trackx from startvalue to stopvalue
-                                set the end of the artistlist to artist of track trackx of current playlist
-                                set the end of the titlelist to name of track trackx of current playlist
+                                try
+                                    set the end of the artistlist to artist of track trackx of current playlist
+                                    set the end of the titlelist to name of track trackx of current playlist
+                                on error
+                                    set the end of the artistlist to ""
+                                    set the end of the titlelist to ""
+                                end try
                             end repeat
                         end tell
                         return {artistlist, titlelist}
                     end run'''
 
+
 CheckRunning = '''tell application "System Events"
                     count (every process whose name is "iTunes")
                   end tell'''
 
+###############################################################
 #
 # MAIN FUNCTION
 #
+###############################################################
 
 def run(MaxTandaLength, LastPlaylist):
 
@@ -165,32 +177,28 @@ def run(MaxTandaLength, LastPlaylist):
     #
     if quickRead(currentsong, LastPlaylist):
         print "Quick-read"
-        #ts = time.time()
         playlist = LastPlaylist
-        #print "read-time",time.time()-ts
         return playlist, playbackStatus
 
     #
     # Full-read
     #
     print "Full-read"
-    #ts = time.time()
     while searchsong < playlistlength and searchsong < currentsong+MaxTandaLength+2:
         try:
             playlist.append(getSongAt( searchsong))
         except:
             break
         searchsong = searchsong+1
-    #print "read-time",time.time()-ts
     return playlist, playbackStatus
 
-############################################################
+###############################################################
 #
 # Quick read - Player specific
 #
+###############################################################
 
 def quickRead(songPosition = 1, LastRead = []):
-    # Read Artists and Titles, returned in the same vector
     try:
         var      = AppleScript(QuickRead, [str(songPosition), str(songPosition+len(LastRead)-1)]).rstrip('\n')
         ArtistsAndTitles =  var.split(', ')
@@ -206,9 +214,7 @@ def quickRead(songPosition = 1, LastRead = []):
         except:
             pass
         #print "Previous:",Last
-        # Do comparison
         if Last == ArtistsAndTitles:
-            #print "Same!"
             return True
     except:
         pass
@@ -216,10 +222,11 @@ def quickRead(songPosition = 1, LastRead = []):
     #print "New!"
     return False
 
-############################################################
+###############################################################
 #
 # Full read - Player specific
 #
+###############################################################
 
 def getSongAt(songPosition = 1):
     retSong = SongObject()
@@ -238,17 +245,20 @@ def getSongAt(songPosition = 1):
         retSong.Comment     = AppleScript(GetComment, [str(songPosition)]).rstrip('\n')
         retSong.Composer    = AppleScript(GetComposer, [str(songPosition)]).rstrip('\n')
         retSong.Year        = AppleScript(GetYear, [str(songPosition)]).rstrip('\n')
-        #retSong._Singer      
+        #retSong._Singer     Defined by beam
         retSong.AlbumArtist = AppleScript(GetAlbumArtist, [str(songPosition)]).rstrip('\n')
         #retSong.Performer   Does not exist for itunes
-        #retSong.IsCortina
+        #retSong.IsCortina   Defined by beam
+        #retSong.fileUrl     Does not exist for itunes
     
     return retSong
 
-############################################################
+###############################################################
 #
-# AppleScript-function - MAC-specific
+# AppleScript-function - MacOSX-specific
 #
+###############################################################
+
 def AppleScript(scpt, args=[]):
      p = Popen(['osascript', '-'] + args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
      stdout, stderr = p.communicate(scpt)
