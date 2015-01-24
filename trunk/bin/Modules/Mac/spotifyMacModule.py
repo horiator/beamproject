@@ -20,7 +20,7 @@
 #
 #    Revision History:
 #
-#    XX/XX/2014 Version 1.0
+#    Version 1.0
 #       - Initial release
 #
 # This Python file uses the following encoding: utf-8
@@ -29,7 +29,11 @@ from bin.songclass import SongObject
 import sys
 from subprocess import Popen, PIPE
 
+###############################################################
+#
 # Define operations
+#
+###############################################################
 
 GetStatus   = '''tell application "Spotify"
                     set pstatus to player state
@@ -69,33 +73,52 @@ CheckRunning = '''tell application "System Events"
     count (every process whose name is "Spotify")
     end tell'''
 
+###############################################################
+#
+# MAIN FUNCTION
+#
+###############################################################
+
 def run(MaxTandaLength):
 
     playlist = []
     
-    #Check if Spotify is running
+    #
+    # Player Status
+    #
     if int(AppleScript(CheckRunning, []).strip()) == 0:
         playbackStatus = 'PlayerNotRunning'
         return playlist, playbackStatus
     
-    #Get Playback status
+    #
+    # Playback Status
+    #
     try:
         playbackStatus = AppleScript(GetStatus, []).rstrip('\n')
     except:
         playbackStatus = 'PlayerNotRunning'
         return playlist, playbackStatus
 
-    # Break and return empty if nothing is playing
+    #
+    # Playback Status
+    #
     if playbackStatus in 'paused':
         playbackStatus = 'Paused'
         return playlist, playbackStatus
+    #
+    # Playback = Playing
+    #
     elif playbackStatus in 'playing':
-    #   print "Lets get some info!"
         playbackStatus = 'Playing'
 
-    # Get info
-    playlist.append(getSongAt( 1))
+    playlist.append(getSongAt(1))
     return playlist, playbackStatus
+
+###############################################################
+#
+# Full read - Player specific
+#
+###############################################################
 
 def getSongAt(songPosition = 1):
     retSong = SongObject()
@@ -118,8 +141,15 @@ def getSongAt(songPosition = 1):
         retSong.AlbumArtist = AppleScript(GetAlbumArtist, [str(songPosition)]).rstrip('\n')
         #retSong.Performer  =
         #retSong.IsCortina  =
+        #retSong.fileUrl     Does not exist for itunes
     
     return retSong
+
+###############################################################
+#
+# AppleScript-function - MacOSX-specific
+#
+###############################################################
 
 def AppleScript(scpt, args=[]):
      p = Popen(['osascript', '-'] + args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
