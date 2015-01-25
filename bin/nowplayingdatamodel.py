@@ -56,6 +56,7 @@ class NowPlayingDataModel:
         
         self.currentPlaylist = []
         self.rawPlaylist = []
+        self.playlistChanged = False
         for i in range(0, numberOfRequestedSongs-1) :
             self.currentPlaylist.append(SongObject())
         
@@ -64,23 +65,12 @@ class NowPlayingDataModel:
         self.prevReading = SongObject()
         
         
-        self.Artist      = [ '' for i in range(numberOfRequestedSongs) ]
-        self.Album       = [ '' for i in range(numberOfRequestedSongs) ]
-        self.Title       = [ '' for i in range(numberOfRequestedSongs) ]
-        self.Genre       = [ '' for i in range(numberOfRequestedSongs) ]
-        self.Comment     = [ '' for i in range(numberOfRequestedSongs) ]
-        self.Composer    = [ '' for i in range(numberOfRequestedSongs) ]
-        self.Year        = [ '' for i in range(numberOfRequestedSongs) ]
-        self.Singer      = [ '' for i in range(numberOfRequestedSongs) ]
-        self.IsCortina   = [ '' for i in range(numberOfRequestedSongs) ]
-
+        self.SinceLastCortinaCount = 0
         self.PlaybackStatus = ""
         self.PreviousPlaybackStatus = ""
         self.CurrentMood =""
         self.PreviousMood = ""
         self.BackgroundImage = ""
-        self.PreviouslyPlayedSong = [ '' for i in range(7) ]
-        self.NextTanda = [ '' for i in range(7) ]
         self.DisplayRow = []
         self.DisplaySettings = {}
 
@@ -148,23 +138,12 @@ class NowPlayingDataModel:
 #
 # Save the reading
 #
-        self.rawPlaylist = deepcopy(self.currentPlaylist)
-
-##################################################################
-#
-# Previous song analysis
-#
-        try:
-            if LastRead[0] == self.currentPlaylist[0]:
-                #print "Same song, do nothing"
-                pass 
-            else:
-                self.prevPlayedSong = LastRead[0]
-                #print "Different song, copy"
-        except:
-             #print "Empty"
-             pass
-
+        if (self.rawPlaylist != self.currentPlaylist):
+            self.rawPlaylist = deepcopy(self.currentPlaylist)
+            self.playlistChanged  = True
+        else:
+            self.playlistChanged  = False
+            
 
         print "Data Extracted... ", time.strftime("%H:%M:%S")        
         #if it's first update
@@ -183,7 +162,29 @@ class NowPlayingDataModel:
         for i in range(0, len(self.currentPlaylist)):
             self.currentPlaylist[i].applySongRules(currentSettings._rules)
 
+##################################################################
 #
+# Previous song analysis
+#
+        try:
+            if LastRead[0] == self.currentPlaylist[0]:
+                #print "Same song, do nothing"
+                pass 
+            else:
+                #
+                # Calculate the number of songs that were payed since last cortina
+                #
+                if self.currentPlaylist[0].IsCortina == "yes":                   
+                    self.SinceLastCortinaCount = 0
+                else:
+                    self.SinceLastCortinaCount = self.SinceLastCortinaCount + 1
+
+                self.prevPlayedSong = LastRead[0]
+                #print "Different song, copy"
+        except:
+            #print "Empty"
+            pass
+                
 # MOOD RULES - apply only to current song
 #
         try:
@@ -376,6 +377,8 @@ class NowPlayingDataModel:
         self.convDict['%DateMonth']     = time.strftime("%m")
         self.convDict['%DateYear']      = time.strftime("%Y")
         self.convDict['%LongDate']  = time.strftime("%d %B %Y")
+        
+        self.convDict['%SSLCC'] = self.SinceLastCortinaCount
 
 
 nowPlayingDataModel = NowPlayingDataModel()   # Create the data model object
