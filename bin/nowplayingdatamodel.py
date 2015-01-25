@@ -104,18 +104,18 @@ class NowPlayingDataModel:
         # WINDOWS
         if platform.system() == 'Windows':
             if currentSettings._moduleSelected == 'iTunes':
-                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = itunesWindowsModule.run(currentSettings._maxTandaLength)
+                self.currentPlaylist, self.PlaybackStatus = itunesWindowsModule.run(currentSettings._maxTandaLength, self.rawPlaylist)
             if currentSettings._moduleSelected == 'MediaMonkey':
-                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = mediamonkeyModule.run(currentSettings._maxTandaLength)
+                self.currentPlaylist, self.PlaybackStatus = mediamonkeyModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'JRiver Media Center':
-                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =jrmcWindowsModule.run(currentSettings._maxTandaLength)
+                self.currentPlaylist, self.PlaybackStatus = jrmcWindowsModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Spotify':
-                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =spotifyWindowsModule.run(currentSettings._maxTandaLength)
+                self.currentPlaylist, self.PlaybackStatus =spotifyWindowsModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Foobar2000':
-                self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus =foobar2kWindowsModule.run(currentSettings._maxTandaLength)
+                self.currentPlaylist, self.PlaybackStatus =foobar2kWindowsModule.run(currentSettings._maxTandaLength)
             try: #required due to loaded modules
                 if currentSettings._moduleSelected == 'Winamp':
-                    self.Artist, self.Album, self.Title, self.Genre, self.Comment, self.Composer, self.Year, self.PlaybackStatus = winampWindowsModule.run(currentSettings._maxTandaLength)
+                    self.currentPlaylist, self.PlaybackStatus = winampWindowsModule.run(currentSettings._maxTandaLength)
             except:
                 pass
 
