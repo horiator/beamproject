@@ -28,6 +28,12 @@
 import platform, os, sys
 from mutagen import File
 
+###############################################################
+#
+# INIT
+#
+###############################################################
+
 class SongObject(object):
 
     def __init__(self, p_artist=u"", p_album=u"", p_title=u"", p_genre=u"",
@@ -75,59 +81,68 @@ class SongObject(object):
         else:
             return false 
 
+###############################################################
+#
+# Building from URL with mutagen
+#
+###############################################################
+
     def buildFromUrl(self, url):
-        # Read data from url with Mutagen
         audio    = File(url, easy=True)
-        audioRaw = File(url, easy=False) #Possible to use for comment
+        audioRaw = File(url, easy=False)
         
+        if audio == {} or audioRaw == {}:
+            print "Error reading file", url
+            raise NameError("Error reading file", url)
+
         try:
-            self.Artist     = unicode(audio["artist"][0])
+            self.Artist     = audio["artist"][0]
         except:
             self.Artist     = u""
         
         try:    
-            self.Album      = unicode(audio["album"][0])
+            self.Album      = audio["album"][0]
         except:
             self.Album      = u""
         
         try:
-            self.Title      = unicode(audio["title"][0])
+            self.Title      = audio["title"][0]
         except:
             self.Title      = u""
             
         try:
-            self.Genre      = unicode(audio["genre"][0])
+            self.Genre      = audio["genre"][0]
         except:
             self.Genre      = u""
         
         try:
-            self.Comment    = unicode(audio["comment"][0])
+            self.Comment    = audio["comment"][0]
         except:
             try:
-                self.Comment    = unicode(audioRaw[u'COMM::eng'][0])
+                self.Comment    = audioRaw[u'COMM::eng'][0]
             except:
                 self.Comment    = u""
 
 
         try:
-            self.Composer   = unicode(audio["composer"][0])
+            self.Composer   = audio["composer"][0]
         except:
             self.Composer   = u""
             
         try:
-            self.Year       = unicode(audio["date"][0])
+            self.Year       = audio["date"][0]
         except:
             self.Year       = u""
         
         self.Singer      = u""
         
         try:    
-            self.AlbumArtist    = unicode(audio["albumartist"][0])
+            self.AlbumArtist    = audio["albumartist"][0]
         except:
             self.AlbumArtist    = u""
         
         try:
-            self.Performer  = unicode(audio["performer"][0])
+            self.Performer  = audio["performer"][0]
         except:
             self.Performer  = u""
             
@@ -135,9 +150,12 @@ class SongObject(object):
         self.fileUrl     = url
         return
 
+###############################################################
 #
-# SONG RULES
+# Song rules
 #
+###############################################################
+
     def applySongRules(self, rulesArray):
         for i in range(0, len(rulesArray)):
             currentRule = rulesArray[i]
