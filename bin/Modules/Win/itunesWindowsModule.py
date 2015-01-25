@@ -25,67 +25,95 @@
 #
 # This Python file uses the following encoding: utf-8
 
+from bin.songclass import SongObject
 import subprocess
 try:
     import win32com.client
+    print "successful"
 except ImportError:
     pass
-    
-def run(MaxTandaLength):
 
+###############################################################
+#
+# Define operations
+#
+###############################################################
 
-    # Variable declaration
-    
-    Artist      = []
-    Album       = []
-    Title           = []
-    Genre       = []
-    Comment = []
-    Composer    = []
-    Year            = []
+def run(MaxTandaLength, LastPlaylist):
 
-        
-    # Check if iTunes is running and create a communications object
+    playlist = []
+
+    #
+    # Player Status
+    #
     if ApplicationRunning("iTunes.exe"):
         try:
             itunes = win32com.client.gencache.EnsureDispatch ("iTunes.Application")
         except:
             playbackStatus = 'Mediaplayer is not running'
-            return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+            return playlist, playbackStatus
     else:
         playbackStatus = 'Mediaplayer is not running'
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-    
-    
-    if itunes.PlayerState == 1:
-    #   print "Lets get some info!"
+        return playlist, playbackStatus
+
+    #
+    # Playback Status
+    #  
+    if not itunes.PlayerState == 1:
+        playbackStatus = 'Stopped'
+        return playlist, playbackStatus
+    #
+    # Playback = Playing
+    #
+    else:
         playbackStatus = 'Playing'
 
         #Declare our position
         currentsong = itunes.CurrentTrack.PlayOrderIndex
-        searchsong = currentsong # Start on the current song
-        
-        while searchsong < currentsong+MaxTandaLength+2:
-            try:
-                Track = itunes.CurrentTrack.Playlist.Tracks.Item(searchsong)
-                Artist.append((Track.Artist).encode('latin-1'))
-                Album.append((Track.Album).encode('latin-1'))
-                Title.append((Track.Name).encode('latin-1'))
-                Genre.append((Track.Genre).encode('latin-1'))
-                Comment.append((Track.Comment).encode('latin-1'))
-                Composer.append((Track.Composer).encode('latin-1'))
-                Year.append(Track.Year)
-                
-            except:
-                break
-            searchsong = searchsong+1
+        playlistlength  = currentsong+MaxTandaLength+2 # Not available for iTunes
+        searchsong = currentsong
 
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+    #
+    # Full-read
+    #
+    while searchsong < playlistlength and searchsong < currentsong+MaxTandaLength+2:
+        try:
+            playlist.append(getSongAt(itunes, searchsong))
+        except:
+            break
+        searchsong = searchsong+1
+    return playlist, playbackStatus
+
+###############################################################
+#
+# Full read - Player specific
+#
+###############################################################
+
+def getSongAt(itunes, songPosition):
+    retSong = SongObject()
+    Track = itunes.CurrentTrack.Playlist.Tracks.Item(songPosition)
+
+    retSong.Artist      = (Track.Artist).encode('latin-1')
+    retSong.Album       = (Track.Album).encode('latin-1')
+    retSong.Title       = (Track.Name).encode('latin-1')
+    retSong.Genre       = (Track.Genre).encode('latin-1')
+    retSong.Comment     = (Track.Comment).encode('latin-1')
+    retSong.Composer    = (Track.Composer).encode('latin-1')
+    retSong.Year        = Track.Year
+    #retSong._Singer     Defined by beam
+    #retSong.AlbumArtist = (Track.AlbumArtist).encode('latin-1') # Does not exist for itunes?
+    #retSong.Performer   = (Track.Performer).encode('latin-1') # Does not exist for itunes?
+    #retSong.IsCortina   Defined by beam
+    #retSong.fileUrl     Does not exist for itunes
     
-    else:
-        playbackStatus = 'Stopped'
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+    return retSong
 
+###############################################################
+#
+# Application running Windows-specific
+#
+###############################################################
 
 def ApplicationRunning(AppName):
     import subprocess
