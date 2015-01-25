@@ -78,7 +78,7 @@ class SongObject(object):
     def buildFromUrl(self, url):
         # Read data from url with Mutagen
         audio    = File(url, easy=True)
-        #audioRaw = File(url, easy=False) #Possible to use for comment
+        audioRaw = File(url, easy=False) #Possible to use for comment
         
         try:
             self.Artist     = unicode(audio["artist"][0])
@@ -103,8 +103,12 @@ class SongObject(object):
         try:
             self.Comment    = unicode(audio["comment"][0])
         except:
-            self.Comment    = u""
-        
+            try:
+                self.Comment    = unicode(audioRaw[u'COMM::eng'][0])
+            except:
+                self.Comment    = u""
+
+
         try:
             self.Composer   = unicode(audio["composer"][0])
         except:
