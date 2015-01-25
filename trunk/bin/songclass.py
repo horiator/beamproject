@@ -26,7 +26,7 @@
 # This Python file uses the following encoding: utf-8
 
 import platform, os, sys
-from mutagen.easyid3 import EasyID3
+from mutagen import File
 
 class SongObject(object):
 
@@ -77,51 +77,53 @@ class SongObject(object):
 
     def buildFromUrl(self, url):
         # Read data from url with Mutagen
-        audio = EasyID3(url)
+        audio    = File(url, easy=True)
+        #audioRaw = File(url, easy=False) #Possible to use for comment
+        
         try:
-            self.Artist     = audio.artist
+            self.Artist     = unicode(audio["artist"][0])
         except:
             self.Artist     = u""
         
         try:    
-            self.Album      = audio["album"]
+            self.Album      = unicode(audio["album"][0])
         except:
             self.Album      = u""
         
         try:
-            self.Title      = audio["title"]
+            self.Title      = unicode(audio["title"][0])
         except:
             self.Title      = u""
             
         try:
-            self.Genre      = audio["genre"]
+            self.Genre      = unicode(audio["genre"][0])
         except:
             self.Genre      = u""
         
         try:
-            self.Comment    = audio["comment"]
+            self.Comment    = unicode(audio["comment"][0])
         except:
             self.Comment    = u""
         
         try:
-            self.Composer   = audio["composer"]
+            self.Composer   = unicode(audio["composer"][0])
         except:
             self.Composer   = u""
             
         try:
-            self.Year       = audio["date"]
+            self.Year       = unicode(audio["date"][0])
         except:
             self.Year       = u""
         
         self.Singer      = u""
         
         try:    
-            self.AlbumArtist    = audio["albumartist"]
+            self.AlbumArtist    = unicode(audio["albumartist"][0])
         except:
             self.AlbumArtist    = u""
         
         try:
-            self.Performer  = audio["performer"]
+            self.Performer  = unicode(audio["performer"][0])
         except:
             self.Performer  = u""
             
