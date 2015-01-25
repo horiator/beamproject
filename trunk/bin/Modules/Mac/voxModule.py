@@ -46,6 +46,23 @@ GetSongs    = '''tell application "VOX"
                     set albumname to album
                     set albumartist to album artist
                 end tell
+                
+                if artistname is in "missing value"
+                set artistname to ""
+                end if
+                
+                if trackname is in "missing value"
+                set trackname to ""
+                end if
+                
+                if albumname is in "missing value"
+                set albumname to ""
+                end if
+                
+                if albumartist is in "missing value"
+                set albumartist to ""
+                end if
+  
                 return {artistname, trackname, albumname, albumartist}'''
 
 GetTitle   = '''tell application "VOX"
@@ -68,6 +85,10 @@ GetAlbumArtist   = '''tell application "VOX"
                 end tell
                 return var1'''
 
+GetTrackURL     = '''tell application "VOX"
+                    set var1 to trackUrl
+                end tell
+                return var1'''
 
 CheckRunning = '''tell application "System Events"
     count (every process whose name is "VOX")
@@ -102,18 +123,53 @@ def run(MaxTandaLength):
     if playbackStatus in '0':
         playbackStatus = 'Paused'
         return playlist, playbackStatus
+    elif playbackStatus == '-1':
+        playbackStatus = 'Stopped'
+        return playlist, playbackStatus
     #
     # Playback = Playing
     #
     elif playbackStatus in '1':
         playbackStatus = 'Playing'
 
-    playlist.append(getSongAt(1))
+
+    #
+    # Read from file
+    #
+    playlist.append(getSongFromUrl(1))
     return playlist, playbackStatus
+
+    #
+    # Read from player
+    #
+    #playlist.append(getSongAt(1))
+    #return playlist, playbackStatus
+
 
 ###############################################################
 #
-# Full read - Player specific
+# Full read from file - Player specific
+#
+###############################################################
+
+def getSongFromUrl(songPosition = 1):
+    retSong = SongObject()
+    try:
+        retSong.fileUrl = AppleScript(GetTrackURL, [str(songPosition)]).rstrip('\n').replace('file:','').replace('%20',' ')
+    except:
+        return retSong
+
+    try:
+        retSong.buildFromUrl(retSong.fileUrl)
+    except:
+        print "Error reading file, using fallback info from player"
+        retSong = getSongAt(1)
+
+    return retSong
+
+###############################################################
+#
+# Full read from player - Player specific
 #
 ###############################################################
 
@@ -134,13 +190,14 @@ def getSongAt(songPosition = 1):
         #retSong.Comment    =
         #retSong.Composer   =
         #retSong.Year       =
-        #retSong._Singer      
+        #retSong._Singer
         retSong.AlbumArtist = AppleScript(GetAlbumArtist, [str(songPosition)]).rstrip('\n')
         #retSong.Performer  =
         #retSong.IsCortina  =
-        #retSong.fileUrl     Does not exist for itunes
+        retSong.fileUrl    = AppleScript(GetTrackURL, [str(songPosition)]).rstrip('\n').replace('file:','')
 
     return retSong
+
 
 ###############################################################
 #
