@@ -29,14 +29,18 @@ from bin.songclass import SongObject
 import sys
 from subprocess import Popen, PIPE
 
+###############################################################
+#
 # Define operations
+#
+###############################################################
 
-GetStatus   = '''tell application "VOX"
+GetStatus   = '''tell application "XXXX"
                     set pstatus to player state
                  end tell
                  return pstatus'''
 
-GetSongs    = '''tell application "VOX"
+GetSongs    = '''tell application "XXX"
                     set artistname to artist
                     set trackname to track
                     set albumname to album
@@ -44,58 +48,74 @@ GetSongs    = '''tell application "VOX"
                 end tell
                 return {artistname, trackname, albumname, albumartist}'''
 
-GetTitle   = '''tell application "VOX"
+GetTitle   = '''tell application "XXX"
                    set var1 to track
                 end tell
                 return var1'''
 
-GetArtist   = '''tell application "VOX"
+GetArtist   = '''tell application "XXX"
                     set var1 to artist
                 end tell
                 return var1'''
 
-GetAlbum   = '''tell application "VOX"
+GetAlbum   = '''tell application "XXX"
                     set var1 to album
                 end tell
                 return var1'''
 
-GetAlbumArtist   = '''tell application "VOX"
+GetAlbumArtist   = '''tell application "XXX"
                     set var1 to album artist
                 end tell
                 return var1'''
 
 
 CheckRunning = '''tell application "System Events"
-    count (every process whose name is "VOX")
+    count (every process whose name is "Cog")
     end tell'''
+
+###############################################################
+#
+# MAIN FUNCTION
+#
+###############################################################
 
 def run(MaxTandaLength):
 
     playlist = []
     
-    #Check if VOX is running
+    #
+    # Player Status
+    #
     if int(AppleScript(CheckRunning, []).strip()) == 0:
         playbackStatus = 'PlayerNotRunning'
         return playlist, playbackStatus
     
-    #Get Playback status
+    #
+    # Playback Status
+    #
     try:
         playbackStatus = AppleScript(GetStatus, []).rstrip('\n')
     except:
         playbackStatus = 'PlayerNotRunning'
         return playlist, playbackStatus
 
-    # Break and return empty if nothing is playing
     if playbackStatus in '0':
         playbackStatus = 'Paused'
         return playlist, playbackStatus
+    #
+    # Playback = Playing
+    #
     elif playbackStatus in '1':
-    #   print "Lets get some info!"
         playbackStatus = 'Playing'
 
-    # Get info
     playlist.append(getSongAt( 1))
     return playlist, playbackStatus
+
+###############################################################
+#
+# Full read - Player specific
+#
+###############################################################
 
 def getSongAt(songPosition = 1):
     retSong = SongObject()
@@ -104,7 +124,7 @@ def getSongAt(songPosition = 1):
         # If there are no "," then this method works
         var = AppleScript(GetSongs, [str(1)]).rstrip('\n')
         retSong.Artist, retSong.Title, retSong.Album, retSong.AlbumArtist = var.split(', ')
-        print "ok"
+
     except:
         # SLOW!
         # If there are "," in the fields, then this method works
@@ -119,8 +139,15 @@ def getSongAt(songPosition = 1):
         retSong.AlbumArtist = AppleScript(GetAlbumArtist, [str(songPosition)]).rstrip('\n')
         #retSong.Performer  =
         #retSong.IsCortina  =
+        #retSong.fileUrl     Does not exist for itunes
     
     return retSong
+
+###############################################################
+#
+# AppleScript-function - MacOSX-specific
+#
+###############################################################
 
 def AppleScript(scpt, args=[]):
      p = Popen(['osascript', '-'] + args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
