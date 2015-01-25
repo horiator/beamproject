@@ -29,7 +29,11 @@ from bin.songclass import SongObject
 import sys
 from subprocess import Popen, PIPE
 
+###############################################################
+#
 # Define operations
+#
+###############################################################
 
 GetStatus   = '''tell application "Decibel"
                     set pstatus to playing
@@ -130,37 +134,83 @@ GetComposer   = '''tell application "Decibel"
                     return var1
                 end run'''
 
+GetTrackURL     = '''tell application "Decibel"
+                        set var1 to file of nowPlaying
+                     end tell
+                  return var1'''
+
 CheckRunning = '''tell application "System Events"
-    count (every process whose name is "Decibel")
-    end tell'''
+                    count (every process whose name is "Decibel")
+                  end tell'''
+
+###############################################################
+#
+# MAIN FUNCTION
+#
+###############################################################
 
 def run(MaxTandaLength):
 
     playlist = []
     
-    #Check if Decibel is running
+    #
+    # Player Status
+    #
     if int(AppleScript(CheckRunning, []).strip()) == 0:
         playbackStatus = 'PlayerNotRunning'
         return playlist, playbackStatus
     
-    #Get Playback status
+    #
+    # Playback Status
+    #
     try:
         playbackStatus = AppleScript(GetStatus, []).rstrip('\n')
     except:
         playbackStatus = 'PlayerNotRunning'
         return playlist, playbackStatus
 
-    # Break and return empty if nothing is playing
     if playbackStatus in 'false':
         playbackStatus = 'Paused'
         return playlist, playbackStatus
+    #
+    # Playback = Playing
+    #
     elif playbackStatus in 'true':
-    #   print "Lets get some info!"
         playbackStatus = 'Playing'
 
-    # Get info
-    playlist.append(getSongAt( 1))
+    #
+    # Read from file
+    #
+    playlist.append(getSongFromUrl(1))
     return playlist, playbackStatus
+
+###############################################################
+#
+# Full read from file - Player specific
+#
+###############################################################
+
+def getSongFromUrl(songPosition = 1):
+    retSong = SongObject()
+    try:
+        retSong.fileUrl = AppleScript(GetTrackURL, [str(songPosition)]).rstrip('\n').replace(':','/')
+        retSong.fileUrl = "/Users"+retSong.fileUrl.split('/Users',1)[1]
+    except:
+        return retSong
+    
+    try:
+        retSong.buildFromUrl(retSong.fileUrl)
+    except:
+        print "Error reading file, using fallback info from player"
+        retSong = getSongAt(1)
+    
+    return retSong
+
+###############################################################
+#
+# Full read from player - Player specific
+#
+###############################################################
 
 def getSongAt(songPosition = 1):
     retSong = SongObject()
@@ -185,6 +235,12 @@ def getSongAt(songPosition = 1):
         #retSong.IsCortina
     
     return retSong
+
+###############################################################
+#
+# AppleScript-function - MacOSX-specific
+#
+###############################################################
 
 def AppleScript(scpt, args=[]):
      p = Popen(['osascript', '-'] + args, stdin=PIPE, stdout=PIPE, stderr=PIPE)
