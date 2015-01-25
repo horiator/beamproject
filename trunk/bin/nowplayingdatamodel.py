@@ -66,6 +66,8 @@ class NowPlayingDataModel:
         
         
         self.SinceLastCortinaCount = 0
+        self.TillNextCortinaCount = 0
+        
         self.PlaybackStatus = ""
         self.PreviousPlaybackStatus = ""
         self.CurrentMood =""
@@ -216,11 +218,15 @@ class NowPlayingDataModel:
 # Create NextTanda
 #
         self.nextTandaSong = None
+        self.TillNextCortinaCount = 0
+        
         for i in range(0, len(self.currentPlaylist)-1):
             # Check if song is cortina
             if self.currentPlaylist[i].IsCortina == "yes" and not self.currentPlaylist[i+1].IsCortina == "yes":
                 self.nextTandaSong = deepcopy(self.currentPlaylist[i+1])
                 break
+            else:
+                self.TillNextCortinaCount = self.TillNextCortinaCount + 1
 #
 # Create Display Strings
 #
@@ -246,7 +252,7 @@ class NowPlayingDataModel:
             if MyDisplay['HideControl']  == "" and MyDisplay['Active'] == "yes":
                 self.DisplayRow[j] = displayValue
             else:
-               # Hides line if HideControl is empty if there is no next tanda
+                # Hides line if HideControl is empty if there is no next tanda
                 hideControlEval = str(MyDisplay['HideControl'])
                 for key in self.convDict:
                     hideControlEval = hideControlEval.replace(str(key), str(self.convDict[key]))
@@ -378,7 +384,13 @@ class NowPlayingDataModel:
         self.convDict['%DateYear']      = time.strftime("%Y")
         self.convDict['%LongDate']  = time.strftime("%d %B %Y")
         
+        #Track number in a tanda
         self.convDict['%SSLCC'] = self.SinceLastCortinaCount
+        self.convDict['%STNCC'] = self.TillNextCortinaCount - 1
+            #current tanda count
+        self.convDict['%CTC'] = self.SinceLastCortinaCount + self.TillNextCortinaCount - 1 
+
+        
 
 
 nowPlayingDataModel = NowPlayingDataModel()   # Create the data model object

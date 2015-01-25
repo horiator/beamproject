@@ -25,7 +25,7 @@
 #
 # This Python file uses the following encoding: utf-8
 
-import platform, os, sys
+#import platform, os, sys
 from mutagen import File
 
 ###############################################################
@@ -64,7 +64,7 @@ class SongObject(object):
                     self.AlbumArtist == other.AlbumArtist and
                     self.Performer == other.Performer)
         else:
-            return false
+            return False
             
     
     def __ne__(self, other):
@@ -79,7 +79,7 @@ class SongObject(object):
                     self.AlbumArtist != other.AlbumArtist or
                     self.Performer != other.Performer)
         else:
-            return false 
+            return False 
 
 ###############################################################
 #
