@@ -28,6 +28,7 @@
 from bin.songclass import SongObject
 import sys, time
 from subprocess import Popen, PIPE
+from copy import deepcopy
 
 ###############################################################
 #
@@ -175,9 +176,9 @@ def run(MaxTandaLength, LastPlaylist):
     #
     # Quick-read
     #
-    if quickRead(currentsong, LastPlaylist):
+    if quickRead(currentsong, LastPlaylist, MaxTandaLength):
         print "Quick-read"
-        playlist = LastPlaylist
+        playlist = deepcopy(LastPlaylist)
         return playlist, playbackStatus
 
     #
@@ -198,9 +199,12 @@ def run(MaxTandaLength, LastPlaylist):
 #
 ###############################################################
 
-def quickRead(songPosition = 1, LastRead = []):
+def quickRead(songPosition = 1, LastRead = [], MaxTandaLength = 1):
     try:
-        var      = AppleScript(QuickRead, [str(songPosition), str(songPosition+len(LastRead)-1)]).rstrip('\n')
+        if len(LastRead) < MaxTandaLength + 2:
+            var      = AppleScript(QuickRead, [str(songPosition), str(songPosition+len(LastRead))]).rstrip('\n')
+        else:
+            var      = AppleScript(QuickRead, [str(songPosition), str(songPosition+len(LastRead)-1)]).rstrip('\n')
         ArtistsAndTitles =  var.split(', ')
         #print "Quick:",ArtistsAndTitles
         Last = []
