@@ -51,6 +51,13 @@ class EditLayoutDialog(wx.Dialog):
         self.ButtonCancelLayout.Bind(wx.EVT_BUTTON, self.OnCancelLayoutItem)
 
         Fonts   = ["Decorative","Default","Modern","Roman","Script","Swiss","Teletype"]
+        
+        e = wx.FontEnumerator()
+        e.EnumerateFacenames()
+        elist= e.GetFacenames()
+ 
+        elist.sort()
+ 
         Weights     = ["Bold","Light","Normal"]
         Styles  = ["Italic","Normal","Slant"]
         
@@ -65,7 +72,7 @@ class EditLayoutDialog(wx.Dialog):
         
         # Define fields
         self.LabelText          = wx.TextCtrl(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Field'])
-        self.FontDropdown       = wx.ComboBox(self.EditLayoutPanel, size=(80,-1), value=self.Settings[u'Font'], choices=Fonts, style=wx.CB_READONLY)
+        self.FontDropdown       = wx.ComboBox(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Font'], choices=elist, style=wx.CB_READONLY)
         self.StyleDropdown      = wx.ComboBox(self.EditLayoutPanel, size=(80,-1), value=self.Settings[u'Style'], choices=Styles, style=wx.CB_READONLY)
         self.WeightDropdown     = wx.ComboBox(self.EditLayoutPanel, size=(80,-1), value=self.Settings[u'Weight'], choices=Weights, style=wx.CB_READONLY)
         self.SizeText           = wx.TextCtrl(self.EditLayoutPanel, size=(80,-1), value=str(self.Settings[u'Size']))
@@ -126,7 +133,7 @@ class EditLayoutDialog(wx.Dialog):
 #
     def OnSaveLayoutItem(self, event):
         self.Settings[u'Field']         = self.LabelText.GetValue()
-        self.Settings[u'Font']      = self.FontDropdown.GetValue()  
+        self.Settings[u'Font']      = self.FontDropdown.GetValue()
         self.Settings[u'Style']         = self.StyleDropdown.GetValue()
         self.Settings[u'Weight']        = self.WeightDropdown.GetValue()
         self.Settings[u'Size']      = int(self.SizeText.GetValue())
@@ -138,6 +145,7 @@ class EditLayoutDialog(wx.Dialog):
             self.Settings[u'Center']    = 'yes'
         else:
             self.Settings[u'Center']    = 'no' 
+
 
         # Remove old item from dictionary
         if self.mode == "Edit layout item":

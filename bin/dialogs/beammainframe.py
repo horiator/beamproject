@@ -250,9 +250,24 @@ class beamMainFrame(wx.Frame):
             HeightPosition = int(Settings['Position'][0]*cliHeight/100)
 
             # Set font from settings
-            face = "Great Vibes"
-            face = "Liberation Sans"
-            dc.SetFont(wx.Font(Size, beamSettings.FontTypeDictionary[Settings['Font']], beamSettings.FontStyleDictionary[Settings['Style']], beamSettings.FontWeightDictionary[Settings['Weight']], False, face))
+            #face = "Great Vibes"
+            #face = "Liberation Sans"            
+            face = Settings['Font']
+            
+            try:
+                dc.SetFont(wx.Font(Size, 
+                               wx.ROMAN, 
+                               wx.NORMAL, 
+                               wx.NORMAL, 
+                               False, 
+                               face))
+            except:
+                dc.SetFont(wx.Font(Size, 
+                               wx.ROMAN, 
+                               beamSettings.FontStyleDictionary[Settings['Style']], 
+                               beamSettings.FontWeightDictionary[Settings['Weight']], 
+                               False, 
+                               "Liberation Sans"))
 
             # Set font color, in the future, drawing a shadow ofsetted with the same text first might make a shadow!
             dc.SetTextForeground(eval(Settings['FontColor']))
