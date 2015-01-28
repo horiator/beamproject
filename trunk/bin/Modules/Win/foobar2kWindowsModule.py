@@ -72,7 +72,7 @@ def run(MaxTandaLength):
         try:
             playlist.append(getSongAt(Foobar, 1))
         except:
-            break
+            pass
 
         return playlist, playbackStatus
 
