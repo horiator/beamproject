@@ -16,103 +16,105 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #    or download it from http://www.gnu.org/licenses/gpl.txt
 #
-#    Usage as function:
-#       Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus = audaciousModule(MaxTandaLength)
-#
-#    Example:
-#       Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus = audaciousModule.run(4)
-#
 #
 #    Revision History:
 #
-#    18/10/2014 Version 1.0
+#    Version 1.0
 #    	- Initial release
 #
+
+from bin.songclass import SongObject
 import subprocess
 try:
 	import win32com.client
 except ImportError:
 	pass
-	
+
+###############################################################
+#
+# Define operations
+#
+###############################################################
+
 def run(MaxTandaLength):
 
-
-	# Variable declaration
-	
-	Artist 		= []
-	Album 		= []
-	Title	 		= []
-	Genre	 	= []
-	Comment		= []
-	Composer		= []
-	Year			= []
-
-		
-	# Create a communications object
+    playlist = []
+    
+    #
+    # Player Status
+    #
 	if ApplicationRunning("MediaMonkey.exe"):
 		try:
 			MediaMonkey = win32com.client.Dispatch("SongsDB.SDBApplication")
 		except:
 			playbackStatus = 'Mediaplayer is not running'
-			return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+			return playlist, playbackStatus
 	else:
 			playbackStatus = 'Mediaplayer is not running'
-			return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-	
-	if MediaMonkey.Player.isPlaying and not MediaMonkey.Player.isPaused:
-	#	print "Lets get some info!"
+			return playlist, playbackStatus
+
+    #
+    # Playback Status
+    #
+    if not MediaMonkey.Player.isPlaying:
+        playbackStatus = 'Stopped'
+        return playlist, playbackStatus
+    elif MediaMonkey.Player.isPaused and MediaMonkey.Player.isPlaying:
+        playbackStatus = 'Paused'
+        return Artist, playlist, playbackStatus
+        
+    #
+    # Playback = Playing
+    #
+	elif MediaMonkey.Player.isPlaying and not MediaMonkey.Player.isPaused:
 		playbackStatus = 'Playing'
 
 		#Declare our position
 		currentsong	= MediaMonkey.Player.CurrentSongIndex
 		searchsong = currentsong # Start on the current song
 
-		
-		while searchsong < currentsong+MaxTandaLength+2:
-			try:
-				Track = MediaMonkey.Player.CurrentPlaylist.Item(searchsong)
-				try:
-				    Artist.append(Track.ArtistName.encode('latin-1'))
-				except:
-					Artist.append('')
-				try:
-					Album.append(Track.AlbumName.encode('latin-1'))
-				except:
-					Album.append('')
-				try:
-					Title.append(Track.Title.encode('latin-1'))
-				except:
-					Title.append('')
-				try:
-					Genre.append(Track.Genre.encode('latin-1'))
-				except:
-					Genre.append('')
-				try:
-					Comment.append(Track.Comment.encode('latin-1'))
-				except:
-					Comment.append('')
-				try:
-					Composer.append(Track.Author.encode('latin-1'))
-				except:
-					Composer.append('')
-				try:
-					Year.append(Track.Year)
-				except:
-					Year.append('')
-			except:
-				break
-			searchsong = searchsong+1
+    #
+    # Full-read
+    #
+        while searchsong < playlistlength and searchsong < currentsong+MaxTandaLength+2:
+            try:
+                playlist.append(getSongAt(MediaMonkey, searchsong))
+            except:
+                break
+            searchsong = searchsong+1
+        return playlist, playbackStatus
 
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-	
-	elif not MediaMonkey.Player.isPlaying:
-		playbackStatus = 'Stopped'
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-		
-	elif MediaMonkey.Player.isPaused and MediaMonkey.Player.isPlaying:
-		playbackStatus = 'Paused'
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+###############################################################
+#
+# Full read - Player specific
+#
+###############################################################
 
+def getSongAt(MediaMonkey, songPosition):
+    retSong = SongObject()
+    Track = MediaMonkey.Player.CurrentPlaylist.Item(songPosition)
+    
+    retSong.Artist      = Track.ArtistName.encode('latin-1')
+    retSong.Album       = Track.AlbumName.encode('latin-1')
+    retSong.Title       = Track.Title.encode('latin-1')
+    retSong.Genre       = Track.Genre.encode('latin-1')
+    retSong.Comment     = Track.Comment.encode('latin-1')
+    retSong.Composer    = Track.Author.encode('latin-1')
+    retSong.Year        = Track.Year
+    #retSong._Singer     Defined by beam
+    retSong.AlbumArtist = Track.AlbumArtistName.encode('latin-1')
+    #retSong.Performer  = (Track.Performer).encode('latin-1') # Does not exist for iTunes?
+    #retSong.IsCortina   Defined by beam
+    retSong.fileUrl     = Track.Path.encode('latin-1')
+    #retSong.ModuleMessage = Not needed for iTunes
+    
+    return retSong
+
+###############################################################
+#
+# Application running Windows-specific
+#
+###############################################################
 
 def ApplicationRunning(AppName):
     import subprocess
