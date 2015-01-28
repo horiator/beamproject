@@ -31,9 +31,11 @@ from bin.beamsettings import *
 from bin.songclass import SongObject
 from copy import deepcopy
 
+###############################################################
 #
 # LOAD MEDIA PLAYER MODULES
 #
+###############################################################
 
 if platform.system() == 'Linux':
     from Modules.Lin import audaciousModule, rhythmboxModule, clementineModule, bansheeModule, spotifyLinuxModule
@@ -42,9 +44,11 @@ if platform.system() == 'Windows':
 if platform.system() == 'Darwin':
     from Modules.Mac import itunesMacModule, decibelModule, spotifyMacModule, voxModule, cogModule
 
+###############################################################
 #
 # INIT
 #
+###############################################################
 
 class NowPlayingDataModel:
 
@@ -69,6 +73,7 @@ class NowPlayingDataModel:
         self.TillNextCortinaCount = 0
         
         self.PlaybackStatus = ""
+        self.StatusMessage = ""
         self.PreviousPlaybackStatus = ""
         self.CurrentMood =""
         self.PreviousMood = ""
@@ -89,10 +94,11 @@ class NowPlayingDataModel:
             LastRead = SongObject()
 
 
-##########################################################
+###############################################################
 #
 # Extract data using the player module
 #
+###############################################################
         # WINDOWS
         if platform.system() == 'Windows':
             if currentSettings._moduleSelected == 'iTunes':
@@ -137,9 +143,20 @@ class NowPlayingDataModel:
             if currentSettings._moduleSelected == 'Cog':
                     self.currentPlaylist, self.PlaybackStatus  = cogModule.run(currentSettings._maxTandaLength)
 
-#
-# Save the reading
-#
+        #
+        # Set status message
+        #
+        try:
+            if not self.currentPlaylist[0].ModuleMessage == "":
+                self.StatusMessage = self.PlaybackStatus+", "+self.currentPlaylist[0].ModuleMessage
+            else:
+                self.StatusMessage = self.PlaybackStatus
+        except:
+            self.StatusMessage = self.PlaybackStatus
+        
+        #
+        # Save the reading
+        #
         if (self.rawPlaylist != self.currentPlaylist):
             self.rawPlaylist = deepcopy(self.currentPlaylist)
             self.playlistChanged  = True
@@ -147,24 +164,24 @@ class NowPlayingDataModel:
             self.playlistChanged  = False
             
 
-        print "Data Extracted... ", time.strftime("%H:%M:%S")        
-        #if it's first update
+        print "Data Extracted... ", time.strftime("%H:%M:%S")
         if self.PreviousPlaybackStatus == "":
             self.PreviousPlaybackStatus = self.PlaybackStatus
-
-# Apply default layout and background, then change it if mood is applied
+        #
+        # Apply default layout and background, then change it if mood is applied
+        #
         self.CurrentMood = 'Default'
         self.DisplaySettings = currentSettings._DefaultDisplaySettings
         self.BackgroundImage = currentSettings._DefaultBackground
 
-#
-# Apply rules, for every song in list.
-# Rules can change without changing song so run this every time!
-#
+        #
+        # Apply rules, for every song in list.
+        # Rules can change without changing song so run this every time!
+        #
         for i in range(0, len(self.currentPlaylist)):
             self.currentPlaylist[i].applySongRules(currentSettings._rules)
 
-##################################################################
+
 #
 # Previous song analysis
 #
@@ -186,7 +203,7 @@ class NowPlayingDataModel:
         except:
             #print "Empty"
             pass
-                
+#
 # MOOD RULES - apply only to current song
 #
         try:
@@ -263,7 +280,13 @@ class NowPlayingDataModel:
                     self.DisplayRow[j] = ""
         print "...data filtered: ", time.strftime("%H:%M:%S")
         return
-    
+            
+###############################################################
+#
+# Conversion dictionary
+#
+###############################################################
+
     def updateConversionDisctionary(self):
         self.convDict = dict()
         #CurrentSong
