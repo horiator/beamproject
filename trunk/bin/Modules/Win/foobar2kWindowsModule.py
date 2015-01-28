@@ -25,79 +25,86 @@
 #
 # This Python file uses the following encoding: utf-8
 
+from bin.songclass import SongObject
 import subprocess
 try:
     import win32com.client
 except ImportError:
     pass
-    
+
+###############################################################
+#
+# Define operations
+#
+###############################################################
+
 def run(MaxTandaLength):
 
-
-    # Variable declaration
+    playlist = []
     
-    Artist      = []
-    Album       = []
-    Title           = []
-    Genre       = []
-    Comment = []
-    Composer    = []
-    Year            = []
-
-        
-    # Check if iTunes is running and create a communications object
+    #
+    # Player Status
+    #
     if ApplicationRunning("foobar2000.exe"):
         try:
             Foobar = win32com.client.Dispatch("Foobar2000.Application.0.7")
         except:
             playbackStatus = 'Mediaplayer is not running'
-            return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+            return playlist, playbackStatus
     else:
         playbackStatus = 'Mediaplayer is not running'
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-    
-    
-    if Foobar.Playback.IsPlaying and not Foobar.Playback.IsPaused:
-    #   print "Lets get some info!"
-        playbackStatus = 'Playing'
-        try:
-            Artist.append(Foobar.Playback.FormatTitle("[%artist%]").encode('latin-1'))
-        except:
-            Artist.append('')
-        try:
-            Album.append(Foobar.Playback.FormatTitle("[%album%]").encode('latin-1'))
-        except:
-            Album.append('')
-        try:
-            Title.append(Foobar.Playback.FormatTitle("[%title%]").encode('latin-1'))
-        except:
-            Title.append('')
-        try:
-            Genre.append(Foobar.Playback.FormatTitle("[%genre%]").encode('latin-1'))
-        except:
-            Genre.append('')
-        try:
-            Comment.append(Foobar.Playback.FormatTitle("[%comment%]").encode('latin-1'))
-        except:
-            Comment.append('')
-        try:
-            Composer.append(Foobar.Playback.FormatTitle("[%composer%]").encode('latin-1'))
-        except:
-            Composer.append('')
-        try:
-            Year.append(Foobar.Playback.FormatTitle("[%date%]"))
-        except:
-            Year.append('')
+        return playlist, playbackStatus
 
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-    
-    elif not Foobar.Playback.IsPlaying:
+    #
+    # Playback Status
+    #
+    if not Foobar.Playback.IsPlaying:
         playbackStatus = 'Stopped'
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-
+        return playlist, playbackStatus
     elif Foobar.Playback.IsPlaying and Foobar.Playback.IsPaused:
         playbackStatus = 'Paused'
-        return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+        return playlist, playbackStatus
+    #
+    # Playback = Playing
+    #
+    elif Foobar.Playback.IsPlaying and not Foobar.Playback.IsPaused:
+        playbackStatus = 'Playing'
+        try:
+            playlist.append(getSongAt(Foobar, 1))
+        except:
+            break
+
+        return playlist, playbackStatus
+
+###############################################################
+#
+# Full read - Player specific
+#
+###############################################################
+
+def getSongAt(Foobar, songPosition):
+    retSong = SongObject()
+
+    retSong.Artist      = Foobar.Playback.FormatTitle("[%artist%]").encode('latin-1')
+    retSong.Album       = Foobar.Playback.FormatTitle("[%album%]").encode('latin-1')
+    retSong.Title       = Foobar.Playback.FormatTitle("[%title%]").encode('latin-1')
+    retSong.Genre       = Foobar.Playback.FormatTitle("[%genre%]").encode('latin-1')
+    retSong.Comment     = Foobar.Playback.FormatTitle("[%comment%]").encode('latin-1')
+    retSong.Composer    = Foobar.Playback.FormatTitle("[%composer%]").encode('latin-1')
+    retSong.Year        = Foobar.Playback.FormatTitle("[%date%]")
+    #retSong._Singer     Defined by beam
+    retSong.AlbumArtist = Foobar.Playback.FormatTitle("[%album artist%]").encode('latin-1')
+    retSong.Performer   = Foobar.Playback.FormatTitle("[%performer%]").encode('latin-1')
+    #retSong.IsCortina   Defined by beam
+    retSong.fileUrl     = Foobar.Playback.FormatTitle("[%path%]").encode('latin-1')
+    
+    return retSong
+
+###############################################################
+#
+# Application running Windows-specific
+#
+###############################################################
 
 def ApplicationRunning(AppName):
     import subprocess
