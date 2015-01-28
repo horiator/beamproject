@@ -20,7 +20,7 @@
 #
 #    Revision History:
 #
-#    XX/XX/2014 Version 1.0
+#    Version 1.0
 #       - Initial release
 #
 # This Python file uses the following encoding: utf-8
@@ -29,7 +29,6 @@ from bin.songclass import SongObject
 import subprocess
 try:
     import win32com.client
-    print "successful"
 except ImportError:
     pass
 
@@ -39,7 +38,7 @@ except ImportError:
 #
 ###############################################################
 
-def run(MaxTandaLength, LastPlaylist):
+def run(MaxTandaLength):
 
     playlist = []
 
@@ -102,10 +101,11 @@ def getSongAt(itunes, songPosition):
     retSong.Composer    = (Track.Composer).encode('latin-1')
     retSong.Year        = Track.Year
     #retSong._Singer     Defined by beam
-    #retSong.AlbumArtist = (Track.AlbumArtist).encode('latin-1') # Does not exist for itunes?
-    #retSong.Performer   = (Track.Performer).encode('latin-1') # Does not exist for itunes?
+    #retSong.AlbumArtist = (Track.AlbumArtist).encode('latin-1') # Does not exist for iTunes?
+    #retSong.Performer   = (Track.Performer).encode('latin-1') # Does not exist for iTunes?
     #retSong.IsCortina   Defined by beam
-    #retSong.fileUrl     Does not exist for itunes
+    #retSong.fileUrl     Does not exist for iTunes
+    #retSong.ModuleMessage = Not needed for iTunes
     
     return retSong
 
