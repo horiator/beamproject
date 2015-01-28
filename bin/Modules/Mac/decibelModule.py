@@ -201,7 +201,6 @@ def getSongFromUrl(songPosition = 1):
     try:
         retSong.buildFromUrl(retSong.fileUrl)
     except:
-        print "Error reading file, using fallback info from player"
         retSong = getSongAt(1)
     
     return retSong
@@ -219,6 +218,7 @@ def getSongAt(songPosition = 1):
         # If there are no "," then this method works
         var = AppleScript(GetSongs, [str(1)]).rstrip('\n')
         retSong.Artist, retSong.Title, retSong.Album, retSong.AlbumArtist, retSong.Year, retSong.Comment, retSong.Genre, retSong.Composer = var.split(', ')
+        retSong.ModuleMessage = "Error reading file, using fallback info from player"
     except:
         # SLOW!
         # If there are "," in the fields, then this method works
@@ -226,13 +226,14 @@ def getSongAt(songPosition = 1):
         retSong.Album       = AppleScript(GetAlbum, [str(songPosition)]).rstrip('\n')
         retSong.Title       = AppleScript(GetTitle, [str(songPosition)]).rstrip('\n')
         retSong.Genre       = AppleScript(GetGenre, [str(songPosition)]).rstrip('\n')
-        #retSong.Comment    =
+        #retSong.Comment
         retSong.Composer    = AppleScript(GetComposer, [str(songPosition)]).rstrip('\n')
         retSong.Year        = AppleScript(GetYear, [str(songPosition)]).rstrip('\n')
         #retSong._Singer      
         retSong.AlbumArtist = AppleScript(GetAlbumArtist, [str(songPosition)]).rstrip('\n')
-        #retSong.Performer   Does not exist for itunes
+        #retSong.Performer
         #retSong.IsCortina
+        retSong.ModuleMessage = "Error reading file, using fallback info from player"
     
     return retSong
 
