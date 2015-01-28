@@ -16,12 +16,6 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #    or download it from http://www.gnu.org/licenses/gpl.txt
 #
-#    Usage as function:
-#       Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus = audaciousModule(MaxTandaLength)
-#
-#    Example:
-#       Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus = audaciousModule.run(4)
-#
 #
 #    Revision History:
 #
@@ -29,56 +23,73 @@
 #    	- Initial release
 #
 
+from bin.songclass import SongObject
 import Winamp
-	
+
+###############################################################
+#
+# Define operations
+#
+###############################################################
+
 def run(MaxTandaLength):
 
 
-	# Variable declaration
-	
-	Artist 		= []
-	Album 		= []
-	Title	 		= []
-	Genre	 	= []
-	Comment		= []
-	Composer		= []
-	Year			= []
+    playlist = []
+    
+    #
+    # Player Status
+    #
+    try:
+        winamp = Winamp.Winamp()
+    except:
+        playbackStatus = 'PlayerNotRunning'
+        return playlist, playbackStatus
 
-		
-	# Create a communications object
-	winamp = Winamp.Winamp()
-	
-	
+    #
+    # Playback = Playing
+    #
 	if winamp.getPlaybackStatus() == 1:
-	#	print "Lets get some info!"
 		playbackStatus = 'Playing'
 
 		#Declare our position
 		currentsong	= winamp.getListPosition()
-		listlength		= winamp.getListLength()
-
-		# Extract previous song
-		if currentsong == 0:
-			searchsong = currentsong # Start on the current song
-		else:
-			searchsong = currentsong-1 # Start on previous song
-		
+		listlength = winamp.getListLength()
+        searchsong = currentsong
+            
+        #
+        # Read from file
+        #
 		while searchsong < currentsong+MaxTandaLength+2 and searchsong < listlength:
-			#try:
-				TrackURL = winamp.getPlaylistFile(searchsong)
-                #id3info = ID3(TrackURL)
-				Artist.append(id3info.artist)
-				Album.append(id3info.album)
-				Title.append(id3info.title)
-				Genre.append(str(id3info.genre)) # Comes as a number, need table to transfer
-				Comment.append(id3info.comment)
-				Year.append(id3info.year)
-				
-			#except:
-				#break
-				searchsong = searchsong+1
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-	
+            playlist.append(getSongFromUrl(winamp, searchsong)
+            searchsong = searchsong+1
+                            
+		return playlist, playbackStatus
+
+    #
+    # Playback = Playing
+    #
 	else:
 		playbackStatus = 'Stopped'
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+		return playlist, playbackStatus
+
+###############################################################
+#
+# Full read from file - Player specific
+#
+###############################################################
+
+def getSongFromUrl(winamp, songPosition = 1):
+    retSong = SongObject()
+    
+    try:
+        retSong.fileUrl = winamp.getPlaylistFile(searchsong)
+    except:
+        return retSong
+    
+    try:
+        retSong.buildFromUrl(retSong.fileUrl)
+    except:
+        pass
+    
+    return retSong
