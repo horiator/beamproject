@@ -43,15 +43,15 @@ def run(MaxTandaLength):
     #
     # Player Status
     #
-	if ApplicationRunning("MediaMonkey.exe"):
-		try:
-			MediaMonkey = win32com.client.Dispatch("SongsDB.SDBApplication")
-		except:
-			playbackStatus = 'Mediaplayer is not running'
-			return playlist, playbackStatus
-	else:
-			playbackStatus = 'Mediaplayer is not running'
-			return playlist, playbackStatus
+    if ApplicationRunning("MediaMonkey.exe"):
+        try:
+            MediaMonkey = win32com.client.Dispatch("SongsDB.SDBApplication")
+        except:
+            playbackStatus = 'PlayerNotRunning'
+            return playlist, playbackStatus
+    else:
+        playbackStatus = 'PlayerNotRunning'
+        return playlist, playbackStatus
 
     #
     # Playback Status
@@ -61,28 +61,33 @@ def run(MaxTandaLength):
         return playlist, playbackStatus
     elif MediaMonkey.Player.isPaused and MediaMonkey.Player.isPlaying:
         playbackStatus = 'Paused'
-        return Artist, playlist, playbackStatus
+        return playlist, playbackStatus
         
     #
     # Playback = Playing
     #
-	elif MediaMonkey.Player.isPlaying and not MediaMonkey.Player.isPaused:
-		playbackStatus = 'Playing'
+    elif MediaMonkey.Player.isPlaying and not MediaMonkey.Player.isPaused:
+        playbackStatus = 'Playing'
 
-		#Declare our position
-		currentsong	= MediaMonkey.Player.CurrentSongIndex
-		searchsong = currentsong 
+    #Declare our position
+    currentsong = MediaMonkey.Player.CurrentSongIndex
+    searchsong = currentsong
+    playlistlength = searchsong + MaxTandaLength+2
+
+    #
+    # Quick-read
+    #
 
     #
     # Full-read
     #
-        while searchsong < playlistlength and searchsong < currentsong+MaxTandaLength+2:
-            try:
-                playlist.append(getSongAt(MediaMonkey, searchsong))
-            except:
-                break
-            searchsong = searchsong+1
-        return playlist, playbackStatus
+    while searchsong < playlistlength and searchsong < currentsong+MaxTandaLength+2:
+        try:
+            playlist.append(getSongAt(MediaMonkey, searchsong))
+        except:
+            break
+        searchsong = searchsong+1
+    return playlist, playbackStatus
 
 ###############################################################
 #
@@ -93,7 +98,7 @@ def run(MaxTandaLength):
 def getSongAt(MediaMonkey, songPosition):
     retSong = SongObject()
     Track = MediaMonkey.Player.CurrentPlaylist.Item(songPosition)
-    
+
     retSong.Artist      = Track.ArtistName.encode('latin-1')
     retSong.Album       = Track.AlbumName.encode('latin-1')
     retSong.Title       = Track.Title.encode('latin-1')

@@ -49,29 +49,29 @@ def run(MaxTandaLength):
     #
     # Playback = Playing
     #
-	if winamp.getPlaybackStatus() == 1:
-		playbackStatus = 'Playing'
+    if winamp.getPlaybackStatus() == 1:
+        playbackStatus = 'Playing'
 
-		#Declare our position
-		currentsong	= winamp.getListPosition()
-		listlength = winamp.getListLength()
+        #Declare our position
+        currentsong	= winamp.getListPosition()
+        listlength = winamp.getListLength()
         searchsong = currentsong
             
         #
         # Read from file
         #
-		while searchsong < currentsong+MaxTandaLength+2 and searchsong < listlength:
-            playlist.append(getSongFromUrl(winamp, searchsong)
+        while searchsong < currentsong+MaxTandaLength+2 and searchsong < listlength:
+            playlist.append(getSongFromUrl(winamp, searchsong))
             searchsong = searchsong+1
                             
-		return playlist, playbackStatus
+        return playlist, playbackStatus
 
     #
-    # Playback = Playing
+    # Playback = Paused
     #
-	else:
-		playbackStatus = 'Stopped'
-		return playlist, playbackStatus
+    else:
+        playbackStatus = 'Stopped'
+        return playlist, playbackStatus
 
 ###############################################################
 #
@@ -83,7 +83,7 @@ def getSongFromUrl(winamp, songPosition = 1):
     retSong = SongObject()
     
     try:
-        retSong.fileUrl = winamp.getPlaylistFile(searchsong)
+        retSong.fileUrl = winamp.getPlaylistFile(songPosition)
     except:
         return retSong
     

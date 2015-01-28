@@ -49,10 +49,10 @@ def run(MaxTandaLength):
         try:
             Foobar = win32com.client.Dispatch("Foobar2000.Application.0.7")
         except:
-            playbackStatus = 'Mediaplayer is not running'
+            playbackStatus = 'PlayerNotRunning'
             return playlist, playbackStatus
     else:
-        playbackStatus = 'Mediaplayer is not running'
+        playbackStatus = 'PlayerNotRunning'
         return playlist, playbackStatus
 
     #
