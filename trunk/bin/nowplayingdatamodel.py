@@ -102,7 +102,7 @@ class NowPlayingDataModel:
         # WINDOWS
         if platform.system() == 'Windows':
             if currentSettings._moduleSelected == 'iTunes':
-                self.currentPlaylist, self.PlaybackStatus = itunesWindowsModule.run(currentSettings._maxTandaLength, self.rawPlaylist)
+                self.currentPlaylist, self.PlaybackStatus = itunesWindowsModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'MediaMonkey':
                 self.currentPlaylist, self.PlaybackStatus = mediamonkeyModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'JRiver Media Center':
