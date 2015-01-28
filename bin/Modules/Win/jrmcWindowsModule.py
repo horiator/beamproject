@@ -43,19 +43,19 @@ def run(MaxTandaLength):
     #
     # Player Status
     #
-	if ApplicationRunning("Media Center"):
-		try:
-			JRMC = win32com.client.Dispatch ("MediaJukebox Application")
-		except:
-			playbackStatus = 'PlayerNotRunning'
-			return playlist, playbackStatus
-	else:
-		playbackStatus = 'PlayerNotRunning'
-		return playlist, playbackStatus
+    if ApplicationRunning("Media Center"):
+        try:
+            JRMC = win32com.client.Dispatch ("MediaJukebox Application")
+        except:
+            playbackStatus = 'PlayerNotRunning'
+            return playlist, playbackStatus
+    else:
+        playbackStatus = 'PlayerNotRunning'
+        return playlist, playbackStatus
     #
     # Playback Status
     #
-    elif JRMC.GetPlayback().State == 1:
+    if JRMC.GetPlayback().State == 1:
         playbackStatus = 'Paused'
         return playlist, playbackStatus
     elif JRMC.GetPlayback().State == 0:
@@ -65,12 +65,12 @@ def run(MaxTandaLength):
     #
     # Playback = Playing
     #
-    if JRMC.GetPlayback().State == 2:
-		playbackStatus = 'Playing'
+    elif JRMC.GetPlayback().State == 2:
+        playbackStatus = 'Playing'
 
-		#Declare our position
-		currentsong	= CurrentPlaylist.Position
-		searchsong = currentsong
+        #Declare our position
+        currentsong = CurrentPlaylist.Position
+        searchsong = currentsong
 
     #
     # Full-read

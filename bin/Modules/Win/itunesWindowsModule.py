@@ -49,10 +49,10 @@ def run(MaxTandaLength):
         try:
             itunes = win32com.client.gencache.EnsureDispatch ("iTunes.Application")
         except:
-            playbackStatus = 'Mediaplayer is not running'
+            playbackStatus = 'PlayerNotRunning'
             return playlist, playbackStatus
     else:
-        playbackStatus = 'Mediaplayer is not running'
+        playbackStatus = 'PlayerNotRunning'
         return playlist, playbackStatus
 
     #

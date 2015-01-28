@@ -44,31 +44,31 @@ def run(MaxTandaLength):
     #
     # Player Status
     #
-	if ApplicationRunning("spotify.exe"):
-		try:
-			spotify = win32gui.FindWindow("SpotifyMainWindow", None)
+    if ApplicationRunning("spotify.exe"):
+        try:
+            spotify = win32gui.FindWindow("SpotifyMainWindow", None)
             Track = win32gui.GetWindowText(spotify)
-		except:
-			playbackStatus = 'Mediaplayer is not running'
-			return playlist, playbackStatus
-	else:
-		playbackStatus = 'Mediaplayer is not running'
-		return playlist, playbackStatus
-	
+        except:
+            playbackStatus = 'PlayerNotRunning'
+            return playlist, playbackStatus
+    else:
+        playbackStatus = 'PlayerNotRunning'
+        return playlist, playbackStatus
+
 	if Track == "":
-		playbackStatus = 'Mediaplayer is not running'
+		playbackStatus = 'PlayerNotRunning'
 		return playlist, playbackStatus
 
     #
     # Playback
     #
-	try:
-		playlist.append(getSongAt(Track, 1))
-		playbackStatus = 'Playing'
+    try:
+        playlist.append(getSongAt(Track, 1))
+        playbackStatus = 'Playing'
 
-	except:
-		playbackStatus = 'Paused'
-		
+    except:
+        playbackStatus = 'Paused'
+
     return playlist, playbackStatus
 
 ###############################################################
