@@ -16,82 +16,93 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #    or download it from http://www.gnu.org/licenses/gpl.txt
 #
-#    Usage as function:
-#       Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus = audaciousModule(MaxTandaLength)
-#
-#    Example:
-#       Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus = audaciousModule.run(4)
-#
 #
 #    Revision History:
 #
-#    18/10/2014 Version 1.0
+#    Version 1.0
 #    	- Initial release
 #
 
+from bin.songclass import SongObject
 import subprocess
 try:
 	import win32gui
 except:
 	pass
-	
+
+###############################################################
+#
+# Define operations
+#
+###############################################################
+
 def run(MaxTandaLength):
 
 
-	# Variable declaration
-	
-	Artist 		= []
-	Album 		= []
-	Title	 		= []
-	Genre	 	= []
-	Comment	= []
-	Composer	= []
-	Year			= []
-
-	# Check if Spotify is running and create a handle
+    playlist = []
+    
+    #
+    # Player Status
+    #
 	if ApplicationRunning("spotify.exe"):
 		try:
 			spotify = win32gui.FindWindow("SpotifyMainWindow", None)
+            Track = win32gui.GetWindowText(spotify)
 		except:
 			playbackStatus = 'Mediaplayer is not running'
-			return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+			return playlist, playbackStatus
 	else:
 		playbackStatus = 'Mediaplayer is not running'
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+		return playlist, playbackStatus
 	
-	# Check if closed
-	if win32gui.GetWindowText(spotify) == "":
+	if Track == "":
 		playbackStatus = 'Mediaplayer is not running'
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+		return playlist, playbackStatus
 
-	# Read from Spotify
+    #
+    # Playback
+    #
 	try:
-		trackinfo = win32gui.GetWindowText(spotify).split(" - ")
-		artist, title = trackinfo[1].split(" \x96 ")
-		
-		# Create empty previous
-		Artist.append(artist)
-		Title.append(title)
-		Album.append("")
-		Genre.append("")
-		Comment.append("")
-		Composer.append("")
-		Year.append("")
-		
+		playlist.append(getSongAt(Track, 1))
 		playbackStatus = 'Playing'
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-	
+
 	except:
 		playbackStatus = 'Paused'
-		Artist.append("")
-		Title.append("")
-		Album.append("")
-		Genre.append("")
-		Comment.append("")
-		Composer.append("")
-		Year.append("")
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+		
+    return playlist, playbackStatus
 
+###############################################################
+#
+# Full read - Player specific
+#
+###############################################################
+
+def getSongAt(Track, songPosition):
+    retSong = SongObject()
+    trackinfo = Track.split(" - ")
+    artist, title = trackinfo[1].split(" \x96 ")
+    
+    retSong.Artist      = artist
+    #retSong.Album       = Track.AlbumName.encode('latin-1')
+    retSong.Title       = title
+    #retSong.Genre       = Track.Genre.encode('latin-1')
+    #retSong.Comment     = Track.Comment.encode('latin-1')
+    #retSong.Composer    = Track.Author.encode('latin-1')
+    #retSong.Year        = Track.Year
+    #retSong._Singer     Defined by beam
+    #retSong.AlbumArtist = Track.AlbumArtistName.encode('latin-1')
+    #retSong.Performer  = (Track.Performer).encode('latin-1') # Does not exist for iTunes?
+    #retSong.IsCortina   Defined by beam
+    #retSong.fileUrl     = Track.Path.encode('latin-1')
+    #retSong.ModuleMessage = Not needed for iTunes
+    
+    return retSong
+
+###############################################################
+#
+# Application running Windows-specific
+#
+###############################################################
 
 def ApplicationRunning(AppName):
     import subprocess
