@@ -71,7 +71,7 @@ def run(MaxTandaLength):
 
 		#Declare our position
 		currentsong	= MediaMonkey.Player.CurrentSongIndex
-		searchsong = currentsong # Start on the current song
+		searchsong = currentsong 
 
     #
     # Full-read
