@@ -38,19 +38,21 @@ class SongObject(object):
 
     def __init__(self, p_artist=u"", p_album=u"", p_title=u"", p_genre=u"",
                  p_comment=u"", p_composer=u"", p_year=u"", p_singer=u"",
-                 p_albumArtist=u"", p_performer = u"", p_isCortina = u"no", p_fileUrl=u""):
-        self.Artist      = p_artist
-        self.Album       = p_album
-        self.Title       = p_title
-        self.Genre       = p_genre
-        self.Comment     = p_comment
-        self.Composer    = p_composer
-        self.Year        = p_year
-        self.Singer      = p_singer
-        self.AlbumArtist = p_albumArtist
-        self.Performer   = p_performer
-        self.IsCortina   = p_isCortina
-        self.fileUrl     = p_fileUrl
+                 p_albumArtist=u"", p_performer = u"", p_isCortina = u"no",
+                 p_fileUrl=u"", p_moduleMessage=u""):
+        self.Artist        = p_artist
+        self.Album         = p_album
+        self.Title         = p_title
+        self.Genre         = p_genre
+        self.Comment       = p_comment
+        self.Composer      = p_composer
+        self.Year          = p_year
+        self.Singer        = p_singer
+        self.AlbumArtist   = p_albumArtist
+        self.Performer     = p_performer
+        self.IsCortina     = p_isCortina
+        self.fileUrl       = p_fileUrl
+        self.ModuleMessage = p_moduleMessage
         
     def __eq__(self, other):
         if isinstance(other, SongObject):
@@ -92,7 +94,7 @@ class SongObject(object):
         audioRaw = File(url, easy=False)
         
         if audio == {} or audioRaw == {}:
-            print "Error reading file", url
+            self.ModuleMessage = "Error reading file", url
             raise NameError("Error reading file", url)
 
         try:

@@ -146,7 +146,7 @@ class beamMainFrame(wx.Frame):
 #
     def updateData(self, event = wx.EVT_TIMER):
         self.currentDisplayRows = nowPlayingDataModel.DisplayRow
-        self.currentPlaybackStatus = nowPlayingDataModel.PlaybackStatus
+        self.currentPlaybackStatus = nowPlayingDataModel.StatusMessage
         self.previousPlaybackStatus = nowPlayingDataModel.PreviousPlaybackStatus        
         if not self.currentlyUpdating:
             self.currentlyUpdating = True
@@ -156,7 +156,7 @@ class beamMainFrame(wx.Frame):
         
         self.textsAreVisible = False
         self.currentDisplayRows = nowPlayingDataModel.DisplayRow
-        self.currentPlaybackStatus = nowPlayingDataModel.PlaybackStatus
+        self.currentPlaybackStatus = nowPlayingDataModel.StatusMessage
         self.currentMood = nowPlayingDataModel.CurrentMood
         self.previousMood = nowPlayingDataModel.PreviousMood
         self.currentlyUpdating = False
