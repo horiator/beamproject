@@ -16,12 +16,6 @@
 #    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #    or download it from http://www.gnu.org/licenses/gpl.txt
 #
-#    Usage as function:
-#       Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus = audaciousModule(MaxTandaLength)
-#
-#    Example:
-#       Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus = audaciousModule.run(4)
-#
 #
 #    Revision History:
 #
@@ -29,88 +23,100 @@
 #    	- Initial release
 #
 
+from bin.songclass import SongObject
 import subprocess
 try:
 	import win32com.client
 except ImportError:
 	pass
-	
+
+###############################################################
+#
+# Define operations
+#
+###############################################################
+
 def run(MaxTandaLength):
 
-
-	# Variable declaration
-	
-	Artist 		= []
-	Album 		= []
-	Title	 		= []
-	Genre	 	= []
-	Comment	= []
-	Composer	= []
-	Year			= []
-
-	# Check if iTunes is running and create a communications object
+    playlist = []
+    
+    #
+    # Player Status
+    #
 	if ApplicationRunning("Media Center"):
 		try:
 			JRMC = win32com.client.Dispatch ("MediaJukebox Application")
 		except:
-			playbackStatus = 'Mediaplayer is not running'
-			return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+			playbackStatus = 'PlayerNotRunning'
+			return playlist, playbackStatus
 	else:
-		playbackStatus = 'Mediaplayer is not running'
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-	
-	
-	if JRMC.GetPlayback().State == 2:
-	#	print "Lets get some info!"
+		playbackStatus = 'PlayerNotRunning'
+		return playlist, playbackStatus
+    #
+    # Playback Status
+    #
+    elif JRMC.GetPlayback().State == 1:
+        playbackStatus = 'Paused'
+        return playlist, playbackStatus
+    elif JRMC.GetPlayback().State == 0:
+        playbackStatus = 'Stopped'
+        return playlist, playbackStatus
+
+    #
+    # Playback = Playing
+    #
+    if JRMC.GetPlayback().State == 2:
 		playbackStatus = 'Playing'
 
 		#Declare our position
-		CurrentPlaylist = JRMC.GetCurPlaylist()
 		currentsong	= CurrentPlaylist.Position
-		searchsong = currentsong # Start on the current song
-		
-		while searchsong < currentsong+MaxTandaLength+2:
-			try:
-				Track = CurrentPlaylist.GetFile(searchsong)
-				try:
-					Artist.append((Track.Artist).encode('latin-1'))
-				except:
-					Artist.append('')
-				try:
-					Album.append((Track.Album).encode('latin-1'))
-				except:
-					Album.append('')
-				try:
-					Title.append((Track.Name).encode('latin-1'))
-				except:
-					Title.append('')
-				try:
-					Genre.append((Track.Genre).encode('latin-1'))
-				except:
-					Genre.append('')
-				try:
-					Comment.append((Track.Comment).encode('latin-1'))
-				except:
-					Comment.append('')
-					
-				Composer.append("")
-				try:
-					Year.append(Track.Year)
-				except:
-					Year.append('')
-			except:
-				break
-			searchsong = searchsong+1
+		searchsong = currentsong
 
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-	
-	elif JRMC.GetPlayback().State == 1:
-		playbackStatus = 'Paused'
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
-	else:
-		playbackStatus = 'Stopped'
-		return Artist, Album, Title, Genre, Comment, Composer, Year, playbackStatus
+    #
+    # Full-read
+    #
+        while searchsong < playlistlength and searchsong < currentsong+MaxTandaLength+2:
+            try:
+                playlist.append(getSongAt(JRMC, searchsong))
+            except:
+                break
+            searchsong = searchsong+1
+        return playlist, playbackStatus
 
+###############################################################
+#
+# Full read - Player specific
+#
+###############################################################
+
+def getSongAt(MediaMonkey, songPosition):
+    
+    retSong = SongObject()
+    CurrentPlaylist = JRMC.GetCurPlaylist()
+    Track = CurrentPlaylist.GetFile(searchsong)
+
+    searchsong = searchsong+1
+    retSong.Artist      = Track.Artist.encode('latin-1')
+    retSong.Album       = Track.Album.encode('latin-1')
+    retSong.Title       = Track.Name.encode('latin-1')
+    retSong.Genre       = Track.Genre.encode('latin-1')
+    retSong.Comment     = Track.Comment.encode('latin-1')
+    #retSong.Composer    = Track.Author.encode('latin-1')
+    retSong.Year        = Track.Year
+    #retSong._Singer     Defined by beam
+    retSong.AlbumArtist = Track.AlbumArtistName.encode('latin-1')
+    #retSong.Performer  = (Track.Performer).encode('latin-1') # Does not exist for iTunes?
+    #retSong.IsCortina   Defined by beam
+    retSong.fileUrl     = Track.Path.encode('latin-1')
+    #retSong.ModuleMessage = Not needed for iTunes
+                                                    
+    return retSong
+
+###############################################################
+#
+# Application running Windows-specific
+#
+###############################################################
 
 def ApplicationRunning(AppName):
     import subprocess
