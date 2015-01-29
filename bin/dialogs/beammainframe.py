@@ -94,14 +94,6 @@ class beamMainFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self.fullScreen, self.menuFullScreen)
         self.Bind(wx.EVT_CLOSE, self.OnClose)
         self.Bind(wx.EVT_LEFT_DCLICK, self.fullScreen)
-    # This does not work in Linux - Try on Windows
-        CtrlF    = wx.NewId()
-        CtrlP    = wx.NewId()
-        self.Bind(wx.EVT_MENU, self.fullScreen, id=CtrlP)
-        self.Bind(wx.EVT_MENU, self.OnPreferences, id=CtrlP)
-        self.AccelTable = wx.AcceleratorTable([(wx.ACCEL_CTRL, ord('F'), CtrlF)])
-        self.AccelTable = wx.AcceleratorTable([(wx.ACCEL_CTRL, ord('P'), CtrlP)])
-        self.SetAcceleratorTable(self.AccelTable)
     # Background
         self.Bind(wx.EVT_SIZE, self.OnSize)
         self.Bind(wx.EVT_PAINT, self.OnPaint)
@@ -231,7 +223,7 @@ class beamMainFrame(wx.Frame):
         self.xPosResized = (cliWidth - resizedWidth)/2
         self.yPosResized = (cliHeight - resizedHeight)/2
         dc.DrawBitmap(self.modifiedBitmap, self.xPosResized, self.yPosResized)
-        self.Refresh()
+        #self.Refresh() #Cause Windows to panic
 
     # DRAW TEXT
     #
@@ -273,7 +265,7 @@ class beamMainFrame(wx.Frame):
                                beamSettings.FontWeightDictionary[Settings['Weight']], 
                                False, 
                                "Liberation Sans"))
-
+            print "TEST"
             # Set font color, in the future, drawing a shadow ofsetted with the same text first might make a shadow!
             dc.SetTextForeground(eval(Settings['FontColor']))
 
