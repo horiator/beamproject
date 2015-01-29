@@ -26,7 +26,7 @@
 # This Python file uses the following encoding: utf-8
 
 from bin.songclass import SongObject
-import subprocess
+
 try:
     import win32com.client
 except ImportError:
@@ -116,9 +116,9 @@ def getSongAt(itunes, songPosition):
 ###############################################################
 
 def ApplicationRunning(AppName):
-    import subprocess
+    from subprocess import Popen, PIPE
     cmd = 'WMIC PROCESS get Caption,Commandline,Processid'
-    proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
+    proc = Popen(cmd, shell=True, stdout=PIPE, stderr=PIPE)
     for line in proc.stdout:
         if AppName in line:
             proc.kill()

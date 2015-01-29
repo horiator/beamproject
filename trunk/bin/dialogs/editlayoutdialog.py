@@ -30,7 +30,7 @@
 import wx, wx.html
 import os
 
-from bin.beamsettings import *
+
 
 #
 # LAYOUT WINDOW-CLASS

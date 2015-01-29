@@ -27,7 +27,8 @@
 
 import wx, platform, os, sys
 import time
-from bin.beamsettings import *
+import datetime
+
 from bin.songclass import SongObject
 from copy import deepcopy
 
@@ -52,17 +53,12 @@ if platform.system() == 'Darwin':
 
 class NowPlayingDataModel:
 
-    def __init__(self, currentSettings = beamSettings):
+    def __init__(self):
         
-        self.maxTandaLength = currentSettings._maxTandaLength
-        
-        numberOfRequestedSongs = eval(self.maxTandaLength + '2')
         
         self.currentPlaylist = []
         self.rawPlaylist = []
         self.playlistChanged = False
-        for i in range(0, numberOfRequestedSongs-1) :
-            self.currentPlaylist.append(SongObject())
         
         self.prevPlayedSong = SongObject()
         self.nextTandaSong = SongObject()
@@ -83,7 +79,7 @@ class NowPlayingDataModel:
 
         self.convDict = dict()
         
-    def ExtractPlaylistInfo(self, currentSettings = beamSettings):
+    def ExtractPlaylistInfo(self, currentSettings):
         print "Start updating data... ", time.strftime("%H:%M:%S")
         self.PreviousPlaybackStatus = self.PlaybackStatus
         
