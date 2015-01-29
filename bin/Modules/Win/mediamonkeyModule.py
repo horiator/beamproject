@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-#    Copyright (C) 2014 Mikael Holber http://mywebsite.com
+#    Copyright (C) 2014 Mikael Holber http://www.beam-project.com
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ try:
 	import win32com.client
 except ImportError:
 	pass
+from copy import deepcopy
 
 ###############################################################
 #
@@ -36,7 +37,7 @@ except ImportError:
 #
 ###############################################################
 
-def run(MaxTandaLength):
+def run(MaxTandaLength, LastPlaylist):
 
     playlist = []
     
@@ -77,10 +78,14 @@ def run(MaxTandaLength):
     #
     # Quick-read
     #
-
+    if quickRead(MediaMonkey, currentsong, MaxTandaLength, LastPlaylist):
+        print "Quick-read"
+        playlist = deepcopy(LastPlaylist)
+        return playlist, playbackStatus
     #
     # Full-read
     #
+    print "Full-read"
     while searchsong < playlistlength and searchsong < currentsong+MaxTandaLength+2:
         try:
             playlist.append(getSongAt(MediaMonkey, searchsong))
@@ -88,7 +93,32 @@ def run(MaxTandaLength):
             break
         searchsong = searchsong+1
     return playlist, playbackStatus
+###############################################################
+#
+# Quick read - Player specific
+#
+###############################################################
 
+def quickRead(MediaMonkey, songPosition = 1, MaxTandaLength = 1, LastRead = []):
+    Last = []
+    Current = []
+    for i in range(0,MaxTandaLength+2):
+        try:
+            Track = MediaMonkey.Player.CurrentPlaylist.Item(songPosition+i)
+            Current.append(Track.Path.encode('latin-1'))
+        except:
+            pass
+        try:
+            Song = LastRead[i]
+            Last.append(Song.fileUrl)
+        except:
+            pass
+    if Last == Current:
+        return True
+
+
+    return False
+	
 ###############################################################
 #
 # Full read - Player specific
