@@ -40,6 +40,7 @@ from bin.dialogs.helpdialog import HelpDialog
 from bin.dialogs import aboutdialog
 from bin.dialogs import closedialog
 
+from copy import deepcopy
 
 ##################################################
 # MAIN WINDOW - FRAME
@@ -116,6 +117,7 @@ class beamMainFrame(wx.Frame):
         self.blue = float(1.0)
 
         self.currentDisplayRows = []
+        self.currentDisplaySettings = []
         self.currentPlaybackStatus = ""
         self.previousMood = ""
         self.currentMood = ""      
@@ -147,10 +149,12 @@ class beamMainFrame(wx.Frame):
     def updateData(self, event = wx.EVT_TIMER):
         self.currentDisplayRows = nowPlayingDataModel.DisplayRow
         self.currentPlaybackStatus = nowPlayingDataModel.StatusMessage
-        self.previousPlaybackStatus = nowPlayingDataModel.PreviousPlaybackStatus        
+        self.previousPlaybackStatus = nowPlayingDataModel.PreviousPlaybackStatus
+                
         if not self.currentlyUpdating:
             self.currentlyUpdating = True
-            wx.lib.delayedresult.startWorker(self.getDataFinished, nowPlayingDataModel.ExtractPlaylistInfo( beamSettings ) )
+            tmpSettings = deepcopy(beamSettings)
+            wx.lib.delayedresult.startWorker(self.getDataFinished, nowPlayingDataModel.ExtractPlaylistInfo( tmpSettings ) )
 
     def getDataFinished(self, result):
         
@@ -159,10 +163,11 @@ class beamMainFrame(wx.Frame):
         self.currentPlaybackStatus = nowPlayingDataModel.StatusMessage
         self.currentMood = nowPlayingDataModel.CurrentMood
         self.previousMood = nowPlayingDataModel.PreviousMood
+        self.currentDisplaySettings = nowPlayingDataModel.DisplaySettings
         self.currentlyUpdating = False
         
         if self.previousMood != self.currentMood:
-            print "New mood:", self.currentMood
+            print "New mood: ", self.currentMood
             # If background changed, fade it
             if (nowPlayingDataModel.BackgroundImage != self._currentBackgroundPath and
                 nowPlayingDataModel.BackgroundImage != ""):
@@ -239,11 +244,11 @@ class beamMainFrame(wx.Frame):
         if not cliWidth or not cliHeight:
             return
 
-        for j in range(0, len(nowPlayingDataModel.DisplaySettings)):
+        for j in range(0, len(self.currentDisplaySettings)):
 
             #Text and settings
             text = self.currentDisplayRows[j]
-            Settings = nowPlayingDataModel.DisplaySettings[j]
+            Settings = self.currentDisplaySettings[j]
 
             # Get size and position
             Size = Settings['Size']*cliHeight/100
@@ -369,14 +374,14 @@ class beamMainFrame(wx.Frame):
 #
     def OnPreferences(self, event):
         PreferencesDialog = Preferences(self)
-        PrefDiag = PreferencesDialog.Show()
+        PreferencesDialog.Show()
 
 #
 # MOODS SETTINGS
 #
     def OnMoods(self, event):
         MoodsDialog = Moods(self)
-        MoodsDiag = MoodsDialog.Show()
+        MoodsDialog.Show()
 
 
 #
@@ -406,7 +411,7 @@ class beamMainFrame(wx.Frame):
 #
     def OnHelp(self, event):
         help_dialog = HelpDialog(None, self)
-        res = help_dialog.ShowModal()
+        help_dialog.ShowModal()
         help_dialog.Destroy()
 
 ####################################################
@@ -415,7 +420,7 @@ class beamMainFrame(wx.Frame):
 #
 
     def fadeBackground(self, fadeSpeed = 5):
-        print "FadeNewBackground"
+        #print "FadeNewBackground"
         self.red = float(1.0)
         self.green = float(1.0)
         self.blue = float(1.0)
@@ -423,7 +428,7 @@ class beamMainFrame(wx.Frame):
         self.fadeSpeed = fadeSpeed
 
 
-        # start the timer for the fadeout
+        # start the timer for the fade-out
         self.timer1.Start(self.fadeSpeed)
 
     def FadeoutOldImage(self, event):
@@ -432,12 +437,12 @@ class beamMainFrame(wx.Frame):
         self.green -= 2 * self.delta
         self.blue -= 2 * self.delta
         if self.red >= 0 and self.red <= 1:
-            # refire the OnPaint event using self.Refresh
+            # re-fire the OnPaint event using self.Refresh
             self.triggerAdjustBackgroundRGB = True
             self.triggerResizeBackground = True
             self.Refresh()
         else:
-            #stop the fadeout timer
+            #stop the fade-out timer
             self.timer1.Stop()
 
             #load the new background image
