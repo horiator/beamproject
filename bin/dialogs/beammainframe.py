@@ -223,7 +223,6 @@ class beamMainFrame(wx.Frame):
         self.xPosResized = (cliWidth - resizedWidth)/2
         self.yPosResized = (cliHeight - resizedHeight)/2
         dc.DrawBitmap(self.modifiedBitmap, self.xPosResized, self.yPosResized)
-        #self.Refresh() #Cause Windows to panic
 
     # DRAW TEXT
     #
@@ -265,7 +264,7 @@ class beamMainFrame(wx.Frame):
                                beamSettings.FontWeightDictionary[Settings['Weight']], 
                                False, 
                                "Liberation Sans"))
-            print "TEST"
+
             # Set font color, in the future, drawing a shadow ofsetted with the same text first might make a shadow!
             dc.SetTextForeground(eval(Settings['FontColor']))
 
