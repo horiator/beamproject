@@ -25,25 +25,28 @@
 #
 # This Python file uses the following encoding: utf-8
 
-import wx, wx.html, platform
-import os, sys
+import wx
+import wx.html
+import platform
+import os
+import sys
 
 from bin.beamsettings import *
 from bin.dialogs.beammainframe import beamMainFrame
 
-
-
 #app = wx.App(redirect=True)    # Error messages go to popup window
-app = wx.App(False)             # Error messages go to terminal, for debugging purposes
-
+app = wx.App(False)
+# Error messages go to terminal, for debugging purposes
 
 ########################################################
 # Load Settings (global object)
 ########################################################
 beamSettings.LoadConfig(beamSettings.defaultConfigFileName)
-if platform.system() == 'Windows' or platform.system() == 'Darwin': #Send error-log to file
-    sys.stderr = open(os.path.join(os.path.expanduser("~"),"Beam-log.txt"),"w")
-print beamSettings.mainFrameTitle
+if platform.system() == 'Windows' or platform.system() == 'Darwin':
+    #Send error-log to file
+    sys.stderr = open(os.path.join(os.path.expanduser("~"), "Beam-log.txt"),
+                        "w")
+print (beamSettings.mainFrameTitle)
 
 ########################################################
 # Start the main window
