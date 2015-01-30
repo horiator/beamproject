@@ -27,6 +27,7 @@
 
 #import platform, os, sys
 from mutagen import File
+import platform
 
 ###############################################################
 #
@@ -97,36 +98,42 @@ class SongObject(object):
             self.ModuleMessage = "Error reading file", url
             raise NameError("Error reading file", url)
 
+        if platform.system() == 'Windows':
+            Formating = 'latin-1'
+        else:
+            Formating = 'utf-8'
+
+
         try:
-            self.Artist     = audio["artist"][0].encode('utf-8')
+            self.Artist     = audio["artist"][0].encode(Formating)
         except:
             self.Artist     = u""
 
         try:    
-            self.Album      = audio["album"][0].encode('utf-8')
+            self.Album      = audio["album"][0].encode(Formating)
         except:
             self.Album      = u""
         
         try:
-            self.Title      = audio["title"][0].encode('utf-8')
+            self.Title      = audio["title"][0].encode(Formating)
         except:
             self.Title      = u""
 
         try:
-            self.Genre      = audio["genre"][0].encode('utf-8')
+            self.Genre      = audio["genre"][0].encode(Formating)
         except:
             self.Genre      = u""
 
         try:
-            self.Comment    = audio["comment"][0].encode('utf-8')
+            self.Comment    = audio["comment"][0].encode(Formating)
         except:
             try:
-                self.Comment    = audioRaw[u'COMM::eng'][0].encode('utf-8')
+                self.Comment    = audioRaw[u'COMM::eng'][0].encode(Formating)
             except:
                 self.Comment    = u""
 
         try:
-            self.Composer   = audio["composer"][0].encode('utf-8')
+            self.Composer   = audio["composer"][0].encode(Formating)
         except:
             self.Composer   = u""
 
@@ -138,12 +145,12 @@ class SongObject(object):
         self.Singer      = u""
         
         try:    
-            self.AlbumArtist    = audio["albumartist"][0].encode('utf-8')
+            self.AlbumArtist    = audio["albumartist"][0].encode(Formating)
         except:
             self.AlbumArtist    = u""
 
         try:
-            self.Performer  = audio["performer"][0].encode('utf-8')
+            self.Performer  = audio["performer"][0].encode(Formating)
         except:
             self.Performer  = u""
 
