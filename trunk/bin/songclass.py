@@ -92,62 +92,61 @@ class SongObject(object):
     def buildFromUrl(self, url):
         audio    = File(url, easy=True)
         audioRaw = File(url, easy=False)
-        
+
         if audio == {} or audioRaw == {}:
             self.ModuleMessage = "Error reading file", url
             raise NameError("Error reading file", url)
 
         try:
-            self.Artist     = audio["artist"][0]
+            self.Artist     = audio["artist"][0].encode('utf-8')
         except:
             self.Artist     = u""
-        
+
         try:    
-            self.Album      = audio["album"][0]
+            self.Album      = audio["album"][0].encode('utf-8')
         except:
             self.Album      = u""
         
         try:
-            self.Title      = audio["title"][0]
+            self.Title      = audio["title"][0].encode('utf-8')
         except:
             self.Title      = u""
-            
+
         try:
-            self.Genre      = audio["genre"][0]
+            self.Genre      = audio["genre"][0].encode('utf-8')
         except:
             self.Genre      = u""
-        
+
         try:
-            self.Comment    = audio["comment"][0]
+            self.Comment    = audio["comment"][0].encode('utf-8')
         except:
             try:
-                self.Comment    = audioRaw[u'COMM::eng'][0]
+                self.Comment    = audioRaw[u'COMM::eng'][0].encode('utf-8')
             except:
                 self.Comment    = u""
 
-
         try:
-            self.Composer   = audio["composer"][0]
+            self.Composer   = audio["composer"][0].encode('utf-8')
         except:
             self.Composer   = u""
-            
+
         try:
             self.Year       = audio["date"][0]
         except:
             self.Year       = u""
-        
+
         self.Singer      = u""
         
         try:    
-            self.AlbumArtist    = audio["albumartist"][0]
+            self.AlbumArtist    = audio["albumartist"][0].encode('utf-8')
         except:
             self.AlbumArtist    = u""
-        
+
         try:
-            self.Performer  = audio["performer"][0]
+            self.Performer  = audio["performer"][0].encode('utf-8')
         except:
             self.Performer  = u""
-            
+
         self.IsCortina   = u"no"
         self.fileUrl     = url
         return
