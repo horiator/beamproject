@@ -248,7 +248,7 @@
       "Field3": "cortina"
     }, 
     {
-      "Active": "yes", 
+      "Active": "no", 
       "Field2": "is not", 
       "Field1": "%Genre", 
       "Type": "Cortina", 
