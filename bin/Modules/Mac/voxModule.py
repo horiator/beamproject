@@ -162,7 +162,6 @@ def getSongFromUrl(songPosition = 1):
     try:
         retSong.buildFromUrl(retSong.fileUrl)
     except:
-        print "Error reading file, using fallback info from player"
         retSong = getSongAt(1)
 
     return retSong
@@ -196,6 +195,7 @@ def getSongAt(songPosition = 1):
         #retSong.IsCortina  =
         retSong.fileUrl    = AppleScript(GetTrackURL, [str(songPosition)]).rstrip('\n').replace('file:','')
 
+    retSong.ModuleMessage = "Error reading file, using fallback info from player"
     return retSong
 
 
