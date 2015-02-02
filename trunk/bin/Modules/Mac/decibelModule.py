@@ -218,7 +218,6 @@ def getSongAt(songPosition = 1):
         # If there are no "," then this method works
         var = AppleScript(GetSongs, [str(1)]).rstrip('\n')
         retSong.Artist, retSong.Title, retSong.Album, retSong.AlbumArtist, retSong.Year, retSong.Comment, retSong.Genre, retSong.Composer = var.split(', ')
-        retSong.ModuleMessage = "Error reading file, using fallback info from player"
     except:
         # SLOW!
         # If there are "," in the fields, then this method works
@@ -233,8 +232,8 @@ def getSongAt(songPosition = 1):
         retSong.AlbumArtist = AppleScript(GetAlbumArtist, [str(songPosition)]).rstrip('\n')
         #retSong.Performer
         #retSong.IsCortina
-        retSong.ModuleMessage = "Error reading file, using fallback info from player"
-    
+
+    retSong.ModuleMessage = "Error reading file, using fallback info from player"
     return retSong
 
 ###############################################################
