@@ -1,0 +1,384 @@
+{
+  "Comment": "This configuration works with version 0.2 of Beam", 
+  "Updtime": 4000, 
+  "Configname": "Default Configuration", 
+  "AllModules": [
+    {
+      "Modules": [
+        "Audacious", 
+        "Banshee", 
+        "Clementine", 
+        "Rhythmbox",
+		"Spotify"
+      ], 
+      "System": "Linux"
+    }, 
+    {
+      "Modules": [
+        "iTunes", 
+		"Foobar2000",
+        "MediaMonkey", 
+        "JRiver Media Center", 
+        "Spotify", 
+        "Winamp"
+      ], 
+      "System": "Windows"
+    }, 
+    {
+      "Modules": [
+        "iTunes",
+        "Decibel",
+        "Vox",
+        "Spotify"
+      ], 
+      "System": "Mac"
+    }
+  ], 
+  "Author": "Mikael Holber & Horia Uifaleanu - 2014", 
+  "Moods": [
+      {
+      "Active": "yes", 
+      "Field3": "yes",
+      "Field2": "is", 
+      "Field1": "%IsCortina", 
+      "Type": "Mood",
+	  "Name": "Cortina",
+	  "Background": "resources/backgrounds/bg1920x1080px_darkBlue.jpg",
+	  "PlayState": "Playing",
+	  "Display": [
+	  {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "", 
+      "Field": "Cortina", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        20, 
+        0
+      ], 
+      "Font": "Georgia", 
+      "Size": 15
+    },
+	{
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "%NextTandaArtist", 
+      "Field": "Next Tanda:", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        58, 
+        0
+      ], 
+      "Font": "Georgia", 
+      "Size": 8
+    }, 
+    {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "HideControl": "%NextTandaArtist", 
+      "Field": "%NextTandaGenre  - %NextTandaArtist", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        76, 
+        0
+      ], 
+      "Font": "Georgia", 
+      "Size": 8
+    }
+	]
+    },
+	{
+      "Active": "yes",
+      "Field3": "", 
+      "Field2": "is", 
+      "Field1": "%Artist", 
+      "Type": "Mood",
+	  "Name": "PlayerNotRunning",
+	  "Background": "resources/backgrounds/bg1920x1080px_darkGreen.jpg",
+	  "PlayState": "PlayerNotRunning",
+	  "Display": [
+	{
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold",
+      "HideControl": "", 	  
+      "Row": 1, 
+      "Field": "Beam", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        30, 
+        0
+      ], 
+      "Font": "Georgia", 
+      "Size": 10
+    }, 
+    {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "Row": 2, 
+      "Field": "Me Up Scotty", 
+      "HideControl": "", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        50, 
+        0
+      ], 
+      "Font": "Georgia", 
+      "Size": 8
+    }
+	]
+	},
+	{
+      "Active": "yes",
+      "Field3": "", 
+      "Field2": "is", 
+      "Field1": "%Artist", 
+      "Type": "Mood",
+	  "Name": "Stopped",
+	  "Background": "resources/backgrounds/bg1920x1080px_darkGreen.jpg",
+	  "PlayState": "Stopped",
+	  "Display": [
+	{
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold",
+      "HideControl": "", 	  
+      "Row": 1, 
+      "Field": "Beam", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        30, 
+        0
+      ], 
+      "Font": "Georgia", 
+      "Size": 10
+    }, 
+    {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "Row": 2, 
+      "Field": "Me Up Scotty", 
+      "HideControl": "", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        50, 
+        0
+      ], 
+      "Font": "Georgia", 
+      "Size": 8
+    }
+	]
+	},
+	{
+      "Active": "yes",
+      "Field3": "", 
+      "Field2": "is", 
+      "Field1": "%Artist", 
+      "Type": "Mood",
+	  "Name": "Paused",
+	  "Background": "resources/backgrounds/bg1920x1080px_darkGreen.jpg",
+	  "PlayState": "Paused",
+	  "Display": [
+	{
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold",
+      "HideControl": "", 	  
+      "Row": 1, 
+      "Field": "Beam", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        30, 
+        0
+      ], 
+      "Font": "Georgia", 
+      "Size": 10
+    }, 
+    {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "Row": 2, 
+      "Field": "Me Up Scotty", 
+      "HideControl": "", 
+      "FontColor": "(255,255,255,255)", 
+      "Position": [
+        50, 
+        0
+      ], 
+      "Font": "Georgia", 
+      "Size": 8
+    }
+	]
+	}
+  ],
+  "Rules": [
+    {
+      "Active": "yes", 
+      "Field2": "%Singer", 
+      "Field1": "%Comment", 
+      "Type": "Copy"
+    }, 
+    {
+      "Active": "yes", 
+      "Field2": "is", 
+      "Field1": "%Artist", 
+      "Type": "Cortina", 
+      "Field3": "-- Cortina"
+    }, 
+    {
+      "Active": "yes", 
+      "Field2": "is", 
+      "Field1": "%Genre", 
+      "Type": "Cortina", 
+      "Field3": "cortina"
+    }, 
+    {
+      "Active": "no", 
+      "Field2": "is not", 
+      "Field1": "%Genre", 
+      "Type": "Cortina", 
+      "Field3": "Tango, Milonga, Vals"
+    }, 
+    {
+      "Field2": "-", 
+      "Field3": "%Title", 
+      "Field1": "%Title", 
+      "Field4": "%Singer", 
+      "Active": "yes", 
+      "Type": "Parse"
+    }, 
+    {
+      "Field2": " - ", 
+      "Field3": "%Artist", 
+      "Field1": "%Artist", 
+      "Field4": "%Singer", 
+      "Active": "yes", 
+      "Type": "Parse"
+    }
+  ], 
+  "DefaultBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
+  "Module": "", 
+  "MaxTandaLength": 4, 
+  "DefaultDisplay": [
+    {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "", 
+      "Field": "%Artist", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        7, 
+        0
+      ], 
+      "Font": "Georgia", 
+      "Size": 11
+    }, 
+    {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "", 
+      "Field": "%Title", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        24, 
+        0
+      ], 
+      "Font": "Georgia", 
+      "Size": 11
+    }, 
+    {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "%Singer", 
+      "Field": "- %Singer -", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        41, 
+        1
+      ], 
+      "Font": "Georgia", 
+      "Size": 11
+    }, 
+    {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Normal", 
+      "HideControl": "%NextTandaArtist", 
+      "Field": "Next Tanda:", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        68, 
+        0
+      ], 
+      "Font": "Georgia", 
+      "Size": 5
+    }, 
+    {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "yes", 
+      "Weight": "Bold", 
+      "HideControl": "%NextTandaArtist", 
+      "Field": "%NextTandaGenre  - %NextTandaArtist", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        76, 
+        0
+      ], 
+      "Font": "Georgia", 
+      "Size": 5
+    }, 
+    {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "no", 
+      "Weight": "Light", 
+      "HideControl": "", 
+      "Field": "%Hour:%Min", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        90, 
+        90
+      ], 
+      "Font": "Georgia", 
+      "Size": 4
+    }, 
+    {
+      "Active": "yes",
+      "Style": "Italic", 
+      "Center": "no", 
+      "Weight": "Light", 
+      "HideControl": "", 
+      "Field": "%LongDate", 
+      "FontColor": "(255, 255, 255, 255)", 
+      "Position": [
+        90, 
+        2
+      ], 
+      "Font": "Georgia", 
+      "Size": 4
+    }
+  ]
+}
