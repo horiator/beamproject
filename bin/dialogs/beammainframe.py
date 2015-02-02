@@ -402,8 +402,7 @@ class beamMainFrame(wx.Frame):
 #
     def OnHelp(self, event):
         help_dialog = HelpDialog(None, self)
-        help_dialog.ShowModal()
-        help_dialog.Destroy()
+        help_dialog.Show()
 
 ####################################################
 #
