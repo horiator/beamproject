@@ -246,15 +246,13 @@ class beamMainFrame(wx.Frame):
             HeightPosition = int(Settings['Position'][0]*cliHeight/100)
 
             # Set font from settings
-            #face = "Great Vibes"
-            #face = "Liberation Sans"            
             face = Settings['Font']
             
             try:
                 dc.SetFont(wx.Font(Size, 
                                wx.ROMAN, 
-                               wx.NORMAL, 
-                               wx.NORMAL, 
+                               beamSettings.FontStyleDictionary[Settings['Style']],
+                               beamSettings.FontWeightDictionary[Settings['Weight']],
                                False, 
                                face))
             except:
