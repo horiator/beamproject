@@ -253,8 +253,8 @@ class beamMainFrame(wx.Frame):
             try:
                 dc.SetFont(wx.Font(Size, 
                                wx.ROMAN, 
-                               wx.NORMAL, 
-                               wx.NORMAL, 
+                               beamSettings.FontStyleDictionary[Settings['Style']],
+                               beamSettings.FontWeightDictionary[Settings['Weight']],
                                False, 
                                face))
             except:
