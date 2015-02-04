@@ -200,11 +200,11 @@ class Preferences(wx.Dialog):
                 self.RuleRows.append(str('Copy '+rule[u'Field1']+' to '+rule[u'Field2']))
             if rule[u'Type'] == "Cortina":
                 if rule[u'Field2'] =="is":
-                    self.RuleRows.append(str('Its a Cortina when: '+rule[u'Field1']+' is '+rule[u'Field3']))
+                    self.RuleRows.append(str("It's a Cortina when: "+rule[u'Field1']+' is '+rule[u'Field3']))
                 if rule[u'Field2'] =="is not":
-                    self.RuleRows.append(str('Its a Cortina when: '+rule[u'Field1']+' is not '+rule[u'Field3']))
+                    self.RuleRows.append(str("It's a Cortina when: "+rule[u'Field1']+' is not '+rule[u'Field3']))
                 if rule[u'Field2'] =="contains":
-                    self.RuleRows.append(str('Its a Cortina when: '+rule[u'Field1']+' contains '+rule[u'Field3']))
+                    self.RuleRows.append(str("It's a Cortina when: "+rule[u'Field1']+' contains '+rule[u'Field3']))
             if rule[u'Type'] == "Parse":
                 self.RuleRows.append(str('Parse/split '+rule[u'Field1']+' containing '+rule[u'Field2']+' into '+rule[u'Field3']+' and '+rule[u'Field4']))
         self.RuleList.Set(self.RuleRows)
