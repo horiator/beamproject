@@ -404,10 +404,10 @@ class NowPlayingDataModel:
         self.convDict['%LongDate']  = time.strftime("%d %B %Y")
         
         #Track number in a tanda
-        self.convDict['%SSLCC'] = self.SinceLastCortinaCount
-        self.convDict['%STNCC'] = self.TillNextCortinaCount - 1
+        self.convDict['%SongsSinceLastCortina'] = self.SinceLastCortinaCount
+        self.convDict['%CurrentTandaSongsRemaining'] = self.TillNextCortinaCount - 1
             #current tanda count
-        self.convDict['%CTC'] = self.SinceLastCortinaCount + self.TillNextCortinaCount - 1 
+        self.convDict['%CurrentTandaLength'] = self.SinceLastCortinaCount + self.TillNextCortinaCount - 1 
 
         
 
