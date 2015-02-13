@@ -130,10 +130,7 @@ class BeamSettings:
 
         # Write config file
         self.WriteSetting(os.path.join(os.path.expanduser("~"),outputConfigFile), output) #Write setting in home-dir
-        
-        #output_utf8 = output.encode('UTF-8')
-        #open("test_utf8.json, 'w').write(output_utf8)
-        
+
         return
 
 
@@ -146,7 +143,7 @@ class BeamSettings:
 
     def WriteSetting(self, outputConfigFile, output):
         ConfigFile = open(outputConfigFile, 'w')
-        json.dump(output, ConfigFile, indent=2)
+        json.dump(output, ConfigFile, indent=2, encoding="utf-8")
         ConfigFile.close()
         return 
 
