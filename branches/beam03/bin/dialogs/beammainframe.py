@@ -99,8 +99,8 @@ class beamMainFrame(wx.Frame):
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
         
-        self._currentBackgroundPath = beamSettings._DefaultBackground
-        self.backgroundImage = wx.Bitmap(os.path.join(os.getcwd(), self._currentBackgroundPath))
+        self.backgroundImage = wx.EmptyBitmap(800,600)
+        self._currentBackgroundPath = []
         self.modifiedBitmap = self._currentBackgroundPath
         self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
 
