@@ -1,5 +1,5 @@
 {
-  "Comment": "This configuration works with version 0.2 of Beam", 
+  "Comment": "This is a configuration file for Beam", 
   "Updtime": 4000, 
   "Configname": "Default Configuration", 
   "AllModules": [
