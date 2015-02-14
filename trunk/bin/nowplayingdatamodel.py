@@ -260,8 +260,10 @@ class NowPlayingDataModel:
                 try:
                     displayValue = displayValue.replace(str(key), str(self.convDict[key]))
                 except:
-                    displayValue = displayValue.replace(key.decode('utf-8'), self.convDict[key].decode('utf-8'))
-                     
+                    try:
+                        displayValue = displayValue.replace(key.decode('utf-8'), self.convDict[key].decode('utf-8'))
+                    except:
+                        displayValue = displayValue.replace(key.decode('latin-1'), self.convDict[key].decode('latin-1'))              
             if MyDisplay['HideControl']  == "" and MyDisplay['Active'] == "yes":
                 self.DisplayRow[j] = displayValue
             else:
