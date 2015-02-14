@@ -260,8 +260,10 @@ class NowPlayingDataModel:
                 try:
                     displayValue = displayValue.replace(str(key), str(self.convDict[key]))
                 except:
-                    displayValue = displayValue.replace(key.decode('utf-8'), self.convDict[key].decode('utf-8'))
-                     
+                    try:
+                        displayValue = displayValue.replace(key.decode('utf-8'), self.convDict[key].decode('utf-8'))
+                    except:
+                        displayValue = displayValue.replace(key.decode('latin-1'), self.convDict[key].decode('latin-1'))              
             if MyDisplay['HideControl']  == "" and MyDisplay['Active'] == "yes":
                 self.DisplayRow[j] = displayValue
             else:
@@ -404,10 +406,10 @@ class NowPlayingDataModel:
         self.convDict['%LongDate']  = time.strftime("%d %B %Y")
         
         #Track number in a tanda
-        self.convDict['%SSLCC'] = self.SinceLastCortinaCount
-        self.convDict['%STNCC'] = self.TillNextCortinaCount - 1
+        self.convDict['%SongsSinceLastCortina'] = self.SinceLastCortinaCount
+        self.convDict['%CurrentTandaSongsRemaining'] = self.TillNextCortinaCount - 1
             #current tanda count
-        self.convDict['%CTC'] = self.SinceLastCortinaCount + self.TillNextCortinaCount - 1 
+        self.convDict['%CurrentTandaLength'] = self.SinceLastCortinaCount + self.TillNextCortinaCount - 1 
 
         
 
