@@ -61,30 +61,34 @@ class BeamSettings:
     aboutWebsite = stringResources["aboutWebsite"]
     aboutDeveloper = stringResources["aboutDeveloper"]
     aboutArtist = stringResources["aboutArtist"]
+    beamVersion = stringResources["version"]
 
     def __init__(self):
         self._moduleSelected    = ''
         self._maxTandaLength    = ''
         self._updateTimer       = ''
         self._DefaultBackground    = ''
-
         self._allModulesSettings    = ''
         self._DefaultDisplaySettings     = ''
         self._rules                 = ''
 
     def LoadConfig(self, inputConfigFile):
-
-        # Load Settings
         try:
-            ConfigData = self.OpenSetting(os.path.join(os.path.expanduser("~"), inputConfigFile)) #Try loading in home directory
+            #Try loading in home directory
+            ConfigData = self.OpenSetting(os.path.join(os.path.expanduser("~"), inputConfigFile))
+            self.ReadConfig(ConfigData)
         except:
-            ConfigData = self.OpenSetting(os.path.join(os.getcwd(), inputConfigFile)) #Otherwise read default setting               
-        
+            #Otherwise read default setting
+            ConfigData = self.OpenSetting(os.path.join(os.getcwd(), inputConfigFile))
+            self.ReadConfig(ConfigData)
+        return
 
+
+    def ReadConfig(self, ConfigData):
         self._moduleSelected        = ConfigData[u'Module']         # Player to read from
         self._maxTandaLength        = ConfigData[u'MaxTandaLength'] # Longest tandas, optimize for performance
         self._updateTimer           = ConfigData[u'Updtime']        # mSec between reading
-        self._DefaultBackground   = ConfigData[u'DefaultBackgroundImage']# Relative path to PlahyingStateBackground, use 1920x1080 for best performance
+        self._DefaultBackground   = ConfigData[u'DefaultBackgroundImage']# Relative path to background, use 1920x1080 for best performance
 
         # Dictionaries
         self._allModulesSettings    = ConfigData[u'AllModules']
@@ -112,7 +116,7 @@ class BeamSettings:
         output = {}
 
         output[u'Configname']       = "Default Configuration"
-        output[u'Comment']          = "This configuration works with version 0.3 of Beam"
+        output[u'Comment']          = "This is a configuration file for Beam"
         output[u'Author']           = "Mikael Holber & Horia Uifaleanu - 2014"
         output[u'Module']           = self._moduleSelected
         output[u'MaxTandaLength']   = self._maxTandaLength
