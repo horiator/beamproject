@@ -78,10 +78,7 @@ class BeamSettings:
         try:
             ConfigData = self.OpenSetting(os.path.join(os.path.expanduser("~"), inputConfigFile)) #Try loading in home directory
         except:
-            ConfigData = self.OpenSetting(os.path.join(os.getcwd(), inputConfigFile)) #Otherwise read default setting
-        
-        #ConfigData = json.load(io.open(inputConfigFile,"r", encoding='utf8').read().decode("utf-8"))
-        #print data                
+            ConfigData = self.OpenSetting(os.path.join(os.getcwd(), inputConfigFile)) #Otherwise read default setting               
         
 
         self._moduleSelected        = ConfigData[u'Module']         # Player to read from
@@ -143,7 +140,10 @@ class BeamSettings:
 
     def WriteSetting(self, outputConfigFile, output):
         ConfigFile = open(outputConfigFile, 'w')
-        json.dump(output, ConfigFile, indent=2, encoding="utf-8")
+        if platform.system() == 'Windows':
+            json.dump(output, ConfigFile, indent=2, encoding="latin-1")
+        else:
+            json.dump(output, ConfigFile, indent=2, encoding="utf-8")
         ConfigFile.close()
         return 
 
