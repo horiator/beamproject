@@ -20,7 +20,7 @@
 #
 #    Revision History:
 #
-#    XX/XX/2014 Version 1.0
+#    Version 1.0
 #       - Initial release
 #
 # This Python file uses the following encoding: utf-8
@@ -28,6 +28,11 @@
 import json, wx, platform
 import io, os, sys
 
+###############################################################
+#
+# BeamSettings
+#
+###############################################################
 
 class BeamSettings:
     # Define Dictionaries
@@ -63,6 +68,11 @@ class BeamSettings:
     aboutArtist = stringResources["aboutArtist"]
     beamVersion = stringResources["version"]
 
+###############################################################
+#
+# Init
+#
+###############################################################
     def __init__(self):
         self._moduleSelected    = ''
         self._maxTandaLength    = ''
@@ -72,6 +82,11 @@ class BeamSettings:
         self._DefaultDisplaySettings     = ''
         self._rules                 = ''
 
+###############################################################
+#
+# LOAD Config
+#
+###############################################################
     def LoadConfig(self, inputConfigFile):
         try:
             #Try loading in home directory
@@ -111,13 +126,24 @@ class BeamSettings:
         return
 
 
+    def OpenSetting(self, inputConfigFile):
+        ConfigFile = open(inputConfigFile, 'r')
+        ConfigData = json.load(ConfigFile)
+        ConfigFile.close()
+        return ConfigData
+
+###############################################################
+#
+# Save Config
+#
+###############################################################
     def SaveConfig(self, outputConfigFile):
-        # Create empty entity
+
         output = {}
 
         output[u'Configname']       = "Default Configuration"
         output[u'Comment']          = "This is a configuration file for Beam"
-        output[u'Author']           = "Mikael Holber & Horia Uifaleanu - 2014"
+        output[u'Author']           = "Mikael Holber & Horia Uifaleanu - 2015"
         output[u'Module']           = self._moduleSelected
         output[u'MaxTandaLength']   = self._maxTandaLength
         output[u'Updtime']          = self._updateTimer
@@ -129,21 +155,15 @@ class BeamSettings:
         output[u'Rules']                = self._rules
         output[u'Moods']                = self._moods
 
-        # Write config file
-        self.WriteSetting(os.path.join(os.path.expanduser("~"),outputConfigFile), output) #Write setting in home-dir
+        # Write config file to home dir
+        self.WriteSetting(os.path.join(os.path.expanduser("~"),outputConfigFile), output)
 
         return
 
 
-    def OpenSetting(self, inputConfigFile):
-        ConfigFile = open(inputConfigFile, 'r')
-        ConfigData = json.load(ConfigFile)
-        ConfigFile.close()
-        return ConfigData
-
-
     def WriteSetting(self, outputConfigFile, output):
         ConfigFile = open(outputConfigFile, 'w')
+        # Writing different format depending on platform
         if platform.system() == 'Windows':
             json.dump(output, ConfigFile, indent=2, encoding="latin-1")
         else:
@@ -151,4 +171,10 @@ class BeamSettings:
         ConfigFile.close()
         return 
 
-beamSettings = BeamSettings()   # Create the settings object
+###############################################################
+#
+# Create object
+#
+###############################################################
+
+beamSettings = BeamSettings()
