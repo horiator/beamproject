@@ -267,7 +267,10 @@ class beamMainFrame(wx.Frame):
 
             # Check if the text fits, cut it and add ...
             if platform.system() == 'Darwin':
-                text = text.decode('utf-8')
+                try:
+                    text = text.decode('utf-8')
+                except:
+                    pass
             TextWidth, TextHeight   = dc.GetTextExtent(text)
 
             # Find length and position of text
