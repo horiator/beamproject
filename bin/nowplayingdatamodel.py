@@ -206,23 +206,29 @@ class NowPlayingDataModel:
             currentSong = self.currentPlaylist[0]
         except:
             currentSong = SongObject()
-
+        
+        #Mood settings play status (Playing, Not Playing
+        if self.PlaybackStatus == 'Playing':
+            MoodStatus = "Playing"
+        else:
+            MoodStatus = "Not Playing"
+        
         for i in range(0, len(currentSettings._moods)):
             currentRule = currentSettings._moods[i]
-            if currentRule[u'Type'] == 'Mood' and currentRule[u'Active'] == 'yes':
-                # Only apply Mood for current song (j==1)
+            if currentRule[u'Type'] == 'Mood' and currentRule[u'Active'] == 'yes' and str(currentRule[u'PlayState']) == str(MoodStatus):
+                # Only apply Mood for current song
                 if currentRule[u'Field2'] == 'is':
-                    if eval(str(currentRule[u'Field1']).replace("%"," currentSong.")) in str("["+currentRule[u'Field3']+"]") and str(currentRule[u'PlayState']) in self.PlaybackStatus:
+                    if eval(str(currentRule[u'Field1']).replace("%"," currentSong.")) == str(currentRule[u'Field3']):
                         self.CurrentMood = currentRule[u'Name']
                         self.DisplaySettings = currentRule[u'Display']
                         self.BackgroundImage = currentRule[u'Background']
                 if currentRule[u'Field2'] == 'is not':
-                    if eval(str(currentRule[u'Field1']).replace("%"," currentSong.")) not in str("["+currentRule[u'Field3']+"]") and str(currentRule[u'PlayState']) in self.PlaybackStatus:
+                    if eval(str(currentRule[u'Field1']).replace("%"," currentSong.")) not in str("["+currentRule[u'Field3']+"]"):
                         self.CurrentMood = currentRule[u'Name']
                         self.DisplaySettings = currentRule[u'Display']
                         self.BackgroundImage = currentRule[u'Background']                              
                 if currentRule[u'Field2'] == 'contains':
-                    if str(currentRule[u'Field3']) in eval(str(currentRule[u'Field1']).replace("%"," currentSong.")) and str(currentRule[u'PlayState']) in self.PlaybackStatus:
+                    if str(currentRule[u'Field3']) in eval(str(currentRule[u'Field1']).replace("%"," currentSong.")):
                         self.CurrentMood = currentRule[u'Name']
                         self.DisplaySettings = currentRule[u'Display']
                         self.BackgroundImage = currentRule[u'Background']

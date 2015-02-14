@@ -51,16 +51,16 @@ class EditMood(wx.Dialog):
             self.Settings   = beamSettings._moods[self.RowSelected]
         else:
             # Create a new default setting
-            self.Settings   = ({"Active": "yes", "Field3": "","Field2": "is","Field1": "%Artist",
-                               "Type": "Mood", "Name": "Not running Mood",
+            self.Settings   = ({"Active": "yes", "Field3": "Cumparsita","Field2": "contains","Field1": "%Title",
+                               "Type": "Mood", "Name": "My Mood",
                                "Background": "resources/backgrounds/bg1920x1080px_darkGreen.jpg",
-                               "PlayState": "PlayerNotRunning",
+                               "PlayState": "Playing",
                                "Display": [{"Active": "yes", "Style": "Italic","Center": "yes",
                                            "Weight": "Bold", "HideControl": "", "Row": 1,
-                                           "Field": "Beam", "FontColor": "(255,255,255,255)",
+                                           "Field": "%Artist", "FontColor": "(255,255,255,255)",
                                            "Position": [30,0],"Font": "Roman","Size": 10},
                                            {"Active": "yes","Style": "Italic","Center": "yes",
-                                           "Weight": "Bold","Row": 2,"Field": "Me Up Scotty",
+                                           "Weight": "Bold","Row": 2,"Field": "La Cumparsita",
                                            "HideControl": "", "FontColor": "(255,255,255,255)",
                                            "Position": [50,0],"Font": "Roman","Size": 8}]})
 
@@ -122,7 +122,7 @@ class EditMood(wx.Dialog):
         self.MoodOrder     = wx.TextCtrl(self.panel, value=str(self.RowSelected+1))
         self.OutputField   = wx.TextCtrl(self.panel, value=self.Settings[u'Field3'], size=(120,-1))
         self.MoodNameField = wx.TextCtrl(self.panel, value=self.Settings[u'Name'], size=(120,-1))
-        self.MoodState     = wx.ComboBox(self.panel,value=self.Settings[u'PlayState'], choices=["Playing", "Paused","Stopped","PlayerNotRunning"], size=(120,-1), style=wx.CB_READONLY)
+        self.MoodState     = wx.ComboBox(self.panel,value=self.Settings[u'PlayState'], choices=["Playing", "Not Playing"], size=(120,-1), style=wx.CB_READONLY)
 
         InfoGrid    =   wx.FlexGridSizer(6, 3, 5, 5)
         InfoGrid.AddMany ( [(wx.StaticText(self.panel, label="Name"), 0, wx.EXPAND),
