@@ -236,9 +236,6 @@ class EditMood(wx.Dialog):
         self.Settings[u'Field2'] = self.IsIsNot.GetValue()
         self.Settings[u'Field3'] = self.OutputField.GetValue()
         MoodOrderBox = int(self.MoodOrder.GetValue())
-        print MoodOrderBox
-        print self.RowSelected
-        print len(beamSettings._moods)
         # Place settings in moods
         if self.mode == "Add mood":
             if MoodOrderBox < self.RowSelected:

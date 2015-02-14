@@ -98,9 +98,9 @@ class beamMainFrame(wx.Frame):
         self.Bind(wx.EVT_SIZE, self.OnSize)
         self.Bind(wx.EVT_PAINT, self.OnPaint)
         self.Bind(wx.EVT_ERASE_BACKGROUND, self.OnEraseBackground)
-
+        
         self._currentBackgroundPath = beamSettings._DefaultBackground
-        self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), self._currentBackgroundPath)))
+        self.backgroundImage = wx.Bitmap(os.path.join(os.getcwd(), self._currentBackgroundPath))
         self.modifiedBitmap = self._currentBackgroundPath
         self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
 
@@ -194,7 +194,6 @@ class beamMainFrame(wx.Frame):
         if self.triggerResizeBackground or self.triggerAdjustBackgroundRGB:
             try:
                 Image = wx.ImageFromBitmap(self.backgroundImage)
-            
                 #adjust BackgroundChannels - currently used for fading effect
                 if self.triggerAdjustBackgroundRGB:
                     Image = Image.AdjustChannels(self.red, self.green, self.blue, 1.0)
@@ -246,8 +245,6 @@ class beamMainFrame(wx.Frame):
             HeightPosition = int(Settings['Position'][0]*cliHeight/100)
 
             # Set font from settings
-            #face = "Great Vibes"
-            #face = "Liberation Sans"            
             face = Settings['Font']
             
             try:
@@ -270,7 +267,10 @@ class beamMainFrame(wx.Frame):
 
             # Check if the text fits, cut it and add ...
             if platform.system() == 'Darwin':
-                text = text.decode('utf-8')
+                try:
+                    text = text.decode('utf-8')
+                except:
+                    pass
             TextWidth, TextHeight   = dc.GetTextExtent(text)
 
             # Find length and position of text
@@ -436,7 +436,7 @@ class beamMainFrame(wx.Frame):
             self.timer1.Stop()
 
             #load the new background image
-            self.backgroundImage = wx.Bitmap(str(os.path.join(os.getcwd(), self._currentBackgroundPath)))
+            self.backgroundImage = wx.Bitmap(os.path.join(os.getcwd(), self._currentBackgroundPath))
             self.modifiedBitmap = self._currentBackgroundPath
             self.BackgroundImageWidth, self.BackgroundImageHeight = self.backgroundImage.GetSize()
             self.triggerResizeBackground = True
