@@ -52,6 +52,9 @@ class beamMainFrame(wx.Frame):
 
         self.SetDoubleBuffered(True)
 
+    # Initialize DataObject - the model - 
+        self.nowPlayingDataModel = NowPlayingDataModel()   # Create the data model object
+    
     # Set Icon
         iconFilename = os.path.join(os.getcwd(),'resources','icons','icon_square','icon_square_256px.png')
         
@@ -139,31 +142,31 @@ class beamMainFrame(wx.Frame):
 # UPDATE THE DATA
 #
     def updateData(self, event = wx.EVT_TIMER):
-        self.currentDisplayRows = nowPlayingDataModel.DisplayRow
-        self.currentPlaybackStatus = nowPlayingDataModel.StatusMessage
-        self.previousPlaybackStatus = nowPlayingDataModel.PreviousPlaybackStatus
+        self.currentDisplayRows = self.nowPlayingDataModel.DisplayRow
+        self.currentPlaybackStatus = self.nowPlayingDataModel.StatusMessage
+        self.previousPlaybackStatus = self.nowPlayingDataModel.PreviousPlaybackStatus
                 
         if not self.currentlyUpdating:
             self.currentlyUpdating = True
             tmpSettings = deepcopy(beamSettings)
-            wx.lib.delayedresult.startWorker(self.getDataFinished, nowPlayingDataModel.ExtractPlaylistInfo( tmpSettings ) )
+            wx.lib.delayedresult.startWorker(self.getDataFinished, self.nowPlayingDataModel.ExtractPlaylistInfo( tmpSettings ) )
 
     def getDataFinished(self, result):
         
         self.textsAreVisible = False
-        self.currentDisplayRows = nowPlayingDataModel.DisplayRow
-        self.currentPlaybackStatus = nowPlayingDataModel.StatusMessage
-        self.currentMood = nowPlayingDataModel.CurrentMood
-        self.previousMood = nowPlayingDataModel.PreviousMood
-        self.currentDisplaySettings = nowPlayingDataModel.DisplaySettings
+        self.currentDisplayRows = self.nowPlayingDataModel.DisplayRow
+        self.currentPlaybackStatus = self.nowPlayingDataModel.StatusMessage
+        self.currentMood = self.nowPlayingDataModel.CurrentMood
+        self.previousMood = self.nowPlayingDataModel.PreviousMood
+        self.currentDisplaySettings = self.nowPlayingDataModel.DisplaySettings
         self.currentlyUpdating = False
         
         if self.previousMood != self.currentMood:
             print "New mood: ", self.currentMood
             # If background changed, fade it
-            if (nowPlayingDataModel.BackgroundImage != self._currentBackgroundPath and
-                nowPlayingDataModel.BackgroundImage != ""):
-                self._currentBackgroundPath = nowPlayingDataModel.BackgroundImage
+            if (self.nowPlayingDataModel.BackgroundImage != self._currentBackgroundPath and
+                self.nowPlayingDataModel.BackgroundImage != ""):
+                self._currentBackgroundPath = self.nowPlayingDataModel.BackgroundImage
                 self.fadeBackground()
             else:
                 self.textsAreVisible = True
@@ -171,7 +174,7 @@ class beamMainFrame(wx.Frame):
             self.textsAreVisible = True
 
         self.Refresh()
-        nowPlayingDataModel.PreviousMood = self.currentMood
+        self.nowPlayingDataModel.PreviousMood = self.currentMood
         self.SetStatusText(self.currentPlaybackStatus) 
 
 #####################################################
