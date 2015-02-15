@@ -420,5 +420,4 @@ class NowPlayingDataModel:
         
 
 
-nowPlayingDataModel = NowPlayingDataModel()   # Create the data model object
 

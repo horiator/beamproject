@@ -61,6 +61,15 @@ class EditLayoutDialog(wx.Dialog):
         Weights     = ["Bold","Light","Normal"]
         Styles  = ["Italic","Normal","Slant"]
         
+        HideLayoutTags = [  '','%Artist','%Album','%Title','%Genre','%Comment','%Composer',
+                            '%Year','%Singer','%AlbumArtist','%Performer','%IsCortina',
+                            '%PreviousArtist','%PreviousAlbum','%PreviousTitle','%PreviousGenre','%PreviousComment','%PreviousComposer',
+                            '%PreviousYear','%PreviousSinger','%PreviousAlbumArtist','%PreviousPerformer','%PreviousIsCortina',
+                            '%NextArtist','%NextAlbum','%NextTitle','%NextGenre','%NextComment','%NextComposer',
+                            '%NextYear','%NextSinger','%NextAlbumArtist','%NextPerformer','%NextIsCortina',
+                            '%NextTandaArtist','%NextTandaAlbum','%NextTandaTitle','%NextTandaGenre','%NextTandaComment','%NextTandaComposer',
+                            '%NextTandaYear','%NextTandaSinger','%NextTandaAlbumArtist','%NextTandaPerformer']
+                
         # Check if it is a new line
         if self.RowSelected<len(self.LayoutList):
             # Get the properties of the selected item
@@ -71,13 +80,13 @@ class EditLayoutDialog(wx.Dialog):
 
         
         # Define fields
-        self.LabelText          = wx.TextCtrl(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Field'])
+        self.LabelText          = wx.TextCtrl(self.EditLayoutPanel, size=(250,-1), value=self.Settings[u'Field'])
         self.FontDropdown       = wx.ComboBox(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'Font'], choices=elist, style=wx.CB_READONLY)
         self.StyleDropdown      = wx.ComboBox(self.EditLayoutPanel, size=(80,-1), value=self.Settings[u'Style'], choices=Styles, style=wx.CB_READONLY)
         self.WeightDropdown     = wx.ComboBox(self.EditLayoutPanel, size=(80,-1), value=self.Settings[u'Weight'], choices=Weights, style=wx.CB_READONLY)
         self.SizeText           = wx.TextCtrl(self.EditLayoutPanel, size=(80,-1), value=str(self.Settings[u'Size']))
         self.ColorField         = wx.ColourPickerCtrl(self.EditLayoutPanel, size=(80,-1))
-        self.HideText           = wx.TextCtrl(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'HideControl'])
+        self.HideText           = wx.ComboBox(self.EditLayoutPanel, size=(150,-1), value=self.Settings[u'HideControl'], choices=HideLayoutTags, style=wx.CB_READONLY)
         self.VerticalPos        = wx.TextCtrl(self.EditLayoutPanel, size=(80,-1), value=str(self.Settings[u'Position'][0]))
         self.HorizontalPos      = wx.TextCtrl(self.EditLayoutPanel, size=(80,-1), value=str(self.Settings[u'Position'][1]))
         #Checkbox
@@ -101,7 +110,7 @@ class EditLayoutDialog(wx.Dialog):
                         (self.StyleDropdown, 0),
                         (self.WeightDropdown, 0),
                         (self.SizeText, 0, wx.EXPAND),
-                        (wx.StaticText(self.EditLayoutPanel, label="Hide/Show"), 0, wx.EXPAND),
+                        (wx.StaticText(self.EditLayoutPanel, label="Hide if next is empty:"), 0, wx.EXPAND),
                         (wx.StaticText(self.EditLayoutPanel, label="Color"), 0, wx.EXPAND),
                         (wx.StaticText(self.EditLayoutPanel, label="Vertical"), 0, wx.EXPAND),
                         (wx.StaticText(self.EditLayoutPanel, label="Horizontal"), 0, wx.EXPAND),
