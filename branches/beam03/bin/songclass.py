@@ -184,15 +184,15 @@ class SongObject(object):
                 if currentRule[u'Type'] == 'Cortina' and currentRule[u'Active'] == 'yes':
                     # Rule[u'Field2'] == is: IsCortina[j] shall be 1 if Rule[u'Field1'] is Rule[u'Field3']
                     if currentRule[u'Field2'] == 'is':
-                        if getattr(self, currentRule[u'Field1'].replace("%","")) in str("["+currentRule[u'Field3']+"]"):
+                        if getattr(self, currentRule[u'Field1'].replace("%","")).lower() == str(currentRule[u'Field3']).lower():
                             self.IsCortina = "yes"
                     # Rule[u'Field2'] == is not: IsCortina[j] shall be 1 if Rule[u'Field1'] not in Rule[u'Field3']
                     if currentRule[u'Field2'] == 'is not':
-                        if getattr(self, currentRule[u'Field1'].replace("%","")) not in str("["+currentRule[u'Field3']+"]"):
+                        if getattr(self, currentRule[u'Field1'].replace("%","")).lower() not in str("["+currentRule[u'Field3'].lower()+"]"):
                             self.IsCortina = "yes"
                     # Rule[u'Field2'] == contains: IsCortina[j] shall be 1 if Rule[u'Field1'] contains any of Rule[u'Field3']
                     if currentRule[u'Field2'] == 'contains':
-                        if str(currentRule[u'Field3']) in getattr(self, currentRule[u'Field1'].replace("%","")):
+                        if str(currentRule[u'Field3']).lower() in getattr(self, currentRule[u'Field1'].replace("%","")).lower():
                             self.IsCortina = "yes"
                 #
                 # COPY
