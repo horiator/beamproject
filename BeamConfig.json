@@ -49,7 +49,7 @@
 	  {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "Cortina", 
@@ -64,7 +64,7 @@
 	{
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "%NextTandaArtist", 
       "Field": "Next Tanda:", 
@@ -79,7 +79,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Bold", 
       "HideControl": "%NextTandaArtist", 
       "Field": "%NextTandaGenre  - %NextTandaArtist", 
@@ -106,7 +106,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "%Artist", 
@@ -121,7 +121,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "%Title", 
@@ -136,7 +136,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "%Singer", 
       "Field": "- %Singer -", 
@@ -151,7 +151,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "%NextTandaArtist", 
       "Field": "Next Tanda:", 
@@ -166,7 +166,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Bold", 
       "HideControl": "%NextTandaArtist", 
       "Field": "%NextTandaGenre  - %NextTandaArtist", 
@@ -181,14 +181,14 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "no", 
+      "Alignment": "Right", 
       "Weight": "Light", 
       "HideControl": "", 
       "Field": "%Hour:%Min", 
       "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         90, 
-        90
+        98
       ], 
       "Font": "Georgia", 
       "Size": 4
@@ -196,7 +196,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "no", 
+      "Alignment": "Left", 
       "Weight": "Light", 
       "HideControl": "", 
       "Field": "%LongDate", 
@@ -223,7 +223,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "%Artist", 
@@ -238,7 +238,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "%Title", 
@@ -253,7 +253,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "%Singer", 
       "Field": "- %Singer -", 
@@ -268,7 +268,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "%NextTandaArtist", 
       "Field": "Next Tanda:", 
@@ -283,7 +283,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Bold", 
       "HideControl": "%NextTandaArtist", 
       "Field": "%NextTandaGenre  - %NextTandaArtist", 
@@ -298,14 +298,14 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "no", 
+      "Alignment": "Right", 
       "Weight": "Light", 
       "HideControl": "", 
       "Field": "%Hour:%Min", 
       "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         90, 
-        90
+        2
       ], 
       "Font": "Georgia", 
       "Size": 4
@@ -313,7 +313,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "no", 
+      "Alignment": "Left", 
       "Weight": "Light", 
       "HideControl": "", 
       "Field": "%LongDate", 
@@ -340,7 +340,7 @@
 	{
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Bold",
       "HideControl": "", 	  
       "Row": 1, 
@@ -356,7 +356,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Bold", 
       "Row": 2, 
       "Field": "Me Up Scotty", 
@@ -367,7 +367,7 @@
         0
       ], 
       "Font": "Georgia", 
-      "Size": 8
+      "Size": 10
     }
 	]
 	}
@@ -424,7 +424,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "%Artist", 
@@ -439,7 +439,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "", 
       "Field": "%Title", 
@@ -454,7 +454,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "%Singer", 
       "Field": "- %Singer -", 
@@ -469,7 +469,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Normal", 
       "HideControl": "%NextTandaArtist", 
       "Field": "Next Tanda:", 
@@ -484,7 +484,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "yes", 
+      "Alignment": "Center", 
       "Weight": "Bold", 
       "HideControl": "%NextTandaArtist", 
       "Field": "%NextTandaGenre  - %NextTandaArtist", 
@@ -499,14 +499,14 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "no", 
+      "Alignment": "Right", 
       "Weight": "Light", 
       "HideControl": "", 
       "Field": "%Hour:%Min", 
       "FontColor": "(255, 255, 255, 255)", 
       "Position": [
         90, 
-        90
+        2
       ], 
       "Font": "Georgia", 
       "Size": 4
@@ -514,7 +514,7 @@
     {
       "Active": "yes",
       "Style": "Italic", 
-      "Center": "no", 
+      "Alignment": "Left", 
       "Weight": "Light", 
       "HideControl": "", 
       "Field": "%LongDate", 

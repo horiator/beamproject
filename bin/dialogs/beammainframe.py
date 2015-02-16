@@ -278,20 +278,10 @@ class beamMainFrame(wx.Frame):
 
             # Find length and position of text
 
-            # Centered
-            if Settings['Center'] == 'yes':
-                while TextWidth > cliWidth:
-                    #Does not work with Latin-1 in Windows
-                    #text = text.decode('utf-8')[:-1] 
-                    #text = text.encode('utf-8')
-                    #TextWidth, TextHeight = dc.GetTextExtent(text)
-                    #if TextWidth < cliWidth:
-                        #text = text.decode('utf-8')[:-1]
-                        #text = text.encode('utf-8')
-                        #text = text + '...'
-                #TextWidth, TextHeight = dc.GetTextExtent(text)
 
-                    # WORKAROUND 2014-12-23
+            # Centered
+            if Settings['Alignment'] == 'Center':
+                while TextWidth > cliWidth:
                     try:
                         text = text[:-1]
                         TextWidth, TextHeight = dc.GetTextExtent(text)
@@ -307,34 +297,20 @@ class beamMainFrame(wx.Frame):
                             TextWidth, TextHeight = dc.GetTextExtent(text)
                         text = text + '...'
                 TextWidth, TextHeight = dc.GetTextExtent(text)
-
             # Position
                 WidthPosition = (cliWidth-TextWidth)/2
 
-            # Not Centered
+            # Left and Right alignment
             else:
-                # Position
-                WidthPosition = int(Settings['Position'][1]*cliWidth/100)
-                while TextWidth > cliWidth-WidthPosition:
-
-                    #Does not work with Latin-1 in Windows
-                    #text = text.decode('utf-8')[:-1] #Does not work with Latin-1 in Windows
-                    #text = text.encode('utf-8')
-                    #TextWidth, TextHeight = dc.GetTextExtent(text)
-                    #if TextWidth < cliWidth-WidthPosition:
-                    #    text = text.decode('utf-8')[:-1] #Does not work with Latin-1 in Windows
-                    #    text = text.encode('utf-8')
-                    #    text = text + '...'
-                #TextWidth, TextHeight = dc.GetTextExtent(text)
-  
-                    # WORKAROUND 2014-12-23
+                TextSpaceAvailable = int((100-Settings['Position'][1])*cliWidth)
+                while TextWidth > TextSpaceAvailable:
                     try:
                         text = text[:-1]
                         TextWidth, TextHeight = dc.GetTextExtent(text)
                     except:
                         text = text[:-2]
                         TextWidth, TextHeight = dc.GetTextExtent(text)
-                    if TextWidth < cliWidth:
+                    if TextWidth < TextSpaceAvailable:
                         try:
                             text = text[:-2]
                             TextWidth, TextHeight = dc.GetTextExtent(text)
@@ -343,7 +319,14 @@ class beamMainFrame(wx.Frame):
                             TextWidth, TextHeight = dc.GetTextExtent(text)
                         text = text + '...'
                 TextWidth, TextHeight = dc.GetTextExtent(text)
-
+                # Alignment
+                if Settings['Alignment'] == 'Left':
+                    WidthPosition = int(Settings['Position'][1]*cliWidth/100)
+                elif Settings['Alignment'] == 'Right':
+                    WidthPosition = cliWidth - (int(Settings['Position'][1]*cliWidth/100)+TextWidth)
+                else:
+                    return
+                        
             # Draw the text
             dc.DrawText(text, WidthPosition,  HeightPosition)
 
