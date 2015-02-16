@@ -36,7 +36,7 @@
   ], 
   "Author": "Mikael Holber & Horia Uifaleanu - 2015", 
   "DefaultBackgroundImage": "resources/backgrounds/bg1920x1080px.jpg", 
-  "Module": "iTunes", 
+  "Module": "", 
   "Rules": [
     {
       "Active": "yes", 
@@ -111,7 +111,7 @@
       "FontColor": "(255, 255, 255, 255)", 
       "Font": "Georgia", 
       "Alignment": "Center", 
-      "Size": 11
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
@@ -126,7 +126,7 @@
       "FontColor": "(255, 255, 255, 255)", 
       "Font": "Georgia", 
       "Alignment": "Center", 
-      "Size": 11
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
@@ -141,7 +141,7 @@
       "FontColor": "(255, 255, 255, 255)", 
       "Font": "Georgia", 
       "Alignment": "Center", 
-      "Size": 11
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
@@ -285,7 +285,7 @@
       "FontColor": "(255, 255, 255, 255)", 
       "Font": "Georgia", 
       "Alignment": "Center", 
-      "Size": 11
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
@@ -300,7 +300,7 @@
       "FontColor": "(255, 255, 255, 255)", 
       "Font": "Georgia", 
       "Alignment": "Center", 
-      "Size": 11
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
@@ -315,7 +315,7 @@
       "FontColor": "(255, 255, 255, 255)", 
       "Font": "Georgia", 
       "Alignment": "Center", 
-      "Size": 11
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
@@ -402,7 +402,7 @@
       "FontColor": "(255, 255, 255, 255)", 
       "Font": "Georgia", 
       "Alignment": "Center", 
-      "Size": 11
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
@@ -417,7 +417,7 @@
       "FontColor": "(255, 255, 255, 255)", 
       "Font": "Georgia", 
       "Alignment": "Center", 
-      "Size": 11
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
@@ -432,7 +432,7 @@
       "FontColor": "(255, 255, 255, 255)", 
       "Font": "Georgia", 
       "Alignment": "Center", 
-      "Size": 11
+      "Size": 10
     }, 
     {
       "Style": "Italic", 
@@ -512,7 +512,7 @@
           "Weight": "Normal", 
           "HideControl": "", 
           "Field": "Me Up Scotty", 
-          "Size": 10, 
+          "Size": 9, 
           "Position": [
             50, 
             0
