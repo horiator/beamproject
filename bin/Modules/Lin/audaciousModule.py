@@ -55,14 +55,14 @@ def run(MaxTandaLength):
         playbackStatus = 'Playing'
 
 #Declare our position
-currentsong     = int(subprocess.check_output(["audtool", "--playlist-position"]).rstrip('\n'))
+    currentsong     = int(subprocess.check_output(["audtool", "--playlist-position"]).rstrip('\n'))
     playlistlength  = int(subprocess.check_output(["audtool", "--playlist-length"]).rstrip('\n'))
     searchsong = currentsong # Start on the current song
     
     while searchsong < playlistlength-1 and searchsong < currentsong+MaxTandaLength+2:
         playlist.append(getSongAt( searchsong))
         searchsong = searchsong+1
-return playlist, playbackStatus
+    return playlist, playbackStatus
 
 def getSongAt(songPosition = 1):
     retSong = SongObject()
