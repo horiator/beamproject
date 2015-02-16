@@ -65,7 +65,7 @@ class NowPlayingDataModel:
         self.prevReading = SongObject()
         
         
-        self.SinceLastCortinaCount = 0
+        self.SinceLastCortinaCount = 1
         self.TillNextCortinaCount = 0
         
         self.PlaybackStatus = ""
