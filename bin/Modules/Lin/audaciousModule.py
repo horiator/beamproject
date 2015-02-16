@@ -26,100 +26,57 @@
 # This Python file uses the following encoding: utf-8
 
 from bin.songclass import SongObject
-
-import imp
-try:
-    imp.find_module('dbus') #doesn't exist in Windows
-    import dbus
-except ImportError:
-    found = False
+import subprocess, sys
 
 def run(MaxTandaLength):
-
+    
     playlist = []
-    playbackStatus  = ''
     
     try:
-        bus = dbus.SessionBus()
-        player = bus.get_object('org.mpris.audacious', '/Player')
-        tracklist = bus.get_object('org.mpris.audacious', '/TrackList')
+        check = subprocess.check_output(["audtool", "--current-song"]).rstrip('\n')
     except:
-        playbackStatus  = 'PlayerNotRunning'
+        playbackStatus = 'PlayerNotRunning'
         return playlist, playbackStatus
     
-    # Playstatus: 0 = Playing, 1 = Paused, 2 = Stopped
-    Status = player.GetStatus()[0] 
+    playbackStatus  = subprocess.check_output(["audtool", "--playback-status"]).rstrip('\n')
     
-    if Status == 0:
-        playbackStatus = 'Playing'
-        
-        #Extract the playlist songs
-        currentsong = tracklist.GetCurrentTrack()
-        playlistlength = tracklist.GetLength()
-        iterator_song = currentsong 
-            
-        while iterator_song < currentsong+MaxTandaLength+2 and iterator_song < playlistlength-1:
-            playlist.append(getSongObjectFromTrack(tracklist.GetMetadata(iterator_song)))
-            iterator_song = iterator_song+1
-            
-    if Status == 1:
-        playbackStatus = 'Paused'
-    if Status == 2:
+    # Break and return empty if nothing is playing
+    if check in 'No song playing.':
         playbackStatus = 'Stopped'
+        return playlist, playbackStatus
+    elif playbackStatus in 'stopped':
+        playbackStatus = 'Stopped'
+        return playlist, playbackStatus
+    elif playbackStatus in 'paused':
+        playbackStatus = 'Paused'
+        return playlist, playbackStatus
+    elif playbackStatus in 'playing':
+        #   print "Lets get some info!"
+        playbackStatus = 'Playing'
 
+#Declare our position
+    currentsong     = int(subprocess.check_output(["audtool", "--playlist-position"]).rstrip('\n'))
+    playlistlength  = int(subprocess.check_output(["audtool", "--playlist-length"]).rstrip('\n'))
+    searchsong = currentsong # Start on the current song
+    
+    while searchsong < playlistlength-1 and searchsong < currentsong+MaxTandaLength+2:
+        playlist.append(getSongAt( searchsong))
+        searchsong = searchsong+1
     return playlist, playbackStatus
 
-
-def getSongObjectFromTrack(Track):
+def getSongAt(songPosition = 1):
     retSong = SongObject()
+    retSong.Artist      = subprocess.check_output( ["audtool", "--playlist-tuple-data", "artist",   str(songPosition)]).rstrip('\n')
+    retSong.Album       = subprocess.check_output( ["audtool", "--playlist-tuple-data", "album",    str(songPosition)]).rstrip('\n')
+    retSong.Title       = subprocess.check_output( ["audtool", "--playlist-tuple-data", "title",    str(songPosition)]).rstrip('\n')
+    retSong.Genre       = subprocess.check_output( ["audtool", "--playlist-tuple-data", "genre",    str(songPosition)]).rstrip('\n')
+    retSong.Comment     = subprocess.check_output( ["audtool", "--playlist-tuple-data", "comment",  str(songPosition)]).rstrip('\n')
+    retSong.Composer    = subprocess.check_output( ["audtool", "--playlist-tuple-data", "composer", str(songPosition)]).rstrip('\n')
+    retSong.Year        = subprocess.check_output( ["audtool", "--playlist-tuple-data", "year",     str(songPosition)]).rstrip('\n')
+    #retSong._Singer
+    retSong.AlbumArtist = subprocess.check_output( ["audtool", "--playlist-tuple-data", "albumartist", str(songPosition)]).rstrip('\n')
+    retSong.Performer   = subprocess.check_output( ["audtool", "--playlist-tuple-data", "performer",   str(songPosition)]).rstrip('\n')
+    #retSong.IsCortina
     
-    try:
-        retSong.Artist      = (Track[u'artist']).encode('utf-8')
-    except:
-        pass
-        
-    try:
-        retSong.Album       = (Track[u'album']).encode('utf-8')
-    except:
-        pass
     
-    try:
-        retSong.Title       = (Track[u'title']).encode('utf-8')
-    except:
-        pass
-        
-    try:
-        retSong.Genre       = (Track[u'genre']).encode('utf-8')
-    except:
-        pass
-        
-    try:
-        retSong.Comment     = (Track[u'comment']).encode('utf-8')
-    except:
-        pass
-        
-    try:
-        retSong.Composer    = (Track[u'composer']).encode('utf-8')
-    except:
-        pass
-        
-    try:
-        retSong.Year        = (Track[u'year'])
-    except:
-        pass
-        
-    #retSong.Singer
-    
-    try:
-        retSong.AlbumArtist = (Track[u'album artist']).encode('utf-8')
-    except:
-        pass
-        
-    try:
-        retSong.Performer   = (Track[u'performer']).encode('utf-8')
-    except:
-         pass
-     #retSong.IsCortina
-     
     return retSong
-
