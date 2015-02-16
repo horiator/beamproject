@@ -34,8 +34,8 @@ import os, sys
 ##################################################
 
 class HelpDialog(wx.Dialog):
-    def __init__(self, settings, *args, **kwargs):
-        wx.Dialog.__init__(self, None, title="Help", size=(600,600))
+    def __init__(self, parent):
+        wx.Dialog.__init__(self, parent, title="Help", size=(600,600))
         html = wxHTML(self)
 
         filename = os.path.join(os.getcwd(), 'docs', 'Help.html')
@@ -44,6 +44,7 @@ class HelpDialog(wx.Dialog):
         page = fHandler.read()
         fHandler.close
         html.SetPage(page)
+
  
 class wxHTML(wx.html.HtmlWindow):
      def OnLinkClicked(self, link):
