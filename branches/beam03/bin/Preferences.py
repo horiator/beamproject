@@ -79,7 +79,7 @@ class Preferences(wx.Dialog):
         font = wx.Font(11, wx.DEFAULT, wx.NORMAL, wx.BOLD)
         Mediaplayer.SetFont(font)
         wx.StaticText(panel, -1, "Select mediaplayer to display information from", (20,30))
-        self.Dropdown = wx.ComboBox(panel,value=beamSettings._moduleSelected, choices=beamSettings._currentModules, pos=(20,50))
+        self.Dropdown = wx.ComboBox(panel,value=beamSettings._moduleSelected, choices=beamSettings._currentModules, pos=(20,50), style=wx.CB_READONLY)
 
         # Background image
         Background = wx.StaticText(panel, -1, "Background Image", (10,87))
