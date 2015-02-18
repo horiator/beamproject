@@ -51,18 +51,11 @@ class EditMood(wx.Dialog):
             self.Settings   = beamSettings._moods[self.RowSelected]
         else:
             # Create a new default setting
-            self.Settings   = ({"Active": "yes", "Field3": "Cumparsita","Field2": "contains","Field1": "%Title",
+            self.Settings   = ({"Active": "yes", "Field3": "something","Field2": "contains","Field1": "%Title",
                                "Type": "Mood", "Name": "My Mood",
                                "Background": "resources/backgrounds/bg1920x1080px_darkGreen.jpg",
                                "PlayState": "Playing",
-                               "Display": [{"Active": "yes", "Style": "Italic","Center": "yes",
-                                           "Weight": "Bold", "HideControl": "", "Row": 1,
-                                           "Field": "%Artist", "FontColor": "(255,255,255,255)",
-                                           "Position": [30,0],"Font": "Roman","Size": 10},
-                                           {"Active": "yes","Style": "Italic","Center": "yes",
-                                           "Weight": "Bold","Row": 2,"Field": "La Cumparsita",
-                                           "HideControl": "", "FontColor": "(255,255,255,255)",
-                                           "Position": [50,0],"Font": "Roman","Size": 8}]})
+                               "Display": beamSettings._DefaultDisplaySettings})
 
         # Build the panel
         self.panel = wx.Panel(self)
