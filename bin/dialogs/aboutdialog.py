@@ -44,11 +44,12 @@ def ShowAboutDialog(self):
     info.SetIcon(self.favicon)
     info.SetName(beamSettings.mainFrameTitle)
     info.SetVersion(beamSettings.beamVersion)
-    info.SetDescription(textwrap.fill(beamSettings.aboutDialogDescription,100))
-    info.SetLicence(textwrap.fill(beamSettings.aboutDialogLicense, 100))    
+    info.SetDescription(textwrap.fill(beamSettings.aboutDialogDescription,70))
+    info.SetLicence(textwrap.fill(beamSettings.aboutDialogLicense, 70))
     info.SetCopyright(beamSettings.aboutCopyright)
     info.SetWebSite(beamSettings.aboutWebsite)
     info.AddDeveloper(beamSettings.aboutDeveloper)
     info.AddArtist(beamSettings.aboutArtist)
+
 
     wx.AboutBox(info)
