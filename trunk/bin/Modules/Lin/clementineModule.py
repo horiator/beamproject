@@ -58,7 +58,7 @@ def run(MaxTandaLength):
         playlistlength = tracklist.GetLength()
         iterator_song = currentsong 
             
-        while iterator_song < currentsong+MaxTandaLength+2 and iterator_song < playlistlength-1:
+        while iterator_song < currentsong+MaxTandaLength+2 and iterator_song < playlistlength:
             playlist.append(getSongObjectFromTrack(tracklist.GetMetadata(iterator_song)))
             iterator_song = iterator_song+1
             
