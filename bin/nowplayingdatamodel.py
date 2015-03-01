@@ -124,7 +124,7 @@ class NowPlayingDataModel:
             if currentSettings._moduleSelected == 'Banshee':
                 self.currentPlaylist, self.PlaybackStatus = bansheeModule.run(currentSettings._maxTandaLength)
             if currentSettings._moduleSelected == 'Spotify':
-                currentSettings._moduleSelected = spotifyLinuxModule.run(currentSettings._maxTandaLength)
+                self.currentPlaylist, self.PlaybackStatus = spotifyLinuxModule.run(currentSettings._maxTandaLength)
 
         # Mac OS X
         if platform.system() == 'Darwin':
